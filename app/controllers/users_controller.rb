@@ -11,7 +11,8 @@ before_action :admin_user, only: [:destroy, :edit_basic_info, :update_basic_info
   end
   
   def show
-    
+    @first_day = Date.current.beginning_of_month
+    @last_day = @first_day.end_of_month 
   end
 
   def new
