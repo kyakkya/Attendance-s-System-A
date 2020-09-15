@@ -72,18 +72,7 @@ before_action :set_one_month, only: :show
       params.require(:user).permit(:department, :basic_time, :work_time)
     end
     
-    def set_user
-      @user = User.find(params[:id])
-    end
-    
-    
-    def logged_in_user
-      unless logged_in?
-        store_location
-        flash[:danger] = "ログインしてください。"
-        redirect_to login_url
-      end
-    end
+   
     
     # アクセスしたユーザーが現在ログインしているユーザーか確認します。
     def correct_user
