@@ -17,12 +17,21 @@
         <tr>
           <td><%= l(day.worked_on, format: :short) %></td>
           <td><%= $days_of_the_week[day.worked_on.wday] %></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td><%= attendance.time_field :started_at, class: "form-control" %></td>
+          <td><%= attendance.time_field :finished_at, class: "form-control" %></td>
+          <td>
+            <% if day.started_at.present? && day.finished_at.present? %>
+              <%= working_times(day.started_at, day.finished_at) %>
+            <% end %>
+          </td>
+          <td><%= attendance.text_field :note, class: "form-control" %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
+</div>
+
+<div class="center">
+  <%= f.submit "まとめて更新", class: "btn btn-lg btn-primary" %>
+  <%= link_to "キャンセル", user_path(date: @first_day), class: "btn btn-lg btn-default" %>
 </div>
