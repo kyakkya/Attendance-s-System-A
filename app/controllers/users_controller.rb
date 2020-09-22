@@ -10,6 +10,12 @@ before_action :set_one_month, only: :show
     @users = User.paginate(page: params[:page])
   end
   
+  def import
+    # fileはtmpに自動で一時保存される
+    User.import(params[:csv_file])
+    redirect_to users_url
+  end
+  
   def show
     @worked_sum = @attendances.where.not(started_at: nil).count
   end

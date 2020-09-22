@@ -9,12 +9,27 @@
   
   <%= f.label :department, class: "label-#{yield(:class_text)}" %>
   <%= f.text_field :department, class: "form-control" %>
+  
+  <%= f.label :stuff_number, class: "label-#{yield(:class_text)}" %>
+  <%= f.text_field :name, class: "form-control" %>
+  
+  <%= f.label :cardid, class: "label-#{yield(:class_text)}" %>
+  <%= f.text_field :name, class: "form-control" %>
 
   <%= f.label :password, class: "label-#{yield(:class_text)}" %>
   <%= f.password_field :password, class: "form-control" %>
 
   <%= f.label :password_confirmation,  class: "label-#{yield(:class_text)}" %>
   <%= f.password_field :password_confirmation, class: "form-control" %>
+  
+  <%= f.label :basic_job_time, class: "label-#{yield(:class_text)}" %>
+  <%= f.text_field :basic_job_time, class: "form-control" %>
+  
+  <%= f.label :stated_job_time, class: "label-#{yield(:class_text)}" %>
+  <%= f.text_field :stated_job_time, class: "form-control" %>
+  
+  <%= f.label :finished_job_time, class: "label-#{yield(:class_text)}" %>
+  <%= f.text_field :finished_job_time, class: "form-control" %>
 
   <%= f.submit yield(:button_text), class: "btn btn-primary btn-block btn-#{yield(:class_text)}" %>
 <% end %>
