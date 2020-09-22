@@ -59,9 +59,8 @@
         <% end %>
         <td class="center">
           <% if current_user.admin? && !current_user?(user) %>
-            <%= link_to "基本情報編集", edit_basic_info_user_path(user), remote: true, class: "btn btn-success" %>
-            <%= link_to "削除", user, method: :delete,
-                data: { confirm: "削除してよろしいですか？" }, class: "btn btn-danger" %>
+            <%= link_to "削除", user, method: :delete,  data: { confirm: "削除してよろしいですか？" }, class: "btn btn-danger" %>
+            <%= link_to "編集",  true, class: "btn btn-success" %>
           <% end %>
         </td>
       </tr>

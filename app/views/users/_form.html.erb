@@ -7,14 +7,14 @@
   <%= f.label :email, class: "label-#{yield(:class_text)}" %>
   <%= f.email_field :email, class: "form-control" %>
   
-  <%= f.label :department, class: "label-#{yield(:class_text)}" %>
-  <%= f.text_field :department, class: "form-control" %>
+  <%= f.label :affiliation, class: "label-#{yield(:class_text)}" %>
+  <%= f.text_field :affiliation, class: "form-control" %>
   
-  <%= f.label :stuff_number, class: "label-#{yield(:class_text)}" %>
-  <%= f.text_field :name, class: "form-control" %>
+  <%= f.label :empryee_number, class: "label-#{yield(:class_text)}" %>
+  <%= f.text_field :text, class: "form-control" %>
   
-  <%= f.label :cardid, class: "label-#{yield(:class_text)}" %>
-  <%= f.text_field :name, class: "form-control" %>
+  <%= f.label :uid, class: "label-#{yield(:class_text)}" %>
+  <%= f.text_field :text, class: "form-control" %>
 
   <%= f.label :password, class: "label-#{yield(:class_text)}" %>
   <%= f.password_field :password, class: "form-control" %>
@@ -22,14 +22,14 @@
   <%= f.label :password_confirmation,  class: "label-#{yield(:class_text)}" %>
   <%= f.password_field :password_confirmation, class: "form-control" %>
   
-  <%= f.label :basic_job_time, class: "label-#{yield(:class_text)}" %>
-  <%= f.text_field :basic_job_time, class: "form-control" %>
+  <%= f.label :basic_work_time, class: "label-#{yield(:class_text)}" %>
+  <%= f.text_field :time, class: "form-control" %>
   
-  <%= f.label :stated_job_time, class: "label-#{yield(:class_text)}" %>
-  <%= f.text_field :stated_job_time, class: "form-control" %>
+  <%= f.label :designated_work_start_time, class: "label-#{yield(:class_text)}" %>
+  <%= f.text_field :time, class: "form-control" %>
   
-  <%= f.label :finished_job_time, class: "label-#{yield(:class_text)}" %>
-  <%= f.text_field :finished_job_time, class: "form-control" %>
+  <%= f.label :designated_work_end_time, class: "label-#{yield(:class_text)}" %>
+  <%= f.text_field :time, class: "form-control" %>
 
   <%= f.submit yield(:button_text), class: "btn btn-primary btn-block btn-#{yield(:class_text)}" %>
 <% end %>
