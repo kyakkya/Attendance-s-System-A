@@ -21,66 +21,27 @@
   }
 </script>
  
-   
-   
-<div class="col-md-10 col-md-offset-1"> 
- 
-</div> 
+<table class="table table-condensed table-hover" id="table-users">
 
-
-<div class="col-md-10 col-md-offset-1">
-  <%= will_paginate %>
-  <table class="table table-condensed table-hover" id="table-users">
-    <thead>
+  <% @users.each do |user| %>
+    <% if current_user.admin? && !current_user?(user) %>
       <tr>
-        <th><%= User.human_attribute_name :name %></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-      </tr>
-    </thead>
-
-    <% @users.each do |user| %>
+        <%= user.name %><br>
+      </tr> 
       <tr>
-        <td>   
-          <% if current_user.admin? %>
-           <%= link_to user.name, user %>
-          <th><%= link_to "編集", edit_basic_info_user_path(user), remote: true, class: "btn btn-primary" %></th>
-          <th><%= link_to "削除", user, method: :delete,  data: { confirm: "削除してよろしいですか？" }, class: "btn btn-primary" %></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <% else %>
-            <%= user.name %>
-          <% end %>
-        </td>
-       
-        <td class="center">
-          <% if current_user.admin? && !current_user?(user) %>
-            
-          <% end %>
-        </td>
-      </tr>
+        <%= link_to "削除", user, method: :delete,  data: { confirm: "削除してよろしいですか？" }, class: "btn btn-primary" %><br>
+      </tr> 
+      <tr>
+        <P class="well well-sm">
+          <%= link_to "編集", edit_basic_info_user_path(user), remote: true, class: "btn btn-lg btn-primary" %><br>
+        </p>
+     </tr>
+      
     <% end %>
-  </table>
-  <%= will_paginate %>
-</div>
+  <% end %>
+</table>
+ 
+
 
 <!--モーダルウインドウ表示-->
 <div id="edit-basic-info" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
