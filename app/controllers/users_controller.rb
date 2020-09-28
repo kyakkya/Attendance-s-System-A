@@ -1,11 +1,12 @@
 class UsersController < ApplicationController
  
-before_action :set_user, only: [:show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info]
-before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :edit_basic_info, :update_basic_info]
+before_action :set_user, only: [:show, :edit, :update, :destroy, :update_basic_info]
+before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :update_basic_info]
 before_action :correct_user, only: [:edit, :update]
-before_action :admin_user, only: [:destroy, :edit_basic_info, :update_basic_info]
+before_action :admin_user, only: [:destroy, :update_basic_info]
 before_action :set_one_month, only: :show  
-
+before_action :admin_or_correct_user, only: [:index, :show]
+ 
   def index
     @users = User.paginate(page: params[:page])
   end
@@ -54,9 +55,6 @@ before_action :set_one_month, only: :show
       redirect_to users_url
    end
    
-   def edit_basic_info
-   end
-
    def update_basic_info
      if @user.update_attributes(basic_info_params)
        flash[:success] = "#{@user.name}の基本情報を更新しました。"  
@@ -82,6 +80,7 @@ before_action :set_one_month, only: :show
     
     # アクセスしたユーザーが現在ログインしているユーザーか確認します。
     def correct_user
+      
       redirect_to(root_url) unless current_user?(@user)
     end
     
