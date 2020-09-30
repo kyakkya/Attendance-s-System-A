@@ -81,9 +81,9 @@
          %>
        <tr>
         <td>
-          <% if current_user.superior? || current_user?(user) %>
-           <%= link_to "残業申請", edit_basic_info_user_path(user), remote: true, class: "btn btn-primary"  %>
-          <% end %> 
+         
+           <%= link_to "残業申請", '#', class: "btn btn-primary"  %>
+         
         </td> 
         <td><%= l(day.worked_on, format: :short) %></td>
         <td class="<%= css_class %>"><%= %w{日 月 火 水 木 金 土}[day.worked_on.wday] %></td>
@@ -110,7 +110,6 @@
         <td></td>
         <td></td>
         <td></td>
-        <td></td>
       </tr>
      <% end %>
     </tbody>
@@ -121,16 +120,28 @@
         <td colspan="2">累計日数</td>
         <td colspan="6">総合勤務時間</td>
         <td colspan="4">累計在社時間</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td rowspan="2">
+          <p>所属長未</p><br>
+          <select id="page_name" name="page[name]">
+          <option value="1">上長A</option>
+          <option value="2">上長B</option>
+　　　　　</select><br>
+　　　　
+　　　　　<div><%= link_to "申請", '#' , class: "btn btn-primary btn-block" %></div>
+　　　　　
+　　　　</td>　　
       </tr>
       <tr>
         <td colspan="2"><%= @attendances.count %></td>
         <td colspan="6"><%= format_basic_info(@user.work_time).to_f * @worked_sum %></td>
         <td colspan="4"><%= format("%.2f", @total_working_times.to_f) %></td>
-        
-      </tr>
-    </tfoot>    
+        <td></td>
+        <td></td>
+        <td></td>
+        </tfoot>    
   </table>
 </div>
 
-<!--モーダルウインドウ表示-->
-<div id="edit-basic-info" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
