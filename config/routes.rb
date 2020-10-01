@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   post   '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
 
+
   resources :users do
     member do
       get 'edit_basic_info'
@@ -16,6 +17,12 @@ Rails.application.routes.draw do
     end
     collection { post :import }  
     
-    resources :attendances, only: :update
+    resources :attendances, only: :update do
+      member do  
+        get 'overtime_request'
+        patch 'update_overtime'
+      end
+    end   
+    
   end
 end

@@ -31,24 +31,28 @@ class AttendancesController < ApplicationController
 
   def update_one_month
     ActiveRecord::Base.transaction do # トランザクションを開始します。
-    attendances_params.each do |id, item|
-     if item[:started_at].present? && item[:finished_at].blank?
-        flash[:danger] = "退勤時間がないので無効です"  
-     else  
-      attendance = Attendance.find(id)
-      attendance.update_attributes!(item)
-     end
-   end
- end  
-  
-  flash[:success] = "1ヶ月分の勤怠情報を更新しました。"
-  redirect_to user_url(date: params[:date])
-  
+      attendances_params.each do |id, item|
+        if item[:started_at].present? && item[:finished_at].blank?
+          flash[:danger] = "退勤時間がないので無効です"  
+        else  
+          attendance = Attendance.find(id)
+          attendance.update_attributes!(item)
+        end
+      end  
+    end  
+    flash[:success] = "1ヶ月分の勤怠情報を更新しました。"
+    redirect_to user_url(date: params[:date])
   rescue ActiveRecord::RecordInvalid # トランザクションによるエラーの分岐です。
     flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
     redirect_to attendances_edit_one_month_user_url(date: params[:date])and return
   end
 
+  def overtime_request
+  end  
+
+  def update_overtime
+  end
+  
   private
     # 1ヶ月分の勤怠情報を扱います。
     def attendances_params

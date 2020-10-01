@@ -129,10 +129,8 @@
           <option value="1">上長A</option>
           <option value="2">上長B</option>
 　　　　　</select><br>
-　　　　
-　　　　　<div><%= link_to "申請", '#' , class: "btn btn-primary btn-block" %></div>
-　　　　　
-　　　　</td>　　
+　　　　  <div><%= link_to "申請", '#' , class: "btn btn-primary btn-block" %></div>
+　　　  </td>　　
       </tr>
       <tr>
         <td colspan="2"><%= @attendances.count %></td>
@@ -145,3 +143,5 @@
   </table>
 </div>
 
+<!--モーダルウインドウ表示-->
+<div id="edit-basic-info" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
