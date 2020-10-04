@@ -1,4 +1,4 @@
-<% provide(:class_text, 'overtime_request') %>
+<% provide(:class_text, 'overtime-request') %>
 <% provide(:button_text, '残業申請') %>
 
 <div class="modal-dialog modal-lg modal-dialog-center">
@@ -11,26 +11,27 @@
     </div>
     
     <div class="modal-body">
-      <div>
-        <table  border=2 width=100%, class="table table-bordered table-condensed request-table">
-          <tr>
-            <th>日付</th>
-            <th>曜日</th>
-            <th>終了予定時間</th>
-            <th>翌日</th>
-            <th>事務処理内容</th>
-            <th>指示者確認㊞</th>
-          </tr> 
-          
-          <tr>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-          </tr>
-         
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+          <%= form_with(model: @user, url: update_overtime_user_attendance(@user), local: true, method: :patch) do |f| %>
+            <%= render 'shared/error_messages', object: @user %>
+
+            <%= f.label :name, class: "label-#{yield(:class_text)}" %>
+            <p><%= @user.name %></p>
+
+            
+            <div class="center">
+              <%= f.submit yield(:button_text), class: "btn btn-primary btn-#{yield(:class_text)}" %>
+              <button type="button" class="btn btn-default btn-<%= yield(:class_text) %>" data-dismiss="modal">
+                キャンセル
+              </button>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
             
                   
             

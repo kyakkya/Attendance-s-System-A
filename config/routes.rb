@@ -15,8 +15,11 @@ Rails.application.routes.draw do
       get 'attendances/edit_one_month'
       patch 'attendances/update_one_month'
     end
-    collection { post :import }  
-    
+    collection { post :import } 
+    collection do
+      get 'employees_on_duty'
+    end  
+   
     resources :attendances, only: :update do
       member do  
         get 'overtime_request'

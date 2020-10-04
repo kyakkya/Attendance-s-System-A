@@ -8,7 +8,7 @@ before_action :set_one_month, only: :show
 before_action :admin_or_correct_user, only: [:index, :show]
  
   def index
-    @users = User.paginate(page: params[:page])
+    @users = User.all
   end
   
   def import
@@ -66,6 +66,12 @@ before_action :admin_or_correct_user, only: [:index, :show]
      end
       redirect_to users_url
    end
+   
+   def employees_on_duty
+      if @user.item[:started_at].present? && @user.item[:finished_at].blank?
+         @employees_on_duty = @user
+      end  
+   end   
    
 
 
