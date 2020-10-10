@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 before_action :set_user, only: [:show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info]
 before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :edit_basic_info, :update_basic_info]
 before_action :correct_user, only: [:edit, :update]
-before_action :admin_user, only: [:destroy, :update_basic_info]
+before_action :admin_user, only: [:destroy, :edit_basic_info, :update_basic_info]
 before_action :set_one_month, only: :show  
 before_action :admin_or_correct_user, only: [:index, :show]
  
@@ -40,49 +40,49 @@ before_action :admin_or_correct_user, only: [:index, :show]
     
   end
   
-   def update
+  def update
     if @user.update_attributes(user_params)
       flash[:success] = "ユーザー情報を更新しました。"
       redirect_to @user
     else
       render :edit      
     end
-   end
+  end
    
-   def destroy
-      @user.destroy
-      flash[:success] = "#{@user.name}のデータを削除しました。"
-      redirect_to users_url
-   end
+  def destroy
+    @user.destroy
+    flash[:success] = "#{@user.name}のデータを削除しました。"
+    redirect_to users_url
+  end
    
-   def edit_basic_info
-   end
+  def edit_basic_info
+  end
    
-   def update_basic_info
-     if @user.update_attributes(basic_info_params)
+  def update_basic_info
+   if @user.update_attributes(basic_info_params)
        flash[:success] = "#{@user.name}の基本情報を更新しました。"  
-     else
-        flash[:danger] = "#{@user.name}の更新は失敗しました。<br>" + @user.errors.full_messages.join("<br>")
-     end
-      redirect_to users_url
+   else
+      flash[:danger] = "#{@user.name}の更新は失敗しました。<br>" + @user.errors.full_messages.join("<br>")
    end
+      redirect_to users_url
+  end
    
-   def employees_on_duty
-      if @user.item[:started_at].present? && @user.item[:finished_at].blank?
-         @employees_on_duty = @user
-      end  
-   end   
+  def employees_on_duty
+    @users = User.joins(:attendances).where.not(attendances: {started_at: nil}).where(attendances:{finished_at: nil})
+  end
+       
+   
    
 
 
   private
 
     def user_params
-      params.require(:user).permit(:name, :email, :department, :password, :password_confirmation)
+      params.require(:user).permit(:name, :email, :affiliation, :password, :password_confirmation, :employee_number)
     end
     
     def basic_info_params
-      params.require(:user).permit(:department, :basic_time, :work_time)
+      params.require(:user).permit(:affiliation, :basic_time, :work_time)
     end
     
    

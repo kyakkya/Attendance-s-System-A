@@ -13,7 +13,7 @@ ja:
           work_time: 勤務時間
           password: パスワード
           password_confirmation: パスワード再入力
-          emproyee_number: 社員番号
+          employee_number: 社員番号
           uid: カードID
           basic_work_time: 基本勤務時間
           designated_work_start_time: 指定勤務開始時間
