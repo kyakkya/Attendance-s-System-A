@@ -24,6 +24,7 @@ User.create!(name: "上長B",
   password = "password"
   User.create!(name: name,
                email: email,
+               employee_number: number,
                password: password,
                password_confirmation: password)
 end

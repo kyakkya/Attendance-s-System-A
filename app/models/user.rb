@@ -5,13 +5,13 @@ class User < ApplicationRecord
   before_save { self.email = email.downcase }
   
   validates :name, presence: true, length: { maximum: 50 }
- 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, length: { maximum: 100 },
                     format: { with: VALID_EMAIL_REGEX },
                     uniqueness: true 
- 
-  validates :department, length: { in: 2..50 }, allow_blank: true
+  
+  validates :affiliation, length: { in: 2..50 }, allow_blank: true
+  validates :employee_number, length: { in: 1..8 }, uniqueness: true
   validates :basic_time, presence: true
   validates :work_time, presence: true
   has_secure_password 
