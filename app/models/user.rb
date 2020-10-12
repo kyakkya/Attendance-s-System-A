@@ -3,6 +3,7 @@ class User < ApplicationRecord
   
   attr_accessor :remember_token
   before_save { self.email = email.downcase }
+  before_save { self.employee_number = employee_number.downcasse}
   
   validates :name, presence: true, length: { maximum: 50 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
@@ -11,7 +12,7 @@ class User < ApplicationRecord
                     uniqueness: true 
   
   validates :affiliation, length: { in: 2..50 }, allow_blank: true
-  validates :employee_number, length: { in: 1..8 }, uniqueness: true
+  validates :employee_number, uniqueness: true
   validates :basic_time, presence: true
   validates :work_time, presence: true
   has_secure_password 

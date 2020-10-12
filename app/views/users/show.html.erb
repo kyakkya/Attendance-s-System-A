@@ -1,6 +1,7 @@
 <% provide(:title, @user.name) %>
 <div>
   <h1>ユーザーの個人情報</h1>
+ 
   <table  border=2 width=100%, class="table table-bordered table-condensed user-table">
     <tr>
       <td><%= link_to "⇦", user_path(date: @first_day.prev_month), class: "btn btn-info" %>
@@ -24,7 +25,8 @@
     </tr>
   </table>
 </div>
-
+  <p><small><small>【所属長承認申請のお知らせ】<br>【勤怠申請変更のお知らせ】<br>【勤怠申請変更のお知らせ】</small></small></p>
+  
 <div class="btn-users-show">
   <%= link_to "勤怠を編集", attendances_edit_one_month_user_path(date: @first_day), class: "btn btn-primary" %>
   <%= link_to "CSV出力",'#', class: "btn btn-primary" %><br>
