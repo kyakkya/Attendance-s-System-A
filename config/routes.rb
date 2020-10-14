@@ -14,7 +14,8 @@ Rails.application.routes.draw do
       patch 'update_basic_info'
       get 'attendances/edit_one_month'
       patch 'attendances/update_one_month'
-      get    'fix_basic_info'
+      get   'fix_basic_info'
+      get   'position' 
     end
     collection { post :import } 
     collection do
