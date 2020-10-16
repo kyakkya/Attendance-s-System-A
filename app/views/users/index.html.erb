@@ -22,9 +22,7 @@
 </script>
  
 <table class="table table-condensed table-hover" id="table-users">
-
   <% @users.each do |user| %>
-    <% if current_user.admin? && !current_user?(user) %>
       <tr>
         <%= user.name %><br>
       </tr> 
@@ -33,15 +31,10 @@
       </tr> 
       <tr>
         <P class="well well-sm">
-          <%= link_to "編集", edit_basic_info_user_path(user), remote: true, class: "btn btn-lg btn-primary" %><br>
+        <%= link_to "編集", edit_basic_info_user_path(user), class: "btn btn-lg btn-primary" %><br>
         </p>
-     </tr>
+      </tr>
       
-    <% end %>
+  
   <% end %>
 </table>
- 
-
-
-<!--モーダルウインドウ表示-->
-<div id="edit-basic-info" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>

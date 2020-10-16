@@ -1,15 +1,9 @@
 <% provide(:class_text, 'basic-info') %>
 <% provide(:button_text, '更新') %>
 
-<div class="modal-dialog modal-lg modal-dialog-center">
-  <div class="modal-content">
-    <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-      <h1 class="modal-title">基本情報編集</h1>
-    </div>
-    <div class="modal-body">
+
+  <h1>基本情報編集</h1>
+    
       <div class="row">
         <div class="col-md-6 col-md-offset-3">
           <%= form_with(model: @user, url: update_basic_info_user_path(@user), local: true, method: :patch) do |f| %>
@@ -22,7 +16,7 @@
             <%= f.text_field :affiliation, class: "form-control" %>
             
             <%= f.label :employee_number, class: "label-#{yield(:class_text)}" %>
-            <%= f.text_field :text, class: "form-control" %>
+            <%= f.number_field :employee_numbe, class: "form-control" %>
             
             <%= f.label :uid, class: "label-#{yield(:class_text)}" %>
             <%= f.text_field :text, class: "form-control" %>
@@ -34,13 +28,13 @@
             <%= f.password_field :password_confirmation, class: "form-control" %>
   
             <%= f.label :basic_work_time, class: "label-#{yield(:class_text)}" %>
-            <%= f.text_field :time, class: "form-control" %>
+            <%= f.time_field :basic_work_time, class: "form-control" %>
 
             <%= f.label :designated_work_start_time, class: "label-#{yield(:class_text)}" %>
-            <%= f.text_field :time, class: "form-control" %>
+            <%= f.time_field :designated_work_start_time, class: "form-control" %>
             
             <%= f.label :designated_work_end_time, class: "label-#{yield(:class_text)}" %>
-            <%= f.text_field :time, class: "form-control" %>
+            <%= f.time_field :designated_work_end_time, class: "form-control" %>
 
             <div class="center">
               <%= f.submit yield(:button_text), class: "btn btn-primary btn-#{yield(:class_text)}" %>
@@ -51,6 +45,4 @@
           <% end %>
         </div>
       </div>
-    </div>
-  </div>
-</div>
+   
