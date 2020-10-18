@@ -40,9 +40,10 @@
             
           <div id="<%= user.id %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
        　　　  　　 <div class="panel-body">
-                   <%= render 'edit_basic_info' %>
-               </div>
+                   <%= render 'edit_basic_info' ,{ user: user } %>
+           　   </div>
           </div>
        </tr>
-   <% end %>
+       
+  <% end %>
 </table>

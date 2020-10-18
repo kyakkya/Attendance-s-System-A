@@ -25,5 +25,6 @@ User.create!(name: "上長B",
   User.create!(name: name,
                email: email,
                password: password,
-               password_confirmation: password)
+               password_confirmation: password
+              )
 end

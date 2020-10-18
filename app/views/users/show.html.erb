@@ -8,7 +8,7 @@
          【<%= l(@first_day, format: :middle) %>】時間管理表
           <%=link_to "⇨", user_path(date: @first_day.next_month), class: "btn btn-info" %>
       </td>
-      <td>指定勤務開始時間：<%= @user.designated_work_start_timet %><br>
+      <td>指定勤務開始時間:：<%= format_basic_info(@user.basic_time) %><br>
           指定勤務終了時間： 
       </td>
       <td colspan=3>基本時間：<%= format_basic_info(@user.basic_time) %></td>
@@ -83,7 +83,7 @@
          %>
        <tr>
         <td>
-          <%= link_to "残業申請", overtime_request_user_attendance_path(@user), remote: true, class: "btn btn-primary" %>
+          <%= link_to "残業申請",'#', remote: true, class: "btn btn-primary" %>
         </td> 
         <td><%= l(day.worked_on, format: :short) %></td>
         <td class="<%= css_class %>"><%= %w{日 月 火 水 木 金 土}[day.worked_on.wday] %></td>
