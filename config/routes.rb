@@ -22,12 +22,12 @@ Rails.application.routes.draw do
       get 'employees_on_duty'
     end  
    
-    resources :attendances, only: :update do
+    resources :attendances, only: [:post, :edit, :update ]
       member do  
-        get 'overtime_request'
+        get '_overtime_request'
         patch 'update_overtime'
       end
     end   
     
   end
-end
+ 

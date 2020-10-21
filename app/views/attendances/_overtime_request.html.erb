@@ -1,0 +1,40 @@
+<% provide(:class_text, 'overtime-request') %>
+<% provide(:button_text, '残業申請') %>
+
+<div class="modal-dialog modal-lg modal-dialog-center">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h1 class="modal-title">【残業申請】</h1>
+    </div>
+    
+    <div class="modal-body">
+      <table  border=2 width=100%, class="table table-bordered table-condensed user-table">
+       <thead>
+        <tr>
+          <th>日付</th>
+          <th>曜日</th>
+          <th>終了予定時間</th>
+          <th>翌日</th>
+          <th>業務処理内容</th>
+          <th>指示者確認㊞</th>
+        </tr>
+        
+        <tr>
+          <td><%= date.attendance_day.month %>/<%= date.attendance_day.day %></th>
+          <td><%= @week[date.attendance_day.wday] %></td>
+          <th><%= f.time_field :scheduled_end_time, class: 'form-control' %> </th>
+          <td><%= check_box(checked_value = "1", unchecked_value = "0") %></td>
+          <td><%= f.text_field :business_outline, class: 'form-controll' %></td>
+          <td></td>
+        </tr>
+         
+       </thead>
+       <%= f.submit "残業を申請する", class: "btn btn-sm btn-primary" %>
+        <% end %>
+            
+            
+                  
+            
