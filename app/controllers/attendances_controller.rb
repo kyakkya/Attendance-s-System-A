@@ -48,9 +48,11 @@ class AttendancesController < ApplicationController
   end
 
   def overtime_request
+      @attendance = Attendance.find(params[:id])
   end  
 
   def update_overtime
+    
   end
   
   private

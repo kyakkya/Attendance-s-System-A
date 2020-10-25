@@ -13,6 +13,7 @@
     <div class="modal-body">
       <table  border=2 width=100%, class="table table-bordered table-condensed user-table">
        <thead>
+        
         <tr>
           <th>日付</th>
           <th>曜日</th>
@@ -21,20 +22,36 @@
           <th>業務処理内容</th>
           <th>指示者確認㊞</th>
         </tr>
-        
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          
-        </tr>
-         
        </thead>
        
-      <!--< %= f.submit "残業を申請する", class: "btn btn-sm btn-primary" %>-->
+      <tbody> 
+            <% 
+              css_class = 
+              case %w{日 月 火 水 木 金 土}[@attendance.worked_on.wday]
+              when '土'
+                'text-primary'
+              when '日'
+                'text-danger'
+              end
+            %> 
+        <tr>
+          <td><%= l(@attendance.worked_on, format: :short) %></td>
+          <td class="<%= css_class %>"><%= %w{日 月 火 水 木 金 土}[@attendance.worked_on.wday] %></td>
+          <td>
+             <%= f.time_select%>  
+          </td>
+          <td><%= check_box(checked_value = "1", unchecked_value = "0") %></td>
+          <td></td>
+          <td></td>
+        </tr>  
+      </tbody>    
+      
+     </ttable> 
+     <div class="center">
+       <buttn type="buttn" class:="btn btn-lg btn-primary  btn-block" >残業を申請する</buttn>
+     </div> 
+      
+     
         
             
             
