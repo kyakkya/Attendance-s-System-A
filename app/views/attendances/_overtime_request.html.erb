@@ -24,7 +24,7 @@
         </tr>
        </thead>
        
-      <tbody> 
+      <tbody
             <% 
               css_class = 
               case %w{日 月 火 水 木 金 土}[@attendance.worked_on.wday]
@@ -34,22 +34,26 @@
                 'text-danger'
               end
             %> 
-        <tr>
+           <%= form_with(model: @attendance, local: true) do |f| %> 
+        <tr> 
           <td><%= l(@attendance.worked_on, format: :short) %></td>
           <td class="<%= css_class %>"><%= %w{日 月 火 水 木 金 土}[@attendance.worked_on.wday] %></td>
-          <td>
-             <%= f.time_select%>  
+          <td><%= f.time_select :overtime.hour, class: "form-control" %>:</td>
+              <%= f.time_select :overtime.min, class: "form-control" %>  
           </td>
-          <td><%= check_box(checked_value = "1", unchecked_value = "0") %></td>
-          <td></td>
-          <td></td>
+          <td><%= f.check_box(checked_value = "1", unchecked_value = "0") %></td>
+          <td><% text_field :note, class: "form-control" %></td>
+          <td><%= f. %>/td>
+         
         </tr>  
       </tbody>    
       
+      <tfoot>
+        <%= f.submit "残業を申請する", class: "btn btn-primary btn-block" %>
+      </tfoot>
+       <% end %>
      </ttable> 
-     <div class="center">
-       <buttn type="buttn" class:="btn btn-lg btn-primary  btn-block" >残業を申請する</buttn>
-     </div> 
+    
       
      
         
