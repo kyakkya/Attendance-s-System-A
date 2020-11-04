@@ -40,27 +40,26 @@
        　 <tr> 
           <td><%= l(@attendance.worked_on, format: :short) %></td>
           <td class="<%= css_class %>"><%= %w{日 月 火 水 木 金 土}[@attendance.worked_on.wday] %></td>
-          <td><% f.label :overtime, class: 'control-label' %>
+          <td>
               <%= f.time_select :overtime, class: "form-control" %>
           </td>    
           <td><%= check_box(checked_value = "1", unchecked_value = "0") %></td>
-          <td><% f.label :task_menu, class: 'control-label' %>
+          <td>
               <%= f.text_field :task_menu, class: "form-control" %>
           </td>
           <td>
-            <select id="page_name" name="page[name]">
-              <option value="1">上長A</option>
-              <option value="2">上長B</option>
-　　　　　  </select><br>
-　　　　　</td>
-       　 </tr>  
+              <%= f.collection_select :superior,  @superiors, :name, :name, :include_blank => true %>
+          </td>
+         </tr>  
       　</tbody>    
       
       　<tfoot>
          <tr>  
           <td>
-            <div class="center"> <%= f.submit "残業を申請する", class: "btn btn-primary btn-lg btn-block" %></div>
-          </td>
+            <div class="center">
+               <%= f.submit "残業を申請する", class: "btn btn-primary btn-lg btn-block" %></div> 
+              
+            </td>
          </tr>  
         </tfoot>
        <% end %>

@@ -48,7 +48,10 @@ class AttendancesController < ApplicationController
   end
 
   def overtime_request
+      @user = User.find(params[:user_id])
       @attendance = Attendance.find(params[:id])
+      @superiors =  User.where(superior: true).where.not(id: @user.id)
+      
   end  
 
   def update_overtime

@@ -10,9 +10,13 @@ class User < ApplicationRecord
   validates :email, presence: true, length: { maximum: 100 },
                     format: { with: VALID_EMAIL_REGEX },
                     uniqueness: true 
-  
+ 
   validates :affiliation, length: { in: 2..50 }, allow_blank: true
   validates :employee_number, uniqueness: true, allow_blank: true
+  VALID_UID_REGEX =  /\A[a-z0-9]+\z/i
+  validates :uid, presence: true, length: { in: 2..10 },
+                    format: { with: VALID_UID_REGEX },
+                    uniqueness: true 
   validates :basic_work_time, presence: true
   has_secure_password 
   validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
