@@ -48,14 +48,24 @@ class AttendancesController < ApplicationController
   end
 
   def overtime_request
-      @user = User.find(params[:user_id])
-      @attendance = Attendance.find(params[:id])
-      @superiors =  User.where(superior: true).where.not(id: @user.id)
-      
+    @user = User.find(params[:user_id])
+    @attendance = Attendance.find(params[:id])
+    @superiors =  User.where(superior: true).where.not(id: @user.id)
   end  
 
+  
+
   def update_overtime
-    
+    @user = User.find(params[:user_id])
+    @attendance = Attendance.find(params[:id])
+    if  @attendance.update_attributes(overtime_params)
+       # 更新成功時の処理
+      flash[:success] = "#{@user.name}の残業申請をしました。"
+    else
+        # 更新失敗時の処理
+    　flash[:danger] = "#{@user.name}の残業申請は失敗しました。"    
+    end
+    redirect_to users_url
   end
   
   
@@ -66,5 +76,8 @@ class AttendancesController < ApplicationController
       params.require(:user).permit(attendances: [:started_at, :finished_at, :note])[:attendances]
     end
     
+    def overtime_params
+      params.require(:attendance).permit(:overtime, :next_day, :task_menu, :superior)
+    end 
     
 end

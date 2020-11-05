@@ -25,7 +25,7 @@
        </thead>
        
      　 <tbody>
-         <%= form_with(model: @attendance, url: overtime_request_user_attendance_path, local: true) do |f| %>
+         <%= form_with(model: @attendance, url: update_overtime_user_attendance_path(@user, @attendance), local: true) do |f| %>
 
             <% 
               css_class = 
@@ -43,7 +43,7 @@
           <td>
               <%= f.time_select :overtime, class: "form-control" %>
           </td>    
-          <td><%= check_box(checked_value = "1", unchecked_value = "0") %></td>
+          <td><%= f.check_box :next_day, class: "form-control" %></td>
           <td>
               <%= f.text_field :task_menu, class: "form-control" %>
           </td>
