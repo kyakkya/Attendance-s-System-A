@@ -12,6 +12,7 @@
     </div>
     
     <div class="modal-body">
+    <%= form_with(model: @attendance, url: update_overtime_user_attendance_path(@user, @attendance), local: true, method: :patch) do |f| %>  
       <table  border=2 width=100%, class="table table-bordered table-condensed user-table">
        <thead>
         <tr>
@@ -24,46 +25,38 @@
         </tr>
        </thead>
        
-     　 <tbody>
-         <%= form_with(model: @attendance, url: update_overtime_user_attendance_path(@user, @attendance), local: true) do |f| %>
-
-            <% 
-              css_class = 
-              case %w{日 月 火 水 木 金 土}[@attendance.worked_on.wday]
-              when '土'
-                'text-primary'
-              when '日'
-                'text-danger'
-              end
-            %> 
+     
         
-       　 <tr> 
-          <td><%= l(@attendance.worked_on, format: :short) %></td>
-          <td class="<%= css_class %>"><%= %w{日 月 火 水 木 金 土}[@attendance.worked_on.wday] %></td>
-          <td>
-              <%= f.time_select :overtime, class: "form-control" %>
-          </td>    
-          <td><%= f.check_box :next_day, class: "form-control" %></td>
-          <td>
-              <%= f.text_field :task_menu, class: "form-control" %>
-          </td>
-          <td>
-              <%= f.collection_select :superior,  @superiors, :name, :name, :include_blank => true %>
-          </td>
-         </tr>  
-      　</tbody>    
-      
-      　<tfoot>
-         <tr>  
-          <td>
-            <div class="center">
-               <%= f.submit "残業を申請する", class: "btn btn-primary btn-lg btn-block" %></div> 
-              
-            </td>
-         </tr>  
-        </tfoot>
-       <% end %>
+　     <tbody>
+              <% 
+                css_class = 
+                case %w{日 月 火 水 木 金 土}[@attendance.worked_on.wday]
+                when '土'
+                  'text-primary'
+                when '日'
+                  'text-danger'
+                end
+              %> 
+          
+           　 <tr> 
+               <td><%= l(@attendance.worked_on, format: :short) %></td>
+                  <td class="<%= css_class %>"><%= %w{日 月 火 水 木 金 土}[@attendance.worked_on.wday] %></td>
+                  <td>
+                      <%= f.time_select :overtime, class: "form-control" %>
+                  </td>    
+                  <td><%= f.check_box :next_day, class: "form-control" %></td>
+                  <td>
+                      <%= f.text_field :task_menu, class: "form-control" %>
+                  </td>
+                  <td>
+                      <%= f.collection_select :superior,  @superiors, :name, :name, :include_blank => true %>
+               </td>
+             </tr>  
+       </tbody>    
+        
       </table> 
+      <%= f.submit "残業を申請する", class: "btn btn-primary btn-lg btn-block" %></div> 
+      <% end %>
   　 </div> 
  　 </div> 
  </div>  

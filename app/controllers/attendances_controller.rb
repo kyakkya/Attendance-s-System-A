@@ -65,7 +65,9 @@ class AttendancesController < ApplicationController
         # 更新失敗時の処理
     　flash[:danger] = "#{@user.name}の残業申請は失敗しました。"    
     end
-    redirect_to users_url
+    
+    redirect_to user_url(@user)
+  
   end
   
   
@@ -75,7 +77,7 @@ class AttendancesController < ApplicationController
     def attendances_params
       params.require(:user).permit(attendances: [:started_at, :finished_at, :note])[:attendances]
     end
-    
+    #overtime(残業申請の内容)の更新カラム
     def overtime_params
       params.require(:attendance).permit(:overtime, :next_day, :task_menu, :superior)
     end 

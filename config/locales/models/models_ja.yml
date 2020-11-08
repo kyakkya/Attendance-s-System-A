@@ -26,3 +26,7 @@ ja:
           finished_at: 退勤時間
           note: 備考
           user: ユーザーID
+          overtime: 残業申請時間
+          task_menu: 業務処理内容
+          superior: 指示者
+          
