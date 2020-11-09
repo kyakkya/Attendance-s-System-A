@@ -42,7 +42,7 @@
                <td><%= l(@attendance.worked_on, format: :short) %></td>
                   <td class="<%= css_class %>"><%= %w{日 月 火 水 木 金 土}[@attendance.worked_on.wday] %></td>
                   <td>
-                      <%= f.time_select :overtime, class: "form-control" %>
+                      <%= f.time_select :overtime,  prompt:true, ignore_data:true, class: "form-control" %>
                   </td>    
                   <td><%= f.check_box :next_day, class: "form-control" %></td>
                   <td>
