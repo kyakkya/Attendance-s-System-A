@@ -58,16 +58,16 @@ class AttendancesController < ApplicationController
   def update_overtime
     @user = User.find(params[:user_id])
     @attendance = Attendance.find(params[:id])
-    if  @attendance.update_attributes(overtime_params)
+      # 更新失敗時の処理
+   if @attendance.task_menu.blank?
+       flash[:danger] = "業務処理内容を記入してください。"  
+   else
+      @attendance.update_attributes(overtime_params)
        # 更新成功時の処理
       flash[:success] = "#{@user.name}の残業申請をしました。"
-    else
-        # 更新失敗時の処理
-    　flash[:danger] = "#{@user.name}の残業申請は失敗しました。"    
-    end
-    
+   
+   end
     redirect_to user_url(@user)
-  
   end
   
   
