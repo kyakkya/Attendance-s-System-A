@@ -25,8 +25,11 @@
     </tr>
   </table>
 </div>
-  <p><small><small>【所属長承認申請のお知らせ】<br>【勤怠申請変更のお知らせ】<br>【勤怠申請変更のお知らせ】</small></small></p>
-  
+　<% if @user.superior?%>
+  <p><small><small>【所属長承認申請のお知らせ】</small></small></p>
+  <p><small><small>【勤怠申請変更のお知らせ】</small></small></p>
+  <p><small><small><font color="red">【残業申請のお知らせ】<div class="box"><p><%= @request_sum %> 件のお知らせがあります</p></div></font></small></small></p>
+  <% end %>
 <div class="btn-users-show">
   <%= link_to "勤怠を編集", attendances_edit_one_month_user_path(date: @first_day), class: "btn btn-primary" %>
   <%= link_to "CSV出力",'#', class: "btn btn-primary" %><br>
@@ -109,7 +112,7 @@
         <td></td>
         <td></td>
         <td></td>
-        <td></td>
+        <td><%= day.status %></td>
       </tr>
      <% end %>
     </tbody>

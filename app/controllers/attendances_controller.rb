@@ -64,15 +64,14 @@ class AttendancesController < ApplicationController
       flash[:danger] = "#{@user.name}の残業時間を選択してください。 "
     elsif params[:attendance][:superior].blank?
       flash[:danger] = "#{@user.name}の指示者を選択してください。 "
-    else  @attendance.update_attributes(overtime_params)
-     if params[:attendance][:next_day] == "1"
-          @next_daywork = params[:attendance]["overtime(4i)"].to_i + 24 
-          params[:attendance]["overtime(4i)"] = @next_daywork.to_s
-         
-     end      
-          flash[:success] = "#{@user.name}の残業申請をしました。"
+    else
+      params[:attendance][:status] = "申請中"
+      @attendance.update_attributes(overtime_params)
+      flash[:success] = "#{@user.name}の残業申請をしました。"
+        
     end 
      redirect_to user_url(@user)
+     
   end  
          # 更新成功時の処理
        
@@ -88,7 +87,7 @@ class AttendancesController < ApplicationController
     end
     #overtime(残業申請の内容)の更新カラム
     def overtime_params
-      params.require(:attendance).permit(:overtime, :next_day, :task_menu, :superior)
+      params.require(:attendance).permit(:overtime, :next_day, :task_menu, :superior, :status)
     end 
 end  
  

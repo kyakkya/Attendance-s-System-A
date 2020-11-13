@@ -18,6 +18,8 @@ class UsersController < ApplicationController
   
   def show
     @worked_sum = @attendances.where.not(started_at: nil).count
+    @request_sum = Attendance.where(status: "申請中").count
+    
   end
 
   def new
