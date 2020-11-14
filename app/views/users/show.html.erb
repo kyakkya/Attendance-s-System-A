@@ -26,9 +26,15 @@
   </table>
 </div>
 　<% if @user.superior?%>
-  <p><small><small>【所属長承認申請のお知らせ】</small></small></p>
-  <p><small><small>【勤怠申請変更のお知らせ】</small></small></p>
-  <p><small><small><font color="red">【残業申請のお知らせ】<div class="box"><p><%= @request_sum %> 件のお知らせがあります</p></div></font></small></small></p>
+    <div>
+      <p>【所属長承認申請のお知らせ】</p> 
+      <p>【勤怠申請変更のお知らせ】</p>
+      <!-- < % if  %>-->
+      <p><font color="red">【残業申請のお知らせ】<span class="box"><%=  @request_sum %> 件のお知らせがあります</span></font></p>
+      <!--< % else%>-->
+        <!--<p>【残業申請のお知らせ】</p>-->
+      <!--< % end %>  -->
+    </div>   
   <% end %>
 <div class="btn-users-show">
   <%= link_to "勤怠を編集", attendances_edit_one_month_user_path(date: @first_day), class: "btn btn-primary" %>
