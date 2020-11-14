@@ -30,7 +30,9 @@
       <p>【所属長承認申請のお知らせ】</p> 
       <p>【勤怠申請変更のお知らせ】</p>
       <% if @request_sum > 0 %>
-        <p><font color="red">【残業申請のお知らせ】<span class="box"><%=  @request_sum %> 件のお知らせがあります</span></font></p>
+        <p><font color="red">
+         <%= link_to "【残業申請のお知らせ】", '#',  style: "color:red;" %>
+        <span class="box"><%=  @request_sum %> 件のお知らせがあります</span></font></p>
       <% else %>
         <p>【残業申請のお知らせ】</p>
       <% end %>
