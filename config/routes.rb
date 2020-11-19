@@ -22,6 +22,11 @@ Rails.application.routes.draw do
     collection { post :import } 
     collection do
       get 'employees_on_duty'
+    end
+    
+    collection do
+      get 'overtime_request_info'
+      patch 'update_overtime_request_info'
     end  
    
     resources :attendances, only: [:edit, :update] do

@@ -31,7 +31,7 @@
       <p>【勤怠申請変更のお知らせ】</p>
       <% if @request_sum > 0 %>
         <p><font color="red">
-         <%= link_to "【残業申請のお知らせ】", '#',  style: "color:red;" %>
+         <%= link_to "【残業申請のお知らせ】",  overtime_request_info_users_path(@user),  style: "color:red;" %>
         <span class="box"><%=  @request_sum %> 件のお知らせがあります</span></font></p>
       <% else %>
         <p>【残業申請のお知らせ】</p>
@@ -155,4 +155,6 @@
 </div>
 
 <!--モーダルウインドウ表示-->
+
 <div id="overtime-request" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+<div id="overtime-request-info" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
