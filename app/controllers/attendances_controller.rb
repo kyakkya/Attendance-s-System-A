@@ -76,8 +76,8 @@ class AttendancesController < ApplicationController
         
   def overtime_request_info 
      @user = User.find(params[:user_id])
-     @attendance = Attendance.find(params[:id])
-     @requesters = User.joins(:attendances).wheret(attendances: {superior: @user.id})
+    # @attendance = Attendance.find(params[:id])
+    # @requesters = User.joins(:attendances).wheret(attendances: {superior: @user.id})
   end 
   
   def update_overtime_request_info
