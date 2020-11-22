@@ -1,4 +1,4 @@
-<% provide(:class_text, 'overtime-request-info') %>
+<% provide(:class_text, 'overtime-request') %>
 <% provide(:button_text, '残業申請一覧') %>
 
 
@@ -8,12 +8,47 @@
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
-      <h1 class="modal-title">【#{}からの残業申請】</h1>
-    </div>
-    
-    <div class="modal-body">
-   
-  　</div> 
+    </div>  
+    <% @requesters.each do |user_id, attendances| %>
+      <h1 class="modal-title">【<%= "#{User.find(user_id).name}" %>からの残業申請】</h1>
+      <div class="modal-body">
+       <!--< %= form_with(model: @attendance,  '#', local: true, method: :patch) do |f| %> -->
+        <table  border=2 width=100%, class="table table-bordered table-condensed user-table">
+          <thead>
+            <tr>
+              <th>日付</th>
+              <th>曜日</th>
+              <th>終了予定時間</th>
+              <th>指定勤務終了予定時間</th>
+              <th>時間外時間</th>
+              <th>業務処理内容</th>
+              <th>指示者確認㊞</th>
+              <th>変更</th>
+              <th>勤怠を確認する</th>
+            </tr>
+          </thead>
+          <% attendances.each do |day| %>
+            <tbody>
+              <tr>
+                <td><%= l(day.worked_on, format: :short) %></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td> 
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>  
+           </tbody>
+         <% end %>
+       </table>
+     
+      <!--< %= f.submit "変更を申請する", class: "btn btn-primary btn-lg btn-block" %></div> -->
+      <!--< % end %>-->
+     </div>
+   <% end %> 
+  
   </div> 
 </div>  
     

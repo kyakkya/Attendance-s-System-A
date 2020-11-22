@@ -31,13 +31,10 @@ Rails.application.routes.draw do
         get 'overtime_request'
         patch 'update_overtime'
       end
+      collection do
+        get 'overtime_request_info'
+        patch 'update_overtime_request_info'
+      end
     end   
-    
   end
-  
-   
-  get 'overtime_request_info', to: 'attendances#overtime_request_info'
-
-  patch 'update_overtime_request_info', to: 'attendances#update_overtime_request_info'
-      
 end 
