@@ -77,9 +77,6 @@ class AttendancesController < ApplicationController
   def overtime_request_info 
      @user = User.find(params[:user_id])
      @requesters = Attendance.where(superior: @user.name, status: "申請中").order(:user_id).group_by(&:user_id)
-    #@requesters = User.joins(:attendances).where(attendances: {status: "申請中"}).where(attendances:{superior: @user.name})
-     
-
   end 
   
   def update_overtime_request_info
