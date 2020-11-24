@@ -77,12 +77,15 @@ class AttendancesController < ApplicationController
   def overtime_request_info 
      @user = User.find(params[:user_id])
      @requesters = Attendance.where(superior: @user.name, status: "申請中").order(:user_id).group_by(&:user_id)
+     
   end 
   
   def update_overtime_request_info
     @user = User.find(params[:user_id])
     @attendance = Attendance.find(params[:id])
-    
+    @attendance.update_attributes(overtime_params)
+    @over_worktime = @uattendance.overtime - @uer.designated_work_end_time
+   
   end  
 
   

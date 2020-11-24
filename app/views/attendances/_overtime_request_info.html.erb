@@ -12,13 +12,12 @@
     <% @requesters.each do |user_id, attendances| %>
       <h1 class="modal-title">【<%= "#{User.find(user_id).name}" %>からの残業申請】</h1>
       <div class="modal-body">
-     <%= form_with(model: @attendance, url: update_overtime_request_info_user_attendances_path(@uattendance), local: true, method: :patch) do |f| %> 
+     <!--< %= form_with(model: @attendance, url: update_overtime_request_info_user_attendances_path(@uattendance), local: true, method: :patch) do |f| %> -->
         <table  border=2 width=100%, class="table table-bordered table-condensed user-table">
           <thead>
             <tr>
               <th>日付</th>
               <th>曜日</th>
-              
               <th>終了予定時間</th>
               <th>指定勤務終了予定時間</th>
               <th>時間外時間</th>
@@ -43,20 +42,19 @@
               <tr>
                 <td><%= l(day.worked_on, format: :short) %></td>
                  <td class="<%= css_class %>"><%= %w{日 月 火 水 木 金 土}[day.worked_on.wday] %></td>
-                <td> <%= day.overtime(4i) %></td>
-                <td><%= User.find(user_id).designated_work_end_time %></td>
-                <td></td>
-                <td></td> 
+                <td><%= l(day.overtime, format: :time) %></td>
+                <td><%= l(User.find(user_id).designated_work_end_time, format: :time) %></td>
+                <td><%= @over_worktime %></td>
                 <td><%= day.task_menu %></td>
-                <td><%= f.check_box :change, class: "form-control" %></td>
+                <td></td>
                 <td><%= link_to "確認", '#' , class: "btn btn-primary btn-lg btn-block" %></td>
               </tr>  
            </tbody>
          <% end %>
        </table>
      
-       <%= f.submit "変更を申請する", class: "btn btn-primary btn-lg btn-block" %></div> 
-     <% end %>
+       <!--< %= f.submit "変更を申請する", class: "btn btn-primary btn-lg btn-block" %></div> -->
+     <!--< % end %>-->
      </div>
    <% end %> 
   
