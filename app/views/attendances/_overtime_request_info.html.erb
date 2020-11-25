@@ -44,9 +44,9 @@
                  <td class="<%= css_class %>"><%= %w{日 月 火 水 木 金 土}[day.worked_on.wday] %></td>
                 <td><%= l(day.overtime, format: :time) %></td>
                 <td><%= l(User.find(user_id).designated_work_end_time, format: :time) %></td>
-                <td><%= @over_worktime %></td>
+                <td><%= day.overtime.hour - User.find(user_id).designated_work_end_time.hour  %>:00</td>
                 <td><%= day.task_menu %></td>
-                <td></td>
+                <td><%= @over_worktime %></td>
                 <td><%= link_to "確認", '#' , class: "btn btn-primary btn-lg btn-block" %></td>
               </tr>  
            </tbody>

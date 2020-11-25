@@ -84,8 +84,10 @@ class AttendancesController < ApplicationController
     @user = User.find(params[:user_id])
     @attendance = Attendance.find(params[:id])
     @attendance.update_attributes(overtime_params)
-    @over_worktime = @uattendance.overtime - @uer.designated_work_end_time
-   
+    @requesters = Attendance.where(superior: @user.name, status: "申請中").order(:user_id).group_by(&:user_id)
+     if @attendance.update_attributes(overtime_params_info)
+      redirect_to user_url(@user)
+     end
   end  
 
   
