@@ -12,7 +12,7 @@
     <% @requesters.each do |user_id, attendances| %>
       <h1 class="modal-title">【<%= "#{User.find(user_id).name}" %>からの残業申請】</h1>
       <div class="modal-body">
-     <!--< %= form_with(model: @attendance, url: update_overtime_request_info_user_attendances_path(@uattendance), local: true, method: :patch) do |f| %> -->
+     <%= form_with(model: @attendance, url: update_overtime_request_info_user_attendances_path(user_id), local: true, method: :patch) do |f| %> 
         <table  border=2 width=100%, class="table table-bordered table-condensed user-table">
           <thead>
             <tr>
@@ -46,15 +46,21 @@
                 <td><%= l(User.find(user_id).designated_work_end_time, format: :time) %></td>
                 <td><%= day.overtime.hour - User.find(user_id).designated_work_end_time.hour  %>:00</td>
                 <td><%= day.task_menu %></td>
-                <td><%= @over_worktime %></td>
+                <td><select name="status" id="status">
+                    <option value="1">申請中</option>
+                    <option value="2">承認</option>
+                    <option value="3">否認</option>
+                </td>
+                <td><%= f.check_box :superior_checker, class: "form-control" %></td>
                 <td><%= link_to "確認", '#' , class: "btn btn-primary btn-lg btn-block" %></td>
               </tr>  
            </tbody>
          <% end %>
        </table>
      
-       <!--< %= f.submit "変更を申請する", class: "btn btn-primary btn-lg btn-block" %></div> -->
-     <!--< % end %>-->
+       <%= f.submit "変更を申請する", class: "btn btn-primary btn-lg btn-block" %>
+       
+   <% end %>
      </div>
    <% end %> 
   
