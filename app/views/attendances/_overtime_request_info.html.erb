@@ -47,12 +47,13 @@
                 <td><%= day.overtime.hour - User.find(user_id).designated_work_end_time.hour  %>:00</td>
                 <td><%= day.task_menu %></td>
                 <td><select name="status" id="status">
+                    <option value="0"></option>
                     <option value="1">申請中</option>
                     <option value="2">承認</option>
                     <option value="3">否認</option>
                 </td>
                 <td><%= f.check_box :superior_checker, class: "form-control" %></td>
-                <td><%= link_to "確認", '#' , class: "btn btn-primary btn-lg btn-block" %></td>
+                <td><%= link_to "確認", user_path(user_id), method: :get, class: "btn btn-primary btn-lg btn-block" %></td>
               </tr>  
            </tbody>
          <% end %>
