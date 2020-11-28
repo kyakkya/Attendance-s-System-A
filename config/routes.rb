@@ -17,6 +17,7 @@ Rails.application.routes.draw do
       get   'fix_basic_info'
       get   'position' 
       get  'attendances/month_checker'
+      get  'comfirmation'
       
     end
     collection { post :import } 

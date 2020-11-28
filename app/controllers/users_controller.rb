@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info]
+  before_action :set_user, only: [:show, :comfirmation, :edit, :update, :destroy, :edit_basic_info, :update_basic_info]
   before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :edit_basic_info, :update_basic_info]
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user, only: [:destroy, :edit_basic_info, :update_basic_info]
@@ -21,6 +21,14 @@ class UsersController < ApplicationController
     @request_sum = Attendance.where(superior: @user.name).where(status: "申請中").count
     
   end
+  
+  def comfirmation
+    @user = User.find (params[:id])
+    @first_day = Date.current.beginning_of_month
+    @last_day = @first_day.end_of_month
+    @attendances = @user.attendances.where(worked_on: @first_day..@last_day)
+   # @request_sum = Attendance.where(superior: @user.name).where(status: "申請中").count
+  end  
 
   def new
     @user = User.new
