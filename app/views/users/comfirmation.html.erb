@@ -1,16 +1,15 @@
 <% provide(:title, @user.name) %>
 <div>
-  <h1>ユーザーの個人情報</h1>
- 
-  <table  border=2 width=100%, class="table table-bordered table-condensed user-table">
+   <table  border=2 width=100%, class="table table-bordered table-condensed user-table">
     <tr>
       <td><%= link_to "⇦", user_path(date: @first_day.prev_month), class: "btn btn-info" %>
          【<%= l(@first_day, format: :middle) %>】時間管理表
           <%=link_to "⇨", user_path(date: @first_day.next_month), class: "btn btn-info" %>
       </td>
-      <td>指定勤務開始時間：<%= format_basic_info(@user.designated_work_start_time) %><br>
-          指定勤務終了時間：<%= format_basic_info(@user.designated_work_end_time) %>
-      </td>
+      <td>指定勤務開始時間：<%= l(@user.designated_work_start_time ,format: :convinient_time) %><br>
+          指定勤務終了時間：<%= l(@user.designated_work_end_time ,format: :convinient_time) %>
+          
+ 　    </td>
       <td colspan=3>基本時間：<%= format_basic_info(@user.basic_work_time) %></td>
       <td>月初日：<%= l(@first_day, format: :short) %></td>
     </tr>
@@ -26,20 +25,24 @@
   </table>
 </div>
 
-    <div>
-      <p>【所属長承認申請のお知らせ】</p> 
-      <p>【勤怠申請変更のお知らせ】</p>
-      
-        <p><font color="red">
-          【残業申請のお知らせ】
-        <span class="box"> 件のお知らせがあります</span></font></p>
-        <p>【残業申請のお知らせ】</p>
-    </div>   
-  <div class="btn-users-show">
+<div>
+    <p>【所属長承認申請のお知らせ】</p> 
+    <p>【勤怠申請変更のお知らせ】</p>
+     <% if @status_sum > 0 %>
+    　 <p><font color="red">
+     　【残業申請のお知らせ】<%= @request_sum %> 件
+    　 </font></p>
+  　 <% else %>
+       <p><font color="blue">【残業申請のお知らせ】 </font></p>
+     <% end %>
+</div>   
+  
+<div class="btn-users-show">
+  <%= link_to "勤怠を編集", attendances_edit_one_month_user_path(date: @first_day), class: "btn btn-primary" %>
+  <%= link_to "CSV出力",'#', class: "btn btn-primary" %><br>
+  <%= link_to "勤怠修正ログ（承認済）",'#', class: "btn btn-primary" %>
+</div> 
  
- 
-</div>
-
 <div>
   <table border=2 width=100%, class="table table-bordered table-condensed table-hover" id="table-attendances">
     <thead>
@@ -149,8 +152,3 @@
         </tfoot>    
   </table>
 </div>
-
-<!--モーダルウインドウ表示-->
-
-<div id="overtime-request" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
-<div id="overtime-request-info" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>

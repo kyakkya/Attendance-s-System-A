@@ -205,4 +205,5 @@ ja:
       long: "%Y/%m/%d %H:%M"
       short: "%m/%d %H:%M"
       time: "%H：%M"
+      convinient_time: "%-H:%M"
     pm: 午後
