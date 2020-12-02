@@ -82,12 +82,17 @@ class AttendancesController < ApplicationController
   
   def update_overtime_request_info
     @user = User.find(params[:user_id])
-    @attendance = Attendance.find(params[:id])
-    @attendance.update_attributes(overtime_params)
+    @attendance = Attendance.find(params[user_id])
+   # @attendance.update_attributes(overtime_params)
     @requesters = Attendance.where(superior: @user.name, status: "申請中").order(:user_id).group_by(&:user_id)
-     if @attendance.update_attributes(overtime_params_info)
+    
+    if @superior_checker == "1"
+      @attendance.update_attributes(overtime_info_params)
       redirect_to user_url(@user)
-     end
+    else
+      @attendances.status ="申請中"
+    end
+    
   end  
 
   
@@ -102,6 +107,10 @@ class AttendancesController < ApplicationController
     #overtime(残業申請の内容)の更新カラム
     def overtime_params
       params.require(:attendance).permit(:overtime, :next_day, :task_menu, :superior, :status)
+    end 
+    
+    def overtime_info_params 
+       params.require(:attendance).permit(:overtime, :next_day, :task_menu, :superior, :status)
     end 
 end  
  

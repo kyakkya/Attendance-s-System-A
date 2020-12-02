@@ -24,10 +24,11 @@ class UsersController < ApplicationController
   
   def comfirmation
     @user = User.find (params[:id])
-    @first_day = Date.current.beginning_of_month
+    @first_day = params[:day].to_date.beginning_of_month
     @last_day = @first_day.end_of_month
     @attendances = @user.attendances.where(worked_on: @first_day..@last_day)
     @status_sum = Attendance.where(status: "申請中").count
+    @worked_sum = @attendances.where.not(started_at: nil).count
   end  
 
   def new
