@@ -33,13 +33,7 @@
             <% end %>
           </td>
           <td><%= attendance.text_field :note, class: "form-control" %></td>
-          <td>
-            <select id="page_name" name="page[name]">
-              <option value="1">上長A</option>
-              <option value="2">上長B</option>
-　　　　　  </select><br>
-　　　　　</td>
-          </td>
+          <td><%= at.select :status, ['', 'なし', '申請', '承認', '>否認'], class: "form-control" %></td>
         </tr>
       <% end %>
     <% end %>  

@@ -47,7 +47,7 @@
                     <td><%= l(User.find(user_id).designated_work_end_time, format: :time) %></td>
                     <td><%= day.overtime.hour - User.find(user_id).designated_work_end_time.hour  %>:00</td>
                     <td><%= day.task_menu %></td>
-                    <td><%= at.select :status, ['', 'なし', '申請', '承認', '>否認'], class: "form-control" %></td>
+                    <td><%= at.select :status, ['', 'なし', '申請', '承認', '否認'], class: "form-control" %></td>
                     <td><%= at.check_box :superior_checker %></td>
                     <td><%= link_to "確認", comfirmation_user_path(user_id, day: day.worked_on), method: :get, class: "btn btn-primary btn-lg btn-block" %></td>
                   </tr>  
@@ -56,7 +56,7 @@
             <% end %>
           </table>
         <% end %>
-        <%= f.submit "変更を申請する", class: "btn btn-primary btn-lg btn-block" %>
+        <%= f.submit "変更を申請する",  class: "btn btn-primary btn-lg btn-block" %>
       <% end %> 
     </div>
   </div> 

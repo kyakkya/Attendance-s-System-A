@@ -73,38 +73,27 @@ class AttendancesController < ApplicationController
      redirect_to user_url(@user)
      
   end  
-        
+  #申請モーダル      
   def overtime_request_info 
      @user = User.find(params[:user_id])
      @requesters = Attendance.where(superior: @user.name, status: "申請中").order(:user_id).group_by(&:user_id)
-     
   end 
   
+  #申請m一覧モーダルのupdate
   def update_overtime_request_info
+    @user = User.find(params[:user_id])
     ActiveRecord::Base.transaction do # トランザクションを開始します。
-      attendances_params.each do |id, item|
-        if item[:started_at].present? && item[:finished_at].blank?
-          flash[:danger] = "退勤時間がないので無効です"  
-        else  
+      overtime_info_params.each do |id, item|
+        if item[:superior_checker] == "1"
           attendance = Attendance.find(id)
-          attendance.update_attributes!(item)
-        end
+          attendance.update_attributes!(overtime_info_params)
+        end  
       end  
-    end  
-    flash[:success] = "1ヶ月分の勤怠情報を更新しました。"
-    redirect_to user_url(date: params[:date])
+      redirect_to user_url(@user)
   rescue ActiveRecord::RecordInvalid # トランザクションによるエラーの分岐です。
     flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
-    redirect_to attendances_edit_one_month_user_url(date: params[:date])and return
   end 
-   # @user = User.find(params[:user_id])
-   # @attendance = Attendance.find
-    #@requesters = Attendance.where(superior: @user.name, status: "申請中").order(:user_id).group_by(&:user_id)
-    #if params[:superior_checker]  == "1"
-    #  @attendance.update_attributes(overtime_info_params)
-   # end
-   #   redirect_to user_url(@user)
-   
+ 
 
   
   
@@ -121,7 +110,9 @@ class AttendancesController < ApplicationController
     end 
     
     def overtime_info_params 
-       params.require(:attendance).permit(:overtime, :next_day, :task_menu, :superior, :status)
-    end 
+       params.require(:attendances).permit(attendances: [:status, :superior_checker])[:attendances]
+    end
+    
+   
 end  
  
