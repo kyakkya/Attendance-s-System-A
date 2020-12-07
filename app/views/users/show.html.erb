@@ -118,7 +118,10 @@
         <td></td>
         <td></td>
         <td></td>
-        <td></td>
+        <td><% if day.finished_at.present? %>
+              <%= str_times.to_i - @user.basic_work_time.hour.to_i %>
+            <% end%>
+        </td>
         <td></td>
         <td><%= day.status %></td>
       </tr>
