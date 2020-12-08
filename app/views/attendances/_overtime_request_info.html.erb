@@ -10,7 +10,7 @@
       </button>
     </div>  
     <div class="modal-body">
-      <%= form_with(model: @attendance, url: update_overtime_request_info_user_attendances_path(@user), local: true, method: :patch) do |f| %> 
+      <%= form_with(model: @user, url: update_overtime_request_info_user_attendances_path(@user), local: true, method: :patch) do |f| %> 
         <% @requesters.each do |user_id, attendances| %>
           <h1 class="modal-title">【<%= "#{User.find(user_id).name}" %>からの残業申請】</h1>
           <table  border=2 width=100%, class="table table-bordered table-condensed user-table">

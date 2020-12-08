@@ -24,7 +24,6 @@ ActiveRecord::Schema.define(version: 20201126123001) do
     t.string "month_checker"
     t.time "overtime"
     t.string "task_menu"
-    t.time "scheduled_end_time"
     t.boolean "next_day", default: false
     t.string "superior"
     t.string "status"
@@ -40,7 +39,7 @@ ActiveRecord::Schema.define(version: 20201126123001) do
     t.string "password_digest"
     t.string "remember_digest"
     t.boolean "admin", default: false
-    t.datetime "basic_work_time", default: "2020-11-02 23:00:00"
+    t.datetime "basic_work_time", default: "2020-12-08 23:00:00"
     t.boolean "superior", default: false
     t.string "affiliation"
     t.string "uid"

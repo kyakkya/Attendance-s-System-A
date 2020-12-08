@@ -82,22 +82,18 @@ class AttendancesController < ApplicationController
   #申請一覧モーダルのupdate
   def update_overtime_request_info
     @user = User.find(params[:user_id])
-    ActiveRecord::Base.transaction do # トランザクションを開始します。
+    ActiveRecord::Base.transaction do 
       overtime_request_info_params.each do |id, item|
         if item[:superior_checker] == "1"
           attendance = Attendance.find(id)
-          attendance.update_attributes!(overtime_request_info_params)
+          attendance.update_attributes!(item)
         end  
       end  
       redirect_to user_url(@user)
+    end    
   rescue ActiveRecord::RecordInvalid # トランザクションによるエラーの分岐です。
     flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
-  end 
-  　
- 
-
-  
-  
+  end
   
   
   private
@@ -108,13 +104,10 @@ class AttendancesController < ApplicationController
     #overtime(残業申請の内容)の更新カラム
     def overtime_params
       params.require(:attendance).permit(:overtime, :next_day, :task_menu, :superior, :status)
-    end 
-    
-    def overtime_request_info_params 
-       params.require(:attendances).permit(attendances: [:status, :superior_checker])[:attendances]
     end
-  
-  end    
-  
+    
+    def overtime_request_info_params
+      params.require(:user).permit(attendances: [:status, :superior_checker])[:attendances]
+    end
   
 end 
