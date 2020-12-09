@@ -19,8 +19,6 @@ class UsersController < ApplicationController
   def show
     @worked_sum = @attendances.where.not(started_at: nil).count
     @request_sum = Attendance.where(superior: @user.name).where(status: "申請中").count
-  
-    
   end
   
   def comfirmation

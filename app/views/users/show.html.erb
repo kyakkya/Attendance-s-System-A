@@ -64,7 +64,7 @@
        <th colspan="2">終了予定時間</th>
        <th rowspan="2"><br>時間外時間</th>
        <th rowspan="2"><br>勤務処理内容</th>
-       <th rowspan="2"><br>指示者確認</th>
+       <th rowspan="2"><br>指示者確認㊞</th>
      </tr>  
      
       <tr>
@@ -119,11 +119,18 @@
         <td></td>
         <td></td>
         <td><% if day.finished_at.present? %>
-              <%= str_times.to_i - @user.basic_work_time.hour.to_i %>
+              <%= str_times.to_i - @user.basic_work_time.hour.to_i %>.00
             <% end%>
         </td>
         <td><%= day.task_menu %> </td>
-        <td>  <%= day.status %> </td>
+        <td><% if day.status == "承認" %> 
+              <div> 残業承認済 </div> 
+            <%  elsif day.status == "否認" %> 
+              <div> 残業否認</div>
+            <% else %>
+              <%= day.status %>
+            <% end %> 
+        </td> 
         </tr>
      <% end %>
     </tbody>

@@ -63,7 +63,7 @@ class AttendancesController < ApplicationController
     if params[:attendance]["overtime(4i)"].blank? ||  params[:attendance]["overtime(5i)"].blank?      
       flash[:danger] = "#{@user.name}の残業時間を選択してください。 "
     elsif params[:attendance][:superior].blank?
-      flash[:danger] = "#{@user.name}の指示者を選択してください。 "
+      flash[:danger] = "#{@user.name}の指示者を選択して��ださい。 "
     else
       params[:attendance][:status] = "申請中"
       @attendance.update_attributes(overtime_params)
