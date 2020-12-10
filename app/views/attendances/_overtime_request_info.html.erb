@@ -45,7 +45,13 @@
                      <td class="<%= css_class %>"><%= %w{日 月 火 水 木 金 土}[day.worked_on.wday] %></td>
                     <td><%= l(day.overtime, format: :time) %></td>
                     <td><%= l(User.find(user_id).designated_work_end_time, format: :time) %></td>
-                    <td><%= day.overtime.hour - User.find(user_id).designated_work_end_time.hour  %>:00</td>
+                    <td>
+                        <% if day.next_day == true %>
+                          <%= day.overtime.hour.to_i - User.find(user_id).designated_work_end_time.hour.to_i + 24 %> .00
+                        <% else %>
+                          <%= day.overtime.hour - User.find(user_id).designated_work_end_time.hour  %>:00
+                        <% end %>  
+                    </td>
                     <td><%= day.task_menu %></td>
                     <td><%= at.select :status, ['', 'なし', '申請', '承認', '否認'], class: "form-control" %></td>
                     <td><%= at.check_box :superior_checker %></td>

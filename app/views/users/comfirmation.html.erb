@@ -117,7 +117,10 @@
         <td></td>
         <td></td>
         <td></td>
-        <td></td>
+        <td><% if day.finished_at.present? %>
+              <%= str_times.to_i - @user.basic_work_time.hour.to_i %>.00
+            <% end%>
+        </td>
         <td></td>
         <td><%= day.status %></td>
       </tr>
@@ -133,14 +136,7 @@
         <td></td>
         <td></td>
         <td></td>
-        <td rowspan="2">
-          <p>所属長未</p><br>
-          <select id="page_name" name="page[name]">
-          <option value="1">上長A</option>
-          <option value="2">上長B</option>
-　　　　　</select><br>
-　　　　  <div><%= link_to "申請", '#' , class: "btn btn-primary btn-block" %></div>
-　　　  </td>　　
+        <td rowspan="2"></td>
       </tr>
       <tr>
         <td colspan="2"><%= @attendances.count %></td>

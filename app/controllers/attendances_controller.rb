@@ -63,7 +63,7 @@ class AttendancesController < ApplicationController
     if params[:attendance]["overtime(4i)"].blank? ||  params[:attendance]["overtime(5i)"].blank?      
       flash[:danger] = "#{@user.name}の残業時間を選択してください。 "
     elsif params[:attendance][:superior].blank?
-      flash[:danger] = "#{@user.name}の指示者を選択して��ださい。 "
+      flash[:danger] = "#{@user.name}の指示者を選択して下さい。 "
     else
       params[:attendance][:status] = "申請中"
       @attendance.update_attributes(overtime_params)
@@ -79,9 +79,11 @@ class AttendancesController < ApplicationController
      @requesters = Attendance.where(superior: @user.name, status: "申請中").order(:user_id).group_by(&:user_id)
   end 
   
+  
   #申請一覧モーダルのupdate
   def update_overtime_request_info
     @user = User.find(params[:user_id])
+   # if params[:attendance]["next_day"] == "1"
     ActiveRecord::Base.transaction do 
       overtime_request_info_params.each do |id, item|
         if item[:superior_checker] == "1"
