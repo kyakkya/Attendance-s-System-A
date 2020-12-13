@@ -1,0 +1,32 @@
+<% provide(:class_text, 'log_page') %>
+
+<h1>勤怠ログ</h1>
+
+<div>
+  <table  border=2 width=100%, class="table table-bordered table-condensed user-table">
+    <theaad>
+      <tr> 
+        <th>日付</th>
+        <th>変更前出社時間</th>
+        <th>変更前退社時間</th>
+        <th>変更後出社</th>
+        <th>変更後退社</th>
+        <th>承認日</th>
+      </tr>
+    </theaad>
+    <% @overtime_day.each do |day| %>
+    <tbody>
+      <tr>
+        <td><%= l(day.worked_on) %></td>
+        <td><%= l(format_hour(day.started_at) + format_min(day.started_at) %></td>
+        <td><%= l(format_hour(day.started_at) + format_min(day.started_at) %></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </tbody> 
+    <% end %> 
+    </table> 
+    
+</div>

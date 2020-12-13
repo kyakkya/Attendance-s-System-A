@@ -36,6 +36,9 @@ Rails.application.routes.draw do
         get 'overtime_request_info'
         patch 'update_overtime_request_info'
       end
+      collection do
+        get 'log_page'
+      end
     end   
   end
 end 

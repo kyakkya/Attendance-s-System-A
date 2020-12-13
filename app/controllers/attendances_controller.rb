@@ -97,6 +97,11 @@ class AttendancesController < ApplicationController
     flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
   end
   
+  def log_page
+    @user =  User.find(params[:user_id])
+    @overtime_day = Attendance.where(status: "承認")
+  end  
+  
   
   private
     # 1ヶ月分の勤怠情報を扱います。

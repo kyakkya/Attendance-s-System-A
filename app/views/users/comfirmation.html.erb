@@ -26,24 +26,6 @@
 </div>
 
 <div>
-    <p>【所属長承認申請のお知らせ】</p> 
-    <p>【勤怠申請変更のお知らせ】</p>
-     <% if @status_sum > 0 %>
-    　 <p><font color="red">
-     　【残業申請のお知らせ】<%= %> 件
-    　 </font></p>
-  　 <% else %>
-       <p><font color="blue">【残業申請のお知らせ】 </font></p>
-     <% end %>
-</div>   
-  
-<div class="btn-users-show">
-  <%= link_to "勤怠を編集", attendances_edit_one_month_user_path(date: @first_day), class: "btn btn-primary" %>
-  <%= link_to "CSV出力",'#', class: "btn btn-primary" %><br>
-  <%= link_to "勤怠修正ログ（承認済）",'#', class: "btn btn-primary" %>
-</div> 
- 
-<div>
   <table border=2 width=100%, class="table table-bordered table-condensed table-hover" id="table-attendances">
     <thead>
      <tr>
