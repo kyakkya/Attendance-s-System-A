@@ -11,7 +11,5 @@ module UsersHelper
        format("%.2f", (overtime.hour - end_time.hour) + (((((overtime.min - end_time.min) /15) *15 )/ 60.0)))
     end
   end
-  
- 
 
 end 

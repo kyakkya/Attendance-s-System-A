@@ -98,8 +98,10 @@ class AttendancesController < ApplicationController
   end
   
   def log_page
-    @user =  User.find(params[:user_id])
-    @overtime_day = Attendance.where(status: "承認")
+    @user = User.find(params[:user_id])
+    #@attendance = Attendance.find(params[:user_id])
+    @overtime_days = Attendance.where(user_id: @user.id, status: "承認")
+    
   end  
   
   

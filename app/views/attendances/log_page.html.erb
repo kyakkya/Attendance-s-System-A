@@ -1,5 +1,5 @@
 <% provide(:class_text, 'log_page') %>
-
+<!-- < %= form_with(model: @attendance, '#', local: true, method: :patch) do |f| %>-->
 <h1>勤怠ログ</h1>
 
 <div>
@@ -14,19 +14,25 @@
         <th>承認日</th>
       </tr>
     </theaad>
-    <% @overtime_day.each do |day| %>
     <tbody>
-      <tr>
-        <td><%= l(day.worked_on) %></td>
-        <td><%= l(format_hour(day.started_at) + format_min(day.started_at) %></td>
-        <td><%= l(format_hour(day.started_at) + format_min(day.started_at) %></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
+       <% @overtime_days.each do |day| %>
+        <!--< %= f.fields_for "attendances[]", day do |at| %>-->
+        <tr>
+          <td><%= l(day.worked_on) %></td>
+          <td><%= l(day.started_at.floor_to(15.minutes), format: :convinient_time) %></td>
+          <td><% if finished_at.present? %>
+                <%= l(day.finished_at.floor_to(15.minutes), format: :convinient_time) %>
+              <% end %> 
+          </td>    
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+       <!--< % end %>-->
+       <% end %> 
     </tbody> 
-    <% end %> 
-    </table> 
-    
-</div>
+  </table>
+</div>  
+
+ 
