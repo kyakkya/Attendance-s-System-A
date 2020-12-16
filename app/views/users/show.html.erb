@@ -27,7 +27,14 @@
 </div>
 　<% if @user.superior? %>
     <div>
-      <p>【所属長承認申請のお知らせ】</p> 
+      <% if @reply_sum > 0 %>
+        <p><font color="red">
+         <%= link_to "【所属長承認申請のお知らせ】",  month_request_user_attendance_path(@user), remote: true, style: "color:red;" %>
+        <span class="box"><%= @reply_sum %> 件のお知らせがあります</span></font></p>
+      <% else %>
+        <p>【所属長承認申請のお知らせ</p>
+      <% end %>
+      
       <p>【勤怠申請変更のお知らせ】</p>
       <% if @request_sum > 0 %>
         <p><font color="red">

@@ -20,7 +20,7 @@
         <tr>
           <td><%= l(day.worked_on) %></td>
           <td><%= l(day.started_at.floor_to(15.minutes), format: :convinient_time) %></td>
-          <td><% if finished_at.present? %>
+          <td><% if @attendance.finished_at.present? %>
                 <%= l(day.finished_at.floor_to(15.minutes), format: :convinient_time) %>
               <% end %> 
           </td>    

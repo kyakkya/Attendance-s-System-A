@@ -31,6 +31,8 @@ Rails.application.routes.draw do
       member do  
         get 'overtime_request'
         patch 'update_overtime'
+        get 'month_request'
+        patch 'month_request'
       end
       collection do
         get 'overtime_request_info'
@@ -38,6 +40,7 @@ Rails.application.routes.draw do
       end
       collection do
         get 'log_page'
+        patch 'log_page'
       end
     end   
   end
