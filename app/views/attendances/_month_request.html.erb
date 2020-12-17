@@ -1,0 +1,59 @@
+class="modal-dialog modal-lg modal-dialog-center">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>  
+    <div class="modal-body">
+      <%= form_with(model: @user, url: update_overtime_request_info_user_attendances_path(@user), local: true, method: :patch) do |f| %> 
+        <% @requesters.each do |user_id, attendances| %>
+          <h1 class="modal-title">【<%= "#{User.find(user_id).name}" %>からの残業申請】</h1>
+          <table  border=2 width=100%, class="table table-bordered table-condensed user-table">
+            <thead>
+              <tr>
+                <th>日付</th>
+                <th>曜日</th>
+                <th>終了予定時間</th>
+                <th>指定勤務終了予定時間</th>
+                <th>時間外時間</th>
+                <th>業務処理内容</th>
+                <th>指示者確認㊞</th>
+                <th>変更</th>
+                <th>勤怠を確認する</th>
+              </tr>
+            </thead>
+            <% attendances.each do |day| %>
+              <%= f.fields_for "attendances[]", day do |at| %>
+                <tbody>
+                   <% 
+                    css_class = 
+                    case %w{日 月 火 水 木 金 土}[day.worked_on.wday]
+                    when '土'
+                      'text-primary'
+                    when '日'
+                      'text-danger'
+                    end
+                  %> 
+              
+                  <tr>
+                    <td><%= l(day.worked_on, format: :short) %></td>
+                     <td class="<%= css_class %>"><%= %w{日 月 火 水 木 金 土}[day.worked_on.wday] %></td>
+                    <td><%= l(day.overtime, format: :time) %></td>
+                    <td><%= l(User.find(user_id).designated_work_end_time, format: :time) %></td>
+                    <td><%= format_overtime(day.overtime, User.find(user_id).designated_work_end_time, day.next_day) %></td>
+                    <td><%= day.task_menu %></td>
+                    <td><%= at.select :status, ['', 'なし', '申請', '承認', '否認'], class: "form-control" %></td>
+                    <td><%= at.check_box :superior_checker %></td>
+                    <td><%= link_to "確認", comfirmation_user_path(user_id, day: day.worked_on), method: :get, class: "btn btn-primary btn-lg btn-block" %></td>
+                  </tr>  
+                </tbody>
+              <% end %>  
+            <% end %>
+          </table>
+        <% end %>
+        <%= f.submit "変更を申請する",  class: "btn btn-primary btn-lg btn-block" %>
+      <% end %> 
+    </div>
+  </div> 
+</div>  

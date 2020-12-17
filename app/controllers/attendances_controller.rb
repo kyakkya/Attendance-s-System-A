@@ -27,6 +27,7 @@ class AttendancesController < ApplicationController
   end
 
   def edit_one_month
+     @superiors =  User.where(superior: true).where.not(id: @user.id)
   end
 
   def update_one_month
@@ -101,9 +102,13 @@ class AttendancesController < ApplicationController
     @user = User.find(params[:user_id])
     @attendance = Attendance.find(params[:user_id])
     @overtime_days = Attendance.where(user_id: @user.id, status: "承認")
-    
   end  
-  
+ 
+  #1か月分の申請モーダル      
+  def month_request
+     @user = User.find(params[:user_id])
+     #@changer = Attendance.where(superior: @user.name, status: "申請中").order(:user_id).group_by(&:user_id)
+  end  
   
   private
     # 1ヶ月分の勤怠情報を扱います。

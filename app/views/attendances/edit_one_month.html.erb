@@ -33,7 +33,7 @@
             <% end %>
           </td>
           <td><%= attendance.text_field :note, class: "form-control" %></td>
-          <td><%= at.select :status, ['', 'なし', '申請', '承認', '>否認'], class: "form-control" %></td>
+          <td><%= attendance.collection_select :superior, @superiors, :name, :name, :include_blank => true %>></td>
         </tr>
       <% end %>
     <% end %>  
