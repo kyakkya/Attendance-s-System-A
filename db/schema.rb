@@ -10,24 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20201126123001) do
+ActiveRecord::Schema.define(version: 20201219125539) do
 
   create_table "attendances", force: :cascade do |t|
     t.date "worked_on"
     t.datetime "started_at"
     t.datetime "finished_at"
     t.string "note"
-    t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "month_check_superior"
     t.string "month_checker"
-    t.time "overtime"
-    t.string "task_menu"
-    t.boolean "next_day", default: false
-    t.string "superior"
+    t.time "overtime" #残業の申請時間
+    t.string "task_menu" #残業時業務処理内容
+    t.boolean "next_day", superior_checkerdefault: false
+    t.string "superior" #残業申請用上長
     t.string "status"
-    t.boolean "superior_checker"
+    t.boolean ""
+    t.time "restated_at"
+    t.time "refinished_at"
+    t.integer "user_id"
     t.index ["user_id"], name: "index_attendances_on_user_id"
   end
 
@@ -46,6 +48,7 @@ ActiveRecord::Schema.define(version: 20201126123001) do
     t.integer "employee_number"
     t.time "designated_work_start_time", default: "2000-01-01 00:00:00"
     t.time "designated_work_end_time", default: "2000-01-01 09:00:00"
+    t.string "month_superior"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

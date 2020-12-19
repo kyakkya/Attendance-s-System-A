@@ -21,11 +21,11 @@
           <td><%= l(day.worked_on, format: :short) %></td>
           <td><%= $days_of_the_week[day.worked_on.wday] %></td>
           <% if !current_user.admin? && (Date.current < day.worked_on) %>
-            <td><%= attendance.time_field :started_at, readonly: true, class: "form-control" %></td>
-            <td><%= attendance.time_field :finished_at, readonly: true, class: "form-control" %></td>
+            <td><%= attendance.time_field :restated_at, readonly: true, class: "form-control" %></td>
+            <td><%= attendance.time_field :refinished_at, readonly: true, class: "form-control" %></td>
          <% else %> 
-            <td><%= attendance.time_field :started_at, class: "form-control" %></td>
-            <td><%= attendance.time_field :finished_at, class: "form-control" %></td>
+            <td><%= attendance.time_field :restated_at, class: "form-control" %></td>
+            <td><%= attendance.time_field :refinished_at, class: "form-control" %></td>
          <% end %>    
           <td>
             <% if day.started_at.present? && day.finished_at.present? %>
@@ -33,8 +33,8 @@
             <% end %>
           </td>
           <td><%= attendance.text_field :note, class: "form-control" %></td>
-          <td><%= attendance.collection_select :superior, @superiors, :name, :name, :include_blank => true %>></td>
-        </tr>
+          <td><%= attendance.collection_select :month_check_superior, @superiors, :name, :name, :include_blank => true %>></td>
+         </tr>
       <% end %>
     <% end %>  
     </tbody>

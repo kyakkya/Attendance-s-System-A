@@ -27,7 +27,7 @@ class AttendancesController < ApplicationController
   end
 
   def edit_one_month
-     @superiors =  User.where(superior: true).where.not(id: @user.id)
+    @superiors =  User.where(superior: true).where.not(id: @user.id)
   end
 
   def update_one_month
@@ -41,7 +41,7 @@ class AttendancesController < ApplicationController
         end
       end  
     end  
-    flash[:success] = "1ヶ月分の勤怠情報を更新しました。"
+    flash[:success] = "1ヶ月分の勤怠変更を申請しました。"
     redirect_to user_url(date: params[:date])
   rescue ActiveRecord::RecordInvalid # トランザクションによるエラーの分岐です。
     flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
@@ -61,7 +61,7 @@ class AttendancesController < ApplicationController
     @attendance = Attendance.find(params[:id])
     
      # 更新失敗時の処理.
-    if params[:attendance]["overtime(4i)"].blank? ||  params[:attendance]["overtime(5i)"].blank?      
+    if params[:attendance]["overtime(4i)"].blank? || params[:attendance]["overtime(5i)"].blank?      
       flash[:danger] = "#{@user.name}の残業時間を選択してください。 "
     elsif params[:attendance][:superior].blank?
       flash[:danger] = "#{@user.name}の指示者を選択して下さい。 "
@@ -113,7 +113,7 @@ class AttendancesController < ApplicationController
   private
     # 1ヶ月分の勤怠情報を扱います。
     def attendances_params
-      params.require(:user).permit(attendances: [:started_at, :finished_at, :note])[:attendances]
+      params.require(:user).permit(attendances: [:started_at, :finished_at, :restated_at, :refinished_at,:note])[:attendances]
     end
     #overtime(残業申請の内容)の更新カラム
     def overtime_params

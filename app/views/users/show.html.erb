@@ -28,7 +28,17 @@
 　<% if @user.superior? %>
     <div>
       <p>【所属長承認申請のお知らせ</p>
-      <p>【勤怠申請変更のお知らせ】</p>
+    </div>
+    <div>
+      <% if @change_sum > 0 %>
+        <p><font color="red">
+         <%= link_to "【勤怠申請変更のお知らせ】", '#', remote: true, style: "color:red;" %>
+        <span class="box"><%=  @change_sum %> 件のお知らせがあります</span></font></p>
+      <% else %>
+        <p>【勤怠申請変更のお知らせ】</p>
+      <% end %>
+    </div> 
+    <div>
       <% if @request_sum > 0 %>
         <p><font color="red">
          <%= link_to "【残業申請のお知らせ】",  overtime_request_info_user_attendances_path(@user), remote: true, style: "color:red;" %>
