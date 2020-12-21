@@ -21,8 +21,8 @@
           <td><%= l(day.worked_on, format: :short) %></td>
           <td><%= $days_of_the_week[day.worked_on.wday] %></td>
           <% if !current_user.admin? && (Date.current < day.worked_on) %>
-            <td><%= attendance.time_field :restated_at, readonly: true, class: "form-control" %></td>
-            <td><%= attendance.time_field :refinished_at, readonly: true, class: "form-control" %></td>
+            <td><%= attendance.time_field :restated_at,  readonly: true, class: "form-control" %></td>
+            <td><%= attendance.time_field :refinished_at, readonfly: true, class: "form-control" %></td>
          <% else %> 
             <td><%= attendance.time_field :restated_at, class: "form-control" %></td>
             <td><%= attendance.time_field :refinished_at, class: "form-control" %></td>
@@ -33,7 +33,7 @@
             <% end %>
           </td>
           <td><%= attendance.text_field :note, class: "form-control" %></td>
-          <td><%= attendance.collection_select :month_check_superior, @superiors, :name, :name, :include_blank => true %>></td>
+          <td><%= attendance.collection_select :month_check_superior,  @month_check_superiors, :name, :name, :include_blank => true %>></td>
          </tr>
       <% end %>
     <% end %>  

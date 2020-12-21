@@ -27,14 +27,15 @@ class AttendancesController < ApplicationController
   end
 
   def edit_one_month
-    @superiors =  User.where(superior: true).where.not(id: @user.id)
+    @month_check_superiors =  User.where(superior: true).where.not(id: @user.id)
   end
 
   def update_one_month
+  
     ActiveRecord::Base.transaction do # トランザクションを開始します。
       attendances_params.each do |id, item|
-        if item[:started_at].present? && item[:finished_at].blank?
-          flash[:danger] = "退勤時間がないので無効です"  
+        if item[:restated_at].present? && item[:refinished_at].blank?
+          flash[:danger] = "変更時間がないので無効です"  
         else  
           attendance = Attendance.find(id)
           attendance.update_attributes!(item)
@@ -107,13 +108,13 @@ class AttendancesController < ApplicationController
   #1か月分の申請モーダル      
   def month_request
      @user = User.find(params[:user_id])
-     #@changer = Attendance.where(superior: @user.name, status: "申請中").order(:user_id).group_by(&:user_id)
+    # @changer = Attendance.where(superior: @user.name, status: "申請中").order(:user_id).group_by(&:user_id)
   end  
   
   private
     # 1ヶ月分の勤怠情報を扱います。
     def attendances_params
-      params.require(:user).permit(attendances: [:started_at, :finished_at, :restated_at, :refinished_at,:note])[:attendances]
+      params.require(:user).permit(attendances: [:started_at, :finished_at, :restated_at, :refinished_at,:not, :month_check_superiore])[:attendances]
     end
     #overtime(残業申請の内容)の更新カラム
     def overtime_params
