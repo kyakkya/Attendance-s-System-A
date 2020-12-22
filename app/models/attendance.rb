@@ -19,7 +19,11 @@ class Attendance < ApplicationRecord
     end
   end
   
-   
+  def restated_at_than_refinished_at_fast_if_invalid
+    if restated_at.present? && refinished_at.present?
+      errors.add(:restated_at, "より早い退勤時間は無効です") if restated_at > finished_at
+    end
+  end 
 
 
 end

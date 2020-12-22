@@ -30,10 +30,10 @@
       <p>【所属長承認申請のお知らせ</p>
     </div>
     <div>
-      <% if @restated_at.present? && @refinished_at.present? && month_check_superior.present? %>
-        <p><font color="red">
-         <%= link_to "【勤怠申請変更のお知らせ】", '#', remote: true, style: "color:red;" %>
-        <span class="box"></span></font></p>
+      <% if @change_sum > 0 %>
+          <p><font color="red">
+           <%= link_to "【勤怠申請変更のお知らせ】", '#', remote: true, style: "color:red;" %>
+          </font></p>
       <% else %>
         <p>【勤怠申請変更のお知らせ】</p>
       <% end %>
@@ -178,4 +178,3 @@
 
 <div id="overtime-request" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
 <div id="overtime-request-info" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
-<div id="month-request" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></di
