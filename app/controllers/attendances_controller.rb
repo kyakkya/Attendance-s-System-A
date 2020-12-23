@@ -30,6 +30,7 @@ class AttendancesController < ApplicationController
     @month_check_superiors =  User.where(superior: true).where.not(id: @user.id)
   end
 
+ 
   def update_one_month
     ActiveRecord::Base.transaction do # トランザクションを開始します。
       attendances_params.each do |id, item|
@@ -49,7 +50,20 @@ class AttendancesController < ApplicationController
     flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
     redirect_to attendances_edit_one_month_user_url(date: params[:date])and return
   end
-
+ 
+ #1か月分の申請モーダル 
+  def month_request
+    @user = User.find(params[:user_id])
+    @attendance = Attendance.find(params[:id])
+    @month_requesters = Attendance.where(month_check_superior: @user.name, month_status: "申請中").order(:user_id).group_by(&:user_id)
+  end  
+  
+  
+  def update_month_request
+   
+  end 
+  
+  
   def overtime_request
     @user = User.find(params[:user_id])
     @attendance = Attendance.find(params[:id])
@@ -105,11 +119,8 @@ class AttendancesController < ApplicationController
     @overtime_days = Attendance.where(user_id: @user.id, status: "承認")
   end  
  
-  #1か月分の申請モーダル      
-  def month_request
-     @user = User.find(params[:user_id])
-    # @changer = Attendance.where(superior: @user.name, status: "申請中").order(:user_id).group_by(&:user_id)
-  end  
+      
+ 
   
   private
     # 1ヶ月分の勤怠情報を扱います。

@@ -31,13 +31,15 @@ Rails.application.routes.draw do
       member do  
         get 'overtime_request'
         patch 'update_overtime'
-        get 'month_request'
-        patch 'month_request'
       end
       collection do
         get 'overtime_request_info'
         patch 'update_overtime_request_info'
       end
+      collection do
+        get 'month_request'
+        patch 'update_month_request'
+      end  
       collection do
         get 'log_page'
         patch 'log_page'
