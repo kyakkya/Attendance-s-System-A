@@ -1,14 +1,17 @@
-class="modal-dialog modal-lg modal-dialog-center">
+<% provide(:class_text, 'month_request') %>
+<% provide(:button_text, '1か月の変更申請') %>
+
+<div class="modal-dialog modal-lg modal-dialog-center">
   <div class="modal-content">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
+      <h1 class="modal-title">【<%= "#{User.find(user_id).name}" %>からの残業申請】</h1>
     </div>  
     <div class="modal-body">
-      <%= form_with(model: @uattendance, url: update_month_request_user_attendances_path(@user), local: true, method: :patch) do |f| %> 
-        <% @month_requesters.each do |user_id, attendances| %>
-          <h1 class="modal-title">【<%= "#{User.find(user_id).name}" %>からの残業申請】</h1>
+      <%= form_with(model: @uattendance, url: update_month_request_user_attendances_path(@user, @attendance), local: true, method: :patch) do |f| %> 
+        <!--< % @month_requesters.each do |user_id, attendances| %>-->
           <table  border=2 width=100%, class="table table-bordered table-condensed user-table">
             <thead>
               <tr>
