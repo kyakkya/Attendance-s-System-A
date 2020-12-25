@@ -31,9 +31,9 @@
     </div>
     <div>
       <% if @change_sum > 0 %>
-         <p><font color="red">【勤怠申請変更のお知らせ】</font>
-          <%= link_to "お知らせを見る", month_request_user_attendances_path(@user), remote: true, class: "btn btn-primary" %>
-         </p>
+        <p><font color="red">
+         【勤怠申請変更のお知らせ】
+        <span class="box"><%= link_to "#{@change_sum }件のお知らせがあります",  month_request_user_attendances_path(@user), remote: true, style: "color:red;" %></span></font></p> 
       <% else %>
         <p>【勤怠申請変更のお知らせ】</p>
       <% end %>

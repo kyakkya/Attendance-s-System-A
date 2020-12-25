@@ -54,7 +54,6 @@ class AttendancesController < ApplicationController
  #1か月分の申請モーダル 
   def month_request
     @user = User.find(params[:user_id])
-    @attendance = Attendance.find(params[:id])
     @month_requesters = Attendance.where(month_check_superior: @user.name, month_status: "申請中").order(:user_id).group_by(&:user_id)
   end  
   

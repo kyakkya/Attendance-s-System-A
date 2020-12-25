@@ -7,13 +7,13 @@
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
-      <h1 class="modal-title">【<%= "#{User.find(user_id).name}" %>からの残業申請】</h1>
     </div>  
     <div class="modal-body">
-      <%= form_with(model: @uattendance, url: update_month_request_user_attendances_path(@user, @attendance), local: true, method: :patch) do |f| %> 
-        <!--< % @month_requesters.each do |user_id, attendances| %>-->
+      <%= form_with(model: @user, url: update_month_request_user_attendances_path(@user), local: true, method: :patch) do |f| %> 
+       <% @month_requesters.each do |user_id, attendances| %>
+         <h1 class="modal-title">【<%= "#{User.find(user_id).name}" %>からの残業申請】</h1>
           <table  border=2 width=100%, class="table table-bordered table-condensed user-table">
-            <thead>
+           <thead>
               <tr>
                 <th>日付</th>
                 <th>曜日</th>
@@ -41,16 +41,15 @@
                     <td class="<%= css_class %>"><%= %w{日 月 火 水 木 金 土}[day.worked_on.wday] %></td>
                     <td></td>
                     <td></td>
-                    <td></td>
                     <td><%= at.select :month_status, ['', 'なし', '申請', '承認', '否認'], class: "form-control" %></td>
                   </tr>  
                 </tbody>
               <% end %>  
             <% end %>
           </table>
-        <% end %>
-        <%= f.submit "変更を送信する",  class: "btn btn-primary btn-lg btn-block" %>
-      <% end %> 
+          <% end %>
+         <%= f.submit "変更を送信する",  class: "btn btn-primary btn-lg btn-block" %>
+       <% end %>
     </div>
   </div> 
 </div>  
