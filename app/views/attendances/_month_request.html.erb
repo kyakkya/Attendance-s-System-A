@@ -11,16 +11,20 @@
     <div class="modal-body">
       <%= form_with(model: @user, url: update_month_request_user_attendances_path(@user), local: true, method: :patch) do |f| %> 
        <% @month_requesters.each do |user_id, attendances| %>
-         <h1 class="modal-title">【<%= "#{User.find(user_id).name}" %>からの残業申請】</h1>
+         <h1 class="modal-title">【<%= "#{User.find(user_id).name}" %>から勤怠変更申請】</h1>
           <table  border=2 width=100%, class="table table-bordered table-condensed user-table">
            <thead>
               <tr>
                 <th>日付</th>
                 <th>曜日</th>
-                <th>終了予定時間</th>
+                <th>出勤</th>
+                <th>退勤</th>
                 <th>業務処理内容</th>
-                <th終了勤務時間</th>
+                <th>終了勤務時間</th>
                 <th>指示者確認㊞</th>
+                <th></th>
+                <th></th>
+                <>
               </tr>
             </thead>
             <% attendances.each do |day| %>
@@ -39,9 +43,12 @@
                   <tr>
                     <td><%= l(day.worked_on, format: :short) %></td>
                     <td class="<%= css_class %>"><%= %w{日 月 火 水 木 金 土}[day.worked_on.wday] %></td>
-                    <td></td>
-                    <td></td>
+                    <td><%= day.restated_at %> </td>
+                    <td><%= day.refinished_at %></td>
+                    <td><%= day.note %></td>
                     <td><%= at.select :month_status, ['', 'なし', '申請', '承認', '否認'], class: "form-control" %></td>
+                    <td><%= at.check_box :superior_checker %></td>
+                    <td><%= link_to "確認", comfirmation_user_path(user_id, day: day.worked_on), method: :get, class: "btn btn-primary btn-lg btn-block" %></td>
                   </tr>  
                 </tbody>
               <% end %>  
