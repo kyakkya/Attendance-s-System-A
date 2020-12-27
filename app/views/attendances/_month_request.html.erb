@@ -43,11 +43,11 @@
                   <tr>
                     <td><%= l(day.worked_on, format: :short) %></td>
                     <td class="<%= css_class %>"><%= %w{日 月 火 水 木 金 土}[day.worked_on.wday] %></td>
-                    <td><%= day.restated_at %> </td>
-                    <td><%= day.refinished_at %></td>
+                    <td><%= l(day.restated_at, format: :convinient_time) %> </td>
+                    <td><%= l(day.refinished_at.time, format: :convinient_time) %></td>
                     <td><%= day.note %></td>
                     <td><%= at.select :month_status, ['', 'なし', '申請', '承認', '否認'], class: "form-control" %></td>
-                    <td><%= at.check_box :superior_checker %></td>
+                    <td><%= at.check_box :month_superior_checker %></td>
                     <td><%= link_to "確認", comfirmation_user_path(user_id, day: day.worked_on), method: :get, class: "btn btn-primary btn-lg btn-block" %></td>
                   </tr>  
                 </tbody>

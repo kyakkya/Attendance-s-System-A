@@ -59,7 +59,25 @@ class AttendancesController < ApplicationController
   
   
   def update_month_request
+    
+    @user = User.find(params[:user_id])
    
+    ActiveRecord::Base.transaction do 
+      month_request_params.each do |id, item|
+        if item[:month_superior_checker] == "1" 
+          @approval_sum =  Attendance.where(month_status  =>  "承認").count
+          @unapproval_sum =  Attendance.where(month_status => "否認").count
+          @no_reply =  Attendance.where(month_status =>"なし").count
+          attendance = Attendance.find(id)
+          attendance.update_attributes!(item)
+         
+        end
+         flash[:success] = "なし#{ @no_reply}件、承認#{ @approval_sum}件、否認#{@unapproval_sum}件"
+      end    
+    rescue ActiveRecord::RecordInvalid # トランザクションによるエラーの分岐です。
+    flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
+    end
+   redirect_to user_url(@user)
   end 
   
   
@@ -106,7 +124,7 @@ class AttendancesController < ApplicationController
           attendance.update_attributes!(item)
         end  
       end  
-      redirect_to user_url(@user)
+      render user_url(@user)
     end    
   rescue ActiveRecord::RecordInvalid # トランザクションによるエラーの分岐です。
     flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
@@ -134,5 +152,8 @@ class AttendancesController < ApplicationController
     def overtime_request_info_params
       params.require(:user).permit(attendances: [:status, :superior_checker])[:attendances]
     end
-  
+    
+    def  month_request_params 
+      params.require(:user).permit(attendances: [:month_status, :month_check_superior])[:attendances]
+    end
 end 
