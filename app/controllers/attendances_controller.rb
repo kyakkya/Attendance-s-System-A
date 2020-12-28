@@ -61,18 +61,18 @@ class AttendancesController < ApplicationController
   def update_month_request
     
     @user = User.find(params[:user_id])
-   
+    @month_requesters = Attendance.where(month_check_superior: @user.name, month_status: "申請中").order(:user_id).group_by(&:user_id)
+   # @attendance = Attendance.find(params[:id])
     ActiveRecord::Base.transaction do 
       month_request_params.each do |id, item|
-        if item[:month_superior_checker] == "1" 
-          @approval_sum =  Attendance.where(month_status  =>  "承認").count
-          @unapproval_sum =  Attendance.where(month_status => "否認").count
-          @no_reply =  Attendance.where(month_status =>"なし").count
+        if item[:change_checker] == "1" 
+          @approval_sum =  Attendance.where(month_status: "承認").count
+          @unapproval_sum =  Attendance.where(month_status: "否認").count
+          @no_reply =  Attendance.where(month_status: "なし").count
           attendance = Attendance.find(id)
           attendance.update_attributes!(item)
-         
         end
-         flash[:success] = "なし#{ @no_reply}件、承認#{ @approval_sum}件、否認#{@unapproval_sum}件"
+         flash[:success] = "なし#{@no_reply}件、承認#{@approval_sum}件、否認#{@unapproval_sum}件"
       end    
     rescue ActiveRecord::RecordInvalid # トランザクションによるエラーの分岐です。
     flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
@@ -119,7 +119,7 @@ class AttendancesController < ApplicationController
     @user = User.find(params[:user_id])
     ActiveRecord::Base.transaction do 
       overtime_request_info_params.each do |id, item|
-        if item[:superior_checker] == "1"
+        if item[:change_checker] == "1"
           attendance = Attendance.find(id)
           attendance.update_attributes!(item)
         end  
@@ -154,6 +154,6 @@ class AttendancesController < ApplicationController
     end
     
     def  month_request_params 
-      params.require(:user).permit(attendances: [:month_status, :month_check_superior])[:attendances]
+      params.require(:user).permit(attendances: [:month_status, :month_check_superior, :change_checker, :restated_at, :refinished_at, :started_at, :finished_at])[:attendances]
     end
 end 
