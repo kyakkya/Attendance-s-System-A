@@ -17,8 +17,8 @@
                 <tr>
                   <th rowspan = "2">日付</th>
                   <th rowspan = "2">曜日</th>
-                  <th colspan = "4">変更前</th>
-                  <th colspan = "4">変更後</th>
+                  <th colspan = "2">変更前</th>
+                  <th colspan = "2">変更後</th>
                   <th rowspan = "2">備考</th>
                   <th rowspan = "2">指示者確認㊞</th>
                   <th rowspan = "2">変更</th>
@@ -29,10 +29,7 @@
               　   <th>退勤</th>
               　   <th>出社</th>
               　   <th>退勤</th> 
-              　   <th></th>
-              　   <th></th>
-              　   <th></th>
-              　   <th></th>
+              　 
                 </tr>
               </thead>
               <% attendances.each do |day| %>
@@ -45,17 +42,18 @@
                         'text-primary'
                       when '日'
                         'text-danger'
+                      end
                     %> 
                    <tr>
                       <td><%= l(day.worked_on, format: :short) %></td>
                       <td class="<%= css_class %>"><%= %w{日 月 火 水 木 金 土}[day.worked_on.wday] %></td>
-                      <!--<td> < %= l(day.started_at, format: :convinient_time) %></td>-->
-                      <!--<td>< %= l(day.finished_at, format: :convinient_time) %></td>-->
+                      <td><%= l(day.started_at, format: :convinient_time ) if day.started_at.present? %></td>
+                      <td><%= l(day.finished_at, format: :time) if day.finished_at.present? %></td>  
                       <td><%= l(day.restated_at, format: :convinient_time) %> </td>
                       <td><%= l(day.refinished_at, format: :convinient_time) %></td>
-                      <td><%= day.note %></td>
+                      <td><%= at.text_field :note, class: "form-control" %></td>
                       <td><%= at.select :month_status, ['', 'なし', '申請', '承認', '否認'], class: "form-control" %></td>
-                      <td><%= at.check_box :change_checker %></td>
+                      <td><%= at.check_box :month_checker %></td>
                       <td><%= link_to "確認", comfirmation_user_path(user_id, day: day.worked_on), method: :get, class: "btn btn-primary btn-lg btn-block" %></td>
                    </tr>  
                   </tbody>

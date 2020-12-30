@@ -206,4 +206,6 @@ ja:
       short: "%m/%d %H:%M"
       time: "%H：%M"
       convinient_time: "%-H:%M"
+      convinient_hour: "%-H"
+      convinient_min: "%M"
     pm: 午後

@@ -57,29 +57,29 @@ class AttendancesController < ApplicationController
     @month_requesters = Attendance.where(month_check_superior: @user.name, month_status: "申請中").order(:user_id).group_by(&:user_id)
   end  
   
-  
+  #1か月分の勤怠変更モーダルupdate
   def update_month_request
-    
     @user = User.find(params[:user_id])
     @month_requesters = Attendance.where(month_check_superior: @user.name, month_status: "申請中").order(:user_id).group_by(&:user_id)
-   # @attendance = Attendance.find(params[:id])
     ActiveRecord::Base.transaction do 
       month_request_params.each do |id, item|
-        if item[:change_checker] == "1" 
-          @approval_sum =  Attendance.where(month_status: "承認").count
-          @unapproval_sum =  Attendance.where(month_status: "否認").count
-          @no_reply =  Attendance.where(month_status: "なし").count
+        if
+          item[:month_checker] == "1" && item[:note].present?
           attendance = Attendance.find(id)
           attendance.update_attributes!(item)
         end
-         flash[:success] = "なし#{@no_reply}件、承認#{@approval_sum}件、否認#{@unapproval_sum}件"
-      end    
-    rescue ActiveRecord::RecordInvalid # トランザクションによるエラーの分岐です。
-    flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
+        @approval_sum =  Attendance.where(month_status: "承認").count
+        @unapproval_sum =  Attendance.where(month_status: "否認").count
+        @no_reply =  Attendance.where(month_status: "なし").count
+        flash[:success] = "なし#{@no_reply}件、承認#{@approval_sum}件、否認#{@unapproval_sum}件"
+      end
+      redirect_to user_url(@user)
     end
-   redirect_to user_url(@user)
-  end 
-  
+      
+  rescue ActiveRecord::RecordInvalid # トランザクションによるエラーの分岐です。
+    flash[:danger] = "備考欄記入、またはチェックを記入して下さい。更新をキャンセルしました。"
+    redirect_to user_url(@user)
+  end
   
   def overtime_request
     @user = User.find(params[:user_id])
@@ -142,7 +142,7 @@ class AttendancesController < ApplicationController
   private
     # 1ヶ月分の勤怠情報を扱います。
     def attendances_params
-      params.require(:user).permit(attendances: [:started_at, :finished_at, :restated_at, :refinished_at,:note, :month_check_superior, :month_status])[:attendances]
+      params.require(:user).permit(attendances: [:started_at, :finished_at, :restated_at, :refinished_at, :note, :month_check_superior, :month_status])[:attendances]
     end
     #overtime(残業申請の内容)の更新カラム
     def overtime_params
@@ -153,7 +153,8 @@ class AttendancesController < ApplicationController
       params.require(:user).permit(attendances: [:status, :superior_checker])[:attendances]
     end
     
-    def  month_request_params 
-      params.require(:user).permit(attendances: [:month_status, :month_check_superior, :change_checker, :restated_at, :refinished_at, :started_at, :finished_at])[:attendances]
+    def month_request_params #1ヶ月分の勤怠情報を扱います。
+      params.require(:user).permit(attendances: [:started_at, :finished_at, :note, :month_status, :month_check_superior, :month_checker, :restated_at, :refinished_at])[:attendances]
     end
+    
 end 
