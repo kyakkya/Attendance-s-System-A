@@ -156,14 +156,15 @@
         </td>
         <td>
           <% if day.status == '承認'%>
-           <%= format_min(day.overtime) %>
-          <% end %> </td>
-        <td><% if  day.status == '承認' %>
-              <%= format_overtime(day.overtime, @user.designated_work_end_time) %>
-            <% end%>
+            <%= format_min(day.overtime) %>
+          <% end %> 
+        </td>
+        <td>
+          <% if day.status == '承認' %>
+            <%= format_overtime(day.overtime, @user.designated_work_end_time, day.next_day) %>
+          <% end %>
         </td>
         <td><%= day.task_menu %> </td>
-        
         <td><% if day.status == '承認%' %> 
               <div> 残業承認済 </div> 
             <% elsif day.status == "否認" %> 
