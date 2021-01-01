@@ -149,16 +149,24 @@
             <%= day.note %>
           <% end %>  
         </td>
-        <td></td>
-        <td></td>
-        <td><% if day.finished_at.present? %>
-              <%= str_times.to_i - @user.basic_work_time.hour.to_i %>.00
+        <td>
+          <% if day.status == '承認'%>
+           <%= day.overtime.hour %>
+          <% end %> 
+        </td>
+        <td>
+          <% if day.status == '承認'%>
+           <%= format_min(day.overtime) %>
+          <% end %> </td>
+        <td><% if  day.status == '承認' %>
+              <%= format_overtime(day.overtime, @user.designated_work_end_time) %>
             <% end%>
         </td>
         <td><%= day.task_menu %> </td>
-        <td><% if day.status == "承認" %> 
+        
+        <td><% if day.status == '承認%' %> 
               <div> 残業承認済 </div> 
-            <%  elsif day.status == "否認" %> 
+            <% elsif day.status == "否認" %> 
               <div> 残業否認</div>
             <% else %>
               <%= day.status %>
