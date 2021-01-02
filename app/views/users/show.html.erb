@@ -32,8 +32,8 @@
     <div>
       <% if @change_sum > 0 %>
         <p><font color="red">
-         【勤怠申請変更のお知らせ】
-        <span class="box"><%= link_to "#{@change_sum }件のお知らせがあります",  month_request_user_attendances_path(@user), remote: true, style: "color:red;" %></span></font></p> 
+         <%= link_to "【勤怠申請変更のお知らせ", month_request_user_attendances_path(@user), remote: true, style: "color:red;" %>
+        <span class="box"><%=  @change_sum %> 件のお知らせがあります</span></font></p>
       <% else %>
         <p>【勤怠申請変更のお知らせ】</p>
       <% end %>
@@ -109,16 +109,18 @@
         <td><%= l(day.worked_on, format: :short) %></td>
         <td class="<%= css_class %>"><%= %w{日 月 火 水 木 金 土}[day.worked_on.wday] %></td>
         <td>
-          <%= format_hour(day.started_at) if day.started_at.present? %>
             <% if day.month_status == "承認"%>
               <%= format_hour(day.restated_at) if day.restated_at.present? %>
+            <% else %>
+              <%= format_hour(day.started_at) if day.started_at.present? %>
             <% end %>
         </td>
         <td>
-          <%= format_min(day.started_at) if day.started_at.present? %>
-             <% if day.month_status == "承認"%>
+            <% if day.month_status == "承認"%>
               <%= format_min(day.restated_at) if day.restated_at.present? %>
-             <% end %>  
+            <% else%>
+              <%= format_min(day.started_at) if day.started_at.present? %>
+            <% end %>  
         </td>    
         <td>
           <% if btn_text = attendance_state(day) %>
@@ -126,14 +128,17 @@
           <% end %>
         </td>
         <td>
-          <%= format_hour(day.finished_at) if day.finished_at.present? %>
             <% if day.month_status == "承認"%>
               <%= format_hour(day.refinished_at) if day.refinished_at.present? %>
+            <% else %>  
+              <%= format_hour(day.finished_at) if day.finished_at.present? %>
             <% end %>
         </td>
-        <td><%= format_min(day.finished_at) if day.finished_at.present? %>
+        <td>
             <% if day.month_status == "承認"%>
               <%= format_min(day.refinished_at) if day.refinished_at.present? %>
+            <% else %>
+              <%= format_min(day.finished_at) if day.finished_at.present? %>
             <% end %>
         </td>
         <td></td>
@@ -165,7 +170,9 @@
           <% end %>
         </td>
         <td><%= day.task_menu %> </td>
-        <td><% if day.status == '承認%' %> 
+        <td><% if day.status == "申請中" %>
+        　     <div><%= day.superior %>に申請中</div> 
+            <% elsif day.status == '承認%' %> 
               <div> 残業承認済 </div> 
             <% elsif day.status == "否認" %> 
               <div> 残業否認</div>
