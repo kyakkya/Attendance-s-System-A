@@ -51,7 +51,7 @@
 <div class="btn-users-show">
   <%= link_to "勤怠を編集", attendances_edit_one_month_user_path(date: @first_day), class: "btn btn-primary" %>
   <%= link_to "CSV出力",'#', class: "btn btn-primary" %><br>
-  <%= link_to "勤怠修正ログ（承認済）", log_page_user_attendances_path(@user), class: "btn btn-primary" %>
+  <%= link_to "勤怠修正ログ（承認済）", log_page_user_attendances_path(@user), remote: true, class: "btn btn-primary" %>
 </div>
 
 <div>
@@ -218,3 +218,4 @@
 <div id="overtime-request" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
 <div id="overtime-request-info" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
 <div id="month-request" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+<div id="log_page" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>

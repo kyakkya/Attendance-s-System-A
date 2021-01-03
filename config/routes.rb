@@ -42,7 +42,7 @@ Rails.application.routes.draw do
       end  
       collection do
         get 'log_page'
-        patch 'log_page'
+        patch 'update_log_page'
       end
     end   
   end

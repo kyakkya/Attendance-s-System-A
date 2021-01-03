@@ -133,11 +133,22 @@ class AttendancesController < ApplicationController
   end #def end
   
   def log_page
-    @user = User.find(params[:user_id])
-    @attendance = Attendance.find(params[:user_id])
-    @overtime_days = Attendance.where(user_id: @user.id, status: "承認")
+   @user = User.find(params[:user_id])
+   @attendance = Attendance.find(params[:user_id])
+    #@overtime_days = Attendance.where(status: "承認")
   end  
- 
+  
+  def update_log_page
+    @user = User.find(params[:user_id])
+    ActiveRecord::Base.transaction do 
+      log_params.each do |id, item|
+         attendance = Attendance.find(id)
+         attendance.update_attributes!(item)
+         #if end 
+      end #each end 
+      redirect_to user_url(@user)
+    end #Acctive do end 
+  end  
       
  
   
@@ -159,4 +170,9 @@ class AttendancesController < ApplicationController
       params.require(:user).permit(attendances: [:started_at, :finished_at, :note, :month_status, :month_check_superior, :month_checker, :restated_at, :refinished_at])[:attendances]
     end
     
-end 
+    def log_params
+      params.require(:user).permit(attendances: [:started_at, :finished_at, :note, :month_status, :month_check_superior, :month_checker, :restated_at, :refinished_at])[:attendances]
+
+    end
+end
+

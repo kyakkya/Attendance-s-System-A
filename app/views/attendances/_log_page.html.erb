@@ -1,0 +1,43 @@
+<% provide(:class_text, 'log_page') %>
+<% provide(:button_text, '勤怠ログ') %>
+
+<div class="modal-dialog modal-lg modal-dialog-center">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h1 class="modal-title">【勤怠ログ】</h1>
+    </div>
+    
+    <div class="modal-body">
+    <%= form_with(model: @attendance, url: update_log_page_user_attendances_path(@attendance), local: true, method: :patch) do |f| %>   
+      <table  border=2 width=100%, class="table table-bordered table-condensed user-table">
+        <theaad>
+          <tr> 
+            <th>日付</th>
+            <th>変更前出社時間</th>
+            <th>変更前退社時間</th>
+            <th>変更後出社時間</th>
+            <th>変更後退社時間</th>
+            <th>指示者</th>
+            <th>承認日</th>
+          </tr>
+        </theaad>
+        <tbody>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>  
+        </tbody> 
+      </table>
+      <% end %>
+    </div>  
+  </div>
+</div>
+ 
