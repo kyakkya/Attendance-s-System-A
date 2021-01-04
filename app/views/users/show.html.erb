@@ -144,7 +144,10 @@
         <td></td>
       
         <td>
-          <% if day.started_at.present? && day.finished_at.present? %>
+          <% if day.restated_at.present? && day.refinished_at.present? %>
+            <%= str_times = working_times(day.restated_at, day.refinished_at) %>
+            <% @total_working_times = @total_working_times.to_f + str_times.to_f %>
+          <% elsif  day.started_at.present? && day.finished_at.present? %>
             <%= str_times = working_times(day.started_at, day.finished_at) %>
             <% @total_working_times = @total_working_times.to_f + str_times.to_f %>
           <% end %>
@@ -155,12 +158,12 @@
           <% end %>  
         </td>
         <td>
-          <% if day.status == '承認'%>
+          <% if day.status == '申請中'%>
            <%= day.overtime.hour %>
           <% end %> 
         </td>
         <td>
-          <% if day.status == '承認'%>
+          <% if day.status == '申請中' %>
             <%= format_min(day.overtime) %>
           <% end %> 
         </td>

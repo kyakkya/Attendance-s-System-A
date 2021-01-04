@@ -10,10 +10,22 @@
     </div>
     
     <div class="modal-body">
-    <!--< %= form_with(model: @attendance, url: update_log_page_user_attendances_path(@attendance), local: true, method: :patch) do |f| %>   -->
+   <%= form_with(model: @attendance, url: update_log_page_user_attendances_path(@attendance), local: true, method: :patch) do |f| %>
+       
        <table  border=2 width=100%, class="table table-bordered table-condensed user-table">
           <thead>
-             <tr> 
+            <tr>
+              <td width="120">リセット</td>
+            </tr>
+            <tr>
+              <td width="80">年</td>
+              <td width="120"><%= f.select :year, -5.years.from_now.year.. 5.years.from_now.year, default: Date.today %></td>
+            </tr>
+             <tr>
+              <td width="120">月</td>
+              <td width="120"><%= f.select :month, 1..12, include_blank: true %></td>
+            </tr>
+            <tr> 
                <th>日付</th>
                <th>変更前出社時間</th>
                <th>変更前退社時間</th>
@@ -35,7 +47,7 @@
               </tr>
           </tbody>
         </table>
-      <!--< % end %>-->
+      <% end %>
     </div>  
   </div>
 </div>
