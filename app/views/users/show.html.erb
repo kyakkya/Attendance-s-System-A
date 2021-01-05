@@ -108,59 +108,27 @@
         </td> 
         <td><%= l(day.worked_on, format: :short) %></td>
         <td class="<%= css_class %>"><%= %w{日 月 火 水 木 金 土}[day.worked_on.wday] %></td>
-        <td>
-            <% if day.month_status == "承認"%>
-              <%= format_hour(day.restated_at) if day.restated_at.present? %>
-            <% else %>
-              <%= format_hour(day.started_at) if day.started_at.present? %>
-            <% end %>
-        </td>
-        <td>
-            <% if day.month_status == "承認"%>
-              <%= format_min(day.restated_at) if day.restated_at.present? %>
-            <% else%>
-              <%= format_min(day.started_at) if day.started_at.present? %>
-            <% end %>  
-        </td>    
+        <td><%= format_hour(day.started_at) if day.started_at.present? %></td>
+        <td><%= format_min(day.started_at) if day.started_at.present? %></td> 
         <td>
           <% if btn_text = attendance_state(day) %>
             <%= link_to "#{btn_text}", user_attendance_path(@user, day), method: :patch, class: "btn btn-primary btn-attendance" %>
           <% end %>
         </td>
-        <td>
-            <% if day.month_status == "承認"%>
-              <%= format_hour(day.refinished_at) if day.refinished_at.present? %>
-            <% else %>  
-              <%= format_hour(day.finished_at) if day.finished_at.present? %>
-            <% end %>
-        </td>
-        <td>
-            <% if day.month_status == "承認"%>
-              <%= format_min(day.refinished_at) if day.refinished_at.present? %>
-            <% else %>
-              <%= format_min(day.finished_at) if day.finished_at.present? %>
-            <% end %>
-        </td>
+        <td><%= format_hour(day.finished_at) if day.finished_at.present? %></td>
+        <td><%= format_min(day.finished_at) if day.finished_at.present? %></td>
         <td></td>
-      
         <td>
-          <% if day.restated_at.present? && day.refinished_at.present? %>
-            <%= str_times = working_times(day.restated_at, day.refinished_at) %>
-            <% @total_working_times = @total_working_times.to_f + str_times.to_f %>
-          <% elsif  day.started_at.present? && day.finished_at.present? %>
+          <% if day.started_at.present? && day.finished_at.present? %>
             <%= str_times = working_times(day.started_at, day.finished_at) %>
             <% @total_working_times = @total_working_times.to_f + str_times.to_f %>
           <% end %>
         </td>
+        <td><%= day.note %> </td>
         <td>
-          <% if day.month_status == "承認"%>
-            <%= day.note %>
-          <% end %>  
-        </td>
-        <td>
-          <% if day.status == '申請中'%>
+           <% if day.status == '申請中' %>
            <%= day.overtime.hour %>
-          <% end %> 
+           <% end %>
         </td>
         <td>
           <% if day.status == '申請中' %>
@@ -174,7 +142,7 @@
         </td>
         <td><%= day.task_menu %> </td>
         <td><% if day.status == "申請中" %>
-        　     <div><%= day.superior %>に申請中</div> 
+        　     <div><%= day.superior %>に残業申請中</div> 
             <% elsif day.status == '承認%' %> 
               <div> 残業承認済 </div> 
             <% elsif day.status == "否認" %> 
