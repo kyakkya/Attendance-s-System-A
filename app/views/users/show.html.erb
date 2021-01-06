@@ -1,7 +1,7 @@
 <% provide(:title, @user.name) %>
 <div>
   <h1>ユーザーの個人情報</h1>
- 
+  
   <table  border=2 width=100%, class="table table-bordered table-condensed user-table">
     <tr>
       <td><%= link_to "⇦", user_path(date: @first_day.prev_month), class: "btn btn-info" %>
@@ -54,7 +54,8 @@
   <%= link_to "勤怠修正ログ（承認済）", log_page_user_attendances_path(@user), remote: true, class: "btn btn-primary" %>
 </div>
 
-<div>
+<%= form_with(model: @user, '#', local: true, method: :patch) do |f| %> 
+  <div>
   <table border=2 width=100%, class="table table-bordered table-condensed table-hover" id="table-attendances">
     <thead>
      <tr>
@@ -124,26 +125,14 @@
             <% @total_working_times = @total_working_times.to_f + str_times.to_f %>
           <% end %>
         </td>
-        <td><%= day.note %> </td>
-        <td>
-           <% if day.status == '申請中' %>
-           <%= day.overtime.hour %>
-           <% end %>
-        </td>
-        <td>
-          <% if day.status == '申請中' %>
-            <%= format_min(day.overtime) %>
-          <% end %> 
-        </td>
-        <td>
-          <% if day.status == '承認' %>
-            <%= format_overtime(day.overtime, @user.designated_work_end_time, day.next_day) %>
-          <% end %>
-        </td>
-        <td><%= day.task_menu %> </td>
+        <td><%= day.note %></td>
+        <td><%= format_hour(day.overtime) if day.overtime.present? %></td>
+        <td><%= format_min(day.overtime) if day.overtime.present? %></td>
+        <td><%= format_overtime(day.overtime, @user.designated_work_end_time, day.next_day) if day.overtime.present? %></td>
+        <td><%= day.task_menu %></td>
         <td><% if day.status == "申請中" %>
         　     <div><%= day.superior %>に残業申請中</div> 
-            <% elsif day.status == '承認%' %> 
+            <% elsif day.status ==  "承認" %> 
               <div> 残業承認済 </div> 
             <% elsif day.status == "否認" %> 
               <div> 残業否認</div>
@@ -164,15 +153,10 @@
         <td></td>
         <td></td>
         <td></td>
-        <td rowspan="2">
-          <p>所属長未</p><br>
-          <select id="page_name" name="page[name]">
-          <option value="1">上長A</option>
-          <option value="2">上長B</option>
-　　　　　</select><br>
-　　　　  <div><%= link_to "申請", '#' , class: "btn btn-primary btn-block" %></div>
-　　　  </td>　　
-      </tr>
+        <td rowspan="2"><%= f.collection_select :superior,  @superiors, :name, :name, :include_blank => true %></td>
+          <!--<p>所属長未</p><br>-->
+        <td><%= link_to "申請", '#' , class: "btn btn-primary btn-block" %></td>
+　　　</tr>
       <tr>
         <td colspan="2"><%= @attendances.count %></td>
         <td colspan="6"><%= format_basic_info(@user.basic_work_time).to_f * @worked_sum %></td>
@@ -180,10 +164,11 @@
         <td></td>
         <td></td>
         <td></td>
-        </tfoot>    
+      </tr>  
+    </tfoot>    
   </table>
 </div>
-
+<% end %>
 <!--モーダルウインドウ表示-->
 
 <div id="overtime-request" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>

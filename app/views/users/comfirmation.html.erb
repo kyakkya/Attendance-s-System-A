@@ -82,9 +82,9 @@
         <td><%= format_hour(day.started_at) if day.started_at.present? %></td>
         <td><%= format_min(day.started_at) if day.started_at.present? %></td>    
         <td>
-          <% if btn_text = attendance_state(day) %>
-            <%= link_to "#{btn_text}", user_attendance_path(@user, day), method: :patch, class: "btn btn-primary btn-attendance" %>
-          <% end %>
+          <!--< % if btn_text = attendance_state(day) %>-->
+            <!--< %= link_to "#{btn_text}", user_attendance_path(@user, day), method: :patch, class: "btn btn-primary btn-attendance" %>-->
+          <!--< % end %>-->
         </td>
         <td><%= format_hour(day.finished_at) if day.finished_at.present? %></td>
         <td><%= format_min(day.finished_at) if day.finished_at.present? %></td>
@@ -96,16 +96,22 @@
             <% @total_working_times = @total_working_times.to_f + str_times.to_f %>
           <% end %>
         </td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td><% if day.finished_at.present? %>
-              <%= str_times.to_i - @user.basic_work_time.hour.to_i %>.00
-            <% end%>
-        </td>
-        <td></td>
-        <td><%= day.status %></td>
-      </tr>
+        <td><%= day.note %></td>
+        <td><%= format_hour(day.overtime) if day.overtime.present? %></td>
+        <td><%= format_min(day.overtime) if day.overtime.present? %></td>
+        <td><%= format_overtime(day.overtime, @user.designated_work_end_time, day.next_day) if day.overtime.present? %></td>
+        <td><%= day.task_menu %></td>
+        <td><% if day.status == "申請中" %>
+        　     <div><%= day.superior %>に残業申請中</div> 
+            <% elsif day.status ==  "承認" %> 
+              <div> 残業承認済 </div> 
+            <% elsif day.status == "否認" %> 
+              <div> 残業否認</div>
+            <% else %>
+              <%= day.status %>
+            <% end %> 
+        </td> 
+        </tr>
      <% end %>
     </tbody>
     
@@ -118,7 +124,14 @@
         <td></td>
         <td></td>
         <td></td>
-        <td rowspan="2"></td>
+        <td rowspan="2">
+          <p>所属長未</p><br>
+          <select id="page_name" name="page[name]">
+          <option value="1">上長A</option>
+          <option value="2">上長B</option>
+　　　　　</select><br>
+　　　　  <div><%= link_to "申請", '#' , class: "btn btn-primary btn-block" %></div>
+　　　  </td>　　
       </tr>
       <tr>
         <td colspan="2"><%= @attendances.count %></td>
@@ -129,4 +142,4 @@
         <td></td>
         </tfoot>    
   </table>
-</div>
+</div>        

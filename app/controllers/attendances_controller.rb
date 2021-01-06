@@ -121,7 +121,6 @@ class AttendancesController < ApplicationController
   
   #申請一覧モーダルのupdate
   def update_overtime_request_info
-  
     @user = User.find(params[:user_id])
     ActiveRecord::Base.transaction do 
       overtime_request_info_params.each do |id, item|
