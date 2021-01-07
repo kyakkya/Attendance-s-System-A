@@ -1,0 +1,17 @@
+<% provide(:class_text, 'total_month_request') %>
+<% provide(:button_text, '1か月分の勤怠申請') %>
+
+
+<div class="modal-dialog modal-lg modal-dialog-center">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>  
+    <div class="modal-body">
+      <%= form_with(model: @user, url: update_overtime_request_info_user_attendances_path(@user), local: true, method: :patch) do |f| %> 
+        <% @requesters.each do |user_id, attendances| %>
+          <h1 class="modal-title">【<%= "#{User.find(user_id).name}" %>からの1か月分勤怠申請】</h1>
+          <table  border=2 width=100%, class="table table-bordered table-condensed user-table">
+            <thead>

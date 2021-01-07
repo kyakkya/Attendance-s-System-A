@@ -41,6 +41,11 @@ Rails.application.routes.draw do
         patch 'update_month_request'
       end  
       collection do
+        get 'total_month_request'
+        patch 'update_total_month_request'
+      end  
+     
+      collection do
         get 'log_page'
         patch 'update_log_page'
       end
