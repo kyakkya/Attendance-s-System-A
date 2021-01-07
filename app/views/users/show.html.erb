@@ -54,8 +54,9 @@
   <%= link_to "勤怠修正ログ（承認済）", log_page_user_attendances_path(@user), remote: true, class: "btn btn-primary" %>
 </div>
 
-<%= form_with(model: @user, '#', local: true, method: :patch) do |f| %> 
-  <div>
+
+<div>
+  <%= form_with(model: @user, '#', local: true, method: :patch) do |f| %>   
   <table border=2 width=100%, class="table table-bordered table-condensed table-hover" id="table-attendances">
     <thead>
      <tr>
@@ -153,9 +154,9 @@
         <td></td>
         <td></td>
         <td></td>
-        <td rowspan="2"><%= f.collection_select :superior,  @superiors, :name, :name, :include_blank => true %></td>
+        <td rowspan="2">< %= f.collection_select :superior,  @superiors, :name, :name, :include_blank => true %></td>
           <!--<p>所属長未</p><br>-->
-        <td><%= link_to "申請", '#' , class: "btn btn-primary btn-block" %></td>
+        <td><%=  f.submit "申請",  class: "btn btn-primary btn-block" %></td>
 　　　</tr>
       <tr>
         <td colspan="2"><%= @attendances.count %></td>
@@ -167,8 +168,9 @@
       </tr>  
     </tfoot>    
   </table>
+<% end %>  
 </div>
-<% end %>
+
 <!--モーダルウインドウ表示-->
 
 <div id="overtime-request" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
