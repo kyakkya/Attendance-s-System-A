@@ -56,7 +56,7 @@
 
 
 <div>
-  <%= form_with(model: @user,  local: true,  method: :patch) do |f| %>   
+ 
   <table border=2 width=100%, class="table table-bordered table-condensed table-hover" id="table-attendances">
     <thead>
      <tr>
@@ -93,6 +93,7 @@
       </tr>
     </thead>
 
+     
     <tbody>
       <% @attendances.each do |day| %>
         <% 
@@ -145,29 +146,30 @@
      <% end %>
     </tbody>
     
+    <%= form_with(model: @user, url: update_total_month_request_user_attendances_path(@user), local: true, method: :patch) do |f| %> 
     <tfoot>
       <!--rowspan:縦結合、colspan：横結合-->
       <tr>
-        <td colspan="2">累計日数</td>
-        <td colspan="6">総合勤務時間</td>
-        <td colspan="4">累計在社時間</td>
+        <td colspan="2"></td>
+        <td colspan="6"></td>
         <td></td>
-        <td></td>
-        <td rowspan="2">< %= f.collection_select :superior,  @superiors, :name, :name, :include_blank => true %></td>
-          <!--<p>所属長未</p><br>-->
+        <td><%= format("%.2f", @total_working_times.to_f) %></td>
+        <td colspan="5"></td>
         
-　　　</tr>
+        <td>
+          <di>所属長承認未</di><br>
+          <%= f.collection_select :superior, @superiors, :name, :name, :include_blank => true, class: "form-control" %>
+          <%= f.submit "申請",  class: "btn btn-primary btn-block" %>
+        </td>
+  　　　</tr>
       <tr>
-        <td colspan="2"><%= @attendances.count %></td>
-        <td colspan="6"><%= format_basic_info(@user.basic_work_time).to_f * @worked_sum %></td>
-        <td colspan="4"><%= format("%.2f", @total_working_times.to_f) %></td>
-        <td></td>
-        <td></td>
-        <td><%=  f.submit "申請",  class: "btn btn-primary btn-block" %></td>
+        <!--< td colspan="2">< %= @attendances.count %></td>-->
+        <!--<td colspan="6">< %= format_basic_info(@user.basic_work_time).to_f * @worked_sum %></td>-->
       </tr>  
-    </tfoot>    
+    </tfoot> 
+    <% end %> 
   </table>
-<% end %>  
+ 
 </div>
 
 <!--モーダルウインドウ表示-->

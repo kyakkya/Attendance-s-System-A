@@ -22,6 +22,7 @@ class UsersController < ApplicationController
     @change_reply = @attendances.where.not( month_check_superior: @user.name)
     @user = User.find (params[:id])
     @change_sum =  Attendance.where(month_check_superior: @user.name).where(month_status: "申請中").count
+    @superiors =  User.where(superior: true).where.not(id: @user.id) 
   end
   
   
