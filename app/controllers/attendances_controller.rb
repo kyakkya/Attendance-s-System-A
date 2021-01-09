@@ -40,12 +40,8 @@ class AttendancesController < ApplicationController
           attendance = Attendance.find(id)
           item[:month_status] = "申請中"
           attendance.update_attributes!(item)
-          if day.restated_at.peesent?
-            day.started_at = day.restated_at
-          end
-          if day.refinished_at.present?
-            day.finished_at = day.refinished_at
-          end  
+          #day.started_at = day.restated_at if day.restated_at.peesent?
+          #day.finished_at = day.refinished_at if day.refinished_at.present?
         end
       end #each do  
     end #Active record  
@@ -138,7 +134,6 @@ class AttendancesController < ApplicationController
   
   def total_month_request
      @user = User.find(params[:user_id])
-    
      @total_superiors = Attendance.where(superior: @user.name, total_month_status: "申請中").order(:user_id).group_by(&:user_id)
   end
   
@@ -187,10 +182,14 @@ class AttendancesController < ApplicationController
       params.require(:user).permit(attendances: [:overtime, :status, :superior_checker])[:attendances]
     end
     
-    def month_request_params #1ヶ月分の勤怠情報を扱います。
+    def month_request_params #1ヶ月分の勤怠変更を扱います。
       params.require(:user).permit(attendances: [:started_at, :finished_at, :note, :month_status, :month_check_superior, :month_checker, :restated_at, :refinished_at])[:attendances]
     end
     
+    def total_month_request_params #1ヶ月分の勤怠申請を扱います
+      params.require(:user).permit(attendances: [:total_month_superior, :total_month_status, :total_month_checker])[:attendances]
+    end
+   
     def log_params
       params.require(:user).permit(attendances: [:started_at, :finished_at, :note, :month_status, :month_check_superior, :month_checker, :restated_at, :refinished_at])[:attendances]
 

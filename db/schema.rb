@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210107100142) do
+ActiveRecord::Schema.define(version: 20210109065256) do
 
   create_table "attendances", force: :cascade do |t|
     t.date "worked_on"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20210107100142) do
     t.boolean "change_checker"
     t.string "total_month_superior"
     t.string "total_month_status"
+    t.boolean "total_month_checker"
     t.index ["user_id"], name: "index_attendances_on_user_id"
   end
 

@@ -146,7 +146,7 @@
      <% end %>
     </tbody>
     
-    <%= form_with(model: @user, url: update_total_month_request_user_attendances_path(@user), local: true, method: :patch) do |f| %> 
+    <%= form_with(model: @user, url: update_total_month_request_user_attendances_path(@user), remot: true, method: :patch) do |f| %> 
     <tfoot>
       <!--rowspan:縦結合、colspan：横結合-->
       <tr>
@@ -157,15 +157,11 @@
         <td colspan="5"></td>
         
         <td>
-          <di>所属長承認未</di><br>
-          <%= f.collection_select :superior, @superiors, :name, :name, :include_blank => true, class: "form-control" %>
+          <div>所属長承認未</div>
+          <div><%= f.collection_select :superior, @superiors, :name, :name, :include_blank => true, class:  "form-onntrol input-lg" %></div>
           <%= f.submit "申請",  class: "btn btn-primary btn-block" %>
         </td>
   　　　</tr>
-      <tr>
-        <!--< td colspan="2">< %= @attendances.count %></td>-->
-        <!--<td colspan="6">< %= format_basic_info(@user.basic_work_time).to_f * @worked_sum %></td>-->
-      </tr>  
     </tfoot> 
     <% end %> 
   </table>
@@ -178,3 +174,4 @@
 <div id="overtime-request-info" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
 <div id="month-request" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
 <div id="log-page" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+<div id="total-month-request" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
