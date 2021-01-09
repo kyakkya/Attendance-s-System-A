@@ -27,7 +27,9 @@
 </div>
 　<% if @user.superior? %>
     <div>
-      <p>【所属長承認申請のお知らせ</p>
+      <p><font color="red">
+       <%= link_to "【所属長承認申請のお知らせ】", total_month_request_user_attendances_path(@user), remote: true, style: "color:red;" %>
+      <span class="box"><%= @total_month_sum %> 件のお知らせがあります</span></font></p>
     </div>
     <div>
       <% if @change_sum > 0 %>
@@ -146,7 +148,7 @@
      <% end %>
     </tbody>
     
-    <%= form_with(model: @user, url: update_total_month_request_user_attendances_path(@user), remot: true, method: :patch) do |f| %> 
+    <%= form_with(model: @user, url: total_month_request_user_attendances_path(@user), local: true) do |f| %> 
     <tfoot>
       <!--rowspan:縦結合、colspan：横結合-->
       <tr>
@@ -155,10 +157,9 @@
         <td></td>
         <td><%= format("%.2f", @total_working_times.to_f) %></td>
         <td colspan="5"></td>
-        
         <td>
           <div>所属長承認未</div>
-          <div><%= f.collection_select :superior, @superiors, :name, :name, :include_blank => true, class:  "form-onntrol input-lg" %></div>
+          <div><%= f.collection_select :superior, @total_month_superior, :name, :name, :include_blank => true, class:  "form-onntrol input-lg" %></div>
           <%= f.submit "申請",  class: "btn btn-primary btn-block" %>
         </td>
   　　　</tr>

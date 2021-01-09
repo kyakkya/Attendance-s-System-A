@@ -134,12 +134,15 @@ class AttendancesController < ApplicationController
   
   def total_month_request
      @user = User.find(params[:user_id])
-     @total_superiors = Attendance.where(superior: @user.name, total_month_status: "申請中").order(:user_id).group_by(&:user_id)
+     @total_manth_rrequesters = Attendance.where(superior: @user.name).order(:user_id).group_by(&:user_id)
   end
   
   
   def update_total_month_request
     @user = User.find(params[:user_id])
+    if params[:attendance][:total_month_superior].blank?
+      flash[:danger]= "指示者を選択してください。"
+    end  
     ActiveRecord::Base.transaction do 
       total_month_request_params.each do |id, item|
         attendance = Attendance.find(id)
