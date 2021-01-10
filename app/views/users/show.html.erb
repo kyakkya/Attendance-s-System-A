@@ -145,10 +145,11 @@
             <% end %> 
         </td> 
         </tr>
+      
      <% end %>
     </tbody>
     
-    <%= form_with(model: @user, url: total_month_request_user_attendances_path(@user), local: true) do |f| %> 
+    <%= form_with(model: @user, url: update_total_month_request_user_attendances_path(@user), local: true) do |f| %> 
     <tfoot>
       <!--rowspan:縦結合、colspan：横結合-->
       <tr>

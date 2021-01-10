@@ -135,10 +135,12 @@ class AttendancesController < ApplicationController
   def total_month_request
      @user = User.find(params[:user_id])
      @total_manth_rrequesters = Attendance.where(superior: @user.name).order(:user_id).group_by(&:user_id)
+     
   end
   
   
   def update_total_month_request
+    
     @user = User.find(params[:user_id])
     if params[:attendance][:total_month_superior].blank?
       flash[:danger]= "指示者を選択してください。"
@@ -190,7 +192,7 @@ class AttendancesController < ApplicationController
     end
     
     def total_month_request_params #1ヶ月分の勤怠申請を扱います
-      params.require(:user).permit(attendances: [:total_month_superior, :total_month_status, :total_month_checker])[:attendances]
+      params.require(:user).permit(attendances: [:worked_on, :total_month_superior, :total_month_status, :total_month_checker])[:attendances]
     end
    
     def log_params

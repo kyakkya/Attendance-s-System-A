@@ -10,7 +10,7 @@
       </button>
     </div>  
     <div class="modal-body">
-      <%= form_with(model: @user, url: update_total_month_request_user_attendances_path(@user), local: true, method: :patch) do |f| %> 
+      <%= form_with(model: @user, url: total_month_request_user_attendances_path(@user), local: true, method: :patch) do |f| %> 
         <% @total_manth_rrequesters.each do |user_id, attendances| %>
           <h1 class="modal-title">【<%= "#{User.find(user_id).name}" %>からの1か月分勤怠申請】</h1>
           <table  border=2 width=100%, class="table table-bordered table-condensed user-table">
@@ -30,7 +30,7 @@
                   <td><%= month.worked_on %></td>
                   <td><%= at.select :total_month_status, ['', 'なし', '申請', '承認', '否認'], class: "form-control" %></td>
                   <td><%= at.check_box :total_month_checker %></td>
-                  <td><%= link_to "確認", comfirmation_user_path(user_id, day: day.worked_on), method: :get, class: "btn btn-primary btn-lg btn-block" %></td>
+                  <td><%= link_to "確認", comfirmation_user_path(user_id, month: month.worked_on), method: :get, class: "btn btn-primary btn-lg btn-block" %></td>
                 </tr>
               </tbody>
              <% end %>
