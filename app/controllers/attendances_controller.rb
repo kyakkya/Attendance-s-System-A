@@ -132,6 +132,27 @@ class AttendancesController < ApplicationController
   flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
   end #def end
   
+  def total_month
+    @user = User.find(params[:user_id])
+    @attendance = Attendance.find(params[:id])
+  end
+ 
+ 
+  def update_total_month
+    @user = User.find(params[:user_id])
+    @attendance = Attendance.find(params[:id])
+     if params[:attendance][:total_month_superior].blank?
+      flash[:danger]= "指示者を選択してください。"
+     else  
+       ActiveRecord::Base.transaction do 
+         total_month_params.each do |id, item|
+          attendance = Attendance.find(id)
+          attendance.update_attributes!(item)
+         end
+       end    
+     end
+  end     
+ 
   def total_month_request
      @user = User.find(params[:user_id])
      @total_manth_rrequesters = Attendance.where(superior: @user.name).order(:user_id).group_by(&:user_id)
@@ -191,6 +212,9 @@ class AttendancesController < ApplicationController
       params.require(:user).permit(attendances: [:started_at, :finished_at, :note, :month_status, :month_check_superior, :month_checker, :restated_at, :refinished_at])[:attendances]
     end
     
+    def total_month_params
+      params.require(:user).permit(attendances: [:total_month, :total_month_superior, :total_month_status])[:attendances]
+    end  
     def total_month_request_params #1ヶ月分の勤怠申請を扱います
       params.require(:user).permit(attendances: [:worked_on, :total_month_superior, :total_month_status, :total_month_checker])[:attendances]
     end

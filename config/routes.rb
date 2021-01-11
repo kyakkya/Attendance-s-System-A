@@ -31,6 +31,8 @@ Rails.application.routes.draw do
       member do  
         get 'overtime_request'
         patch 'update_overtime'
+        get 'total_month' 
+        patch 'update_total_month'
       end
       collection do
         get 'overtime_request_info'
