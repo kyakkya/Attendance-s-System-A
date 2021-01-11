@@ -159,8 +159,10 @@
         <td><%= format("%.2f", @total_working_times.to_f) %></td>
         <td colspan="5"></td>
         <td>
-          <div>所属長承認未</div>
+          <div>所属長承認 未</div>
           <div><%= f.collection_select :superior, @total_month_superior, :name, :name, :include_blank => true, class:  "form-onntrol input-lg" %></div>
+          <%= f.hidden_field :total_month_status, :value => "申請中" %>     
+          <%= f.hidden_field :total_month, :value => @last_day.month %>     
           <%= f.submit "申請",  class: "btn btn-primary btn-block" %>
         </td>
   　　　</tr>
