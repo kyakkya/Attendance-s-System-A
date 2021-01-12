@@ -132,30 +132,25 @@ class AttendancesController < ApplicationController
   flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
   end #def end
   
-  def total_month
-    @user = User.find(params[:user_id])
-    @attendance = Attendance.find(params[:id])
-  end
- 
- 
   def update_total_month
-    @user = User.find(params[:user_id])
-    @attendance = Attendance.find(params[:id])
-     if params[:attendance][:total_month_superior].blank?
-      flash[:danger]= "指示者を選択してください。"
-     else  
+    @user = User.find(params[:id])
+    @attendance = Attendance.find_by(workedd_on: params[:attendances]["last_day(2i)"])
+    debugger
+    #if params[:attendance][:total_month_superior].blank?
+     # flash[:danger]= "指示者を選択してください。"
+     #else  
        ActiveRecord::Base.transaction do 
-         total_month_params.each do |id, item|
-          attendance = Attendance.find(id)
+          total_month_params do |id, item|
+          attendance = Attendance.find(user_id)
           attendance.update_attributes!(item)
          end
        end    
-     end
+     
   end     
  
   def total_month_request
      @user = User.find(params[:user_id])
-     @total_manth_rrequesters = Attendance.where(superior: @user.name).order(:user_id).group_by(&:user_id)
+     @total_manth_requesters = Attendance.where(superior: @user.name).order(:user_id).group_by(&:user_id)
      
   end
   

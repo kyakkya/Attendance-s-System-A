@@ -149,23 +149,23 @@
      <% end %>
     </tbody>
     
-    <%= form_with(model: @attendance, url: update_total_month_user_attendance_path(@user, @attendance), local: true, method: :patch) do |f| %>  
-    <tfoot>
-       <tr>
-        <td colspan="2"></td>
-        <td colspan="6"></td>
-        <td></td>
-        <td><%= format("%.2f", @total_working_times.to_f) %></td>
-        <td colspan="5"></td>
-        <td>
-          <div>所属長承認 未</div>
-          <div><%= f.collection_select :superior, @total_month_superior, :name, :name, :include_blank => true, class:  "form-onntrol input-lg" %></div>
-               <%= f.hidden_field :total_month_status, :value => "申請中" %>     
-               <%= f.hidden_field :total_month, :value => @last_day.month %>     
-               <%= f.submit "申請",  class: "btn btn-primary btn-block" %>
-        </td>
-  　　　</tr>
-    </tfoot> 
+    <%= form_with(model: @user, url: attendances_update_total_month_user_path(@user), local: true, method: :patch) do |f| %> 
+      <%= f.hidden_field :total_month_status, :value => "申請中" %>     
+      <%= f.hidden_field :worked_on, :value => @last_day %>                                  
+      <tfoot>
+         <tr>
+          <td colspan="2"></td>
+          <td colspan="6"></td>
+          <td></td>
+          <td><%= format("%.2f", @total_working_times.to_f) %></td>
+          <td colspan="5"></td>
+          <td>
+            <div>所属長承認 未</div>
+            <div><%= f.collection_select :total_month_superior, @superiors, :name, :name, :include_blank => true, class:  "form-onntrol input-lg" %></div>
+            <%= f.submit "申請",  class: "btn btn-primary btn-block" %>
+          </td>
+    　　　</tr>
+      </tfoot> 
     <% end %> 
   </table>
  

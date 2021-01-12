@@ -18,7 +18,7 @@ Rails.application.routes.draw do
       get   'position' 
       get  'attendances/month_checker'
       get  'comfirmation'
-      
+      patch 'attendances/update_total_month'
     end
     collection { post :import } 
     collection do
@@ -31,8 +31,8 @@ Rails.application.routes.draw do
       member do  
         get 'overtime_request'
         patch 'update_overtime'
-        get 'total_month' 
-        patch 'update_total_month'
+         
+       
       end
       collection do
         get 'overtime_request_info'
