@@ -28,7 +28,7 @@
 　<% if @user.superior? %>
     <div>
       <p><font color="red">
-       <%= link_to "【所属長承認申請のお知らせ】", total_month_request_user_attendances_path(@user), remote: true, style: "color:red;" %>
+       <%= link_to "【所属長承認申請のお知らせ】", approval_month_user_attendances_path(@user), remote: true, style: "color:red;" %>
       <span class="box"><%= @total_month_sum %> 件のお知らせがあります</span></font></p>
     </div>
     <div>
@@ -152,7 +152,7 @@
     <%= form_with(model: @user, url: attendances_update_total_month_user_path(@user), local: true, method: :patch) do |f| %> 
       <%= f.hidden_field :total_month_status, :value => "申請中" %>     
       <%= f.hidden_field :worked_on, :value => @last_day %>                                  
-      <tfoot>
+      <tfoot> 
          <tr>
           <td colspan="2"></td>
           <td colspan="6"></td>
@@ -177,4 +177,4 @@
 <div id="overtime-request-info" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
 <div id="month-request" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
 <div id="log-page" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
-<div id="total-month-request" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+<div id="approval-month" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>

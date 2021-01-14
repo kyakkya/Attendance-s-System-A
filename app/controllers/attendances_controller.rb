@@ -133,36 +133,32 @@ class AttendancesController < ApplicationController
   end #def end
   
   def update_total_month
+  
     @user = User.find(params[:id])
-    @attendance = Attendance.find_by(workedd_on: params[:attendances]["last_day(2i)"])
-    debugger
-    #if params[:attendance][:total_month_superior].blank?
-     # flash[:danger]= "指示者を選択してください。"
-     #else  
-       ActiveRecord::Base.transaction do 
-          total_month_params do |id, item|
-          attendance = Attendance.find(user_id)
-          attendance.update_attributes!(item)
-         end
-       end    
-     
+    @attendance = Attendance.find_by(worked_on: params[:user][:worked_on])
+   if params[:user][:total_month_superior].blank?
+      flash[:danger]= "指示者を選択してください。"
+   else    
+    params[:user][:total_month_status] = "申請中"
+    @attendance.update_attributes(total_month_params)
+    flash[:success] = "#{@user.name}の1か月分の申請をしました。"
+   end 
+    redirect_to user_url(@user)
   end     
  
-  def total_month_request
+ 
+  def approval_month
      @user = User.find(params[:user_id])
-     @total_manth_requesters = Attendance.where(superior: @user.name).order(:user_id).group_by(&:user_id)
+     @approval_requesters = Attendance.where(superior: @user.name).order(:user_id).group_by(&:user_id)
      
   end
   
   
-  def update_total_month_request
-    
+  def update_approval_month
     @user = User.find(params[:user_id])
-    if params[:attendance][:total_month_superior].blank?
-      flash[:danger]= "指示者を選択してください。"
-    end  
+    
     ActiveRecord::Base.transaction do 
-      total_month_request_params.each do |id, item|
+      approval_params.each do |id, item|
         attendance = Attendance.find(id)
         attendance.update_attributes!(item)
       end
@@ -181,7 +177,6 @@ class AttendancesController < ApplicationController
       log_params.each do |id, item|
          attendance = Attendance.find(id)
          attendance.update_attributes!(item)
-         #if end 
       end #each end 
       redirect_to user_url(@user)
     end #Acctive do end 
@@ -207,10 +202,10 @@ class AttendancesController < ApplicationController
       params.require(:user).permit(attendances: [:started_at, :finished_at, :note, :month_status, :month_check_superior, :month_checker, :restated_at, :refinished_at])[:attendances]
     end
     
-    def total_month_params
-      params.require(:user).permit(attendances: [:total_month, :total_month_superior, :total_month_status])[:attendances]
+    def total_month_params #1ヶ月分の勤怠申請を扱います
+       params.require(:user).permit(:worked_on, :total_month_superior, :total_month_status)
     end  
-    def total_month_request_params #1ヶ月分の勤怠申請を扱います
+    def approval_params
       params.require(:user).permit(attendances: [:worked_on, :total_month_superior, :total_month_status, :total_month_checker])[:attendances]
     end
    
