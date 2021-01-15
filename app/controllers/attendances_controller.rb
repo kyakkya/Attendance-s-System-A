@@ -137,7 +137,7 @@ class AttendancesController < ApplicationController
     @user = User.find(params[:id])
     @attendance = Attendance.find_by(worked_on: params[:user][:worked_on])
    if params[:user][:total_month_superior].blank?
-      flash[:danger]= "指示者を選択してください。"
+      flash[:danger]= "所属長を選択してください。"
    else    
     params[:user][:total_month_status] = "申請中"
     @attendance.update_attributes(total_month_params)
@@ -149,14 +149,13 @@ class AttendancesController < ApplicationController
  
   def approval_month
      @user = User.find(params[:user_id])
-     @approval_requesters = Attendance.where(superior: @user.name).order(:user_id).group_by(&:user_id)
+     @approval_requesters = Attendance.where(total_month_superior: @user.name, total_month_status: "申請中").order(:user_id).group_by(&:user_id)
      
   end
   
   
   def update_approval_month
     @user = User.find(params[:user_id])
-    
     ActiveRecord::Base.transaction do 
       approval_params.each do |id, item|
         attendance = Attendance.find(id)
