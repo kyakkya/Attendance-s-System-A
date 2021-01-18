@@ -27,9 +27,13 @@
 </div>
 　<% if @user.superior? %>
     <div>
-      <p><font color="red">
-       <%= link_to "【所属長承認申請のお知らせ】", approval_month_user_attendances_path(@user), remote: true, style: "color:red;" %>
-      <span class="box"><%= @total_month_sum %> 件のお知らせがあります</span></font></p>
+      <% if  @total_month_sum > 0 %>
+        <p><font color="red">
+         <%= link_to "【所属長承認申請のお知らせ】", approval_month_user_attendances_path(@user), remote: true, style: "color:red;" %>
+        <span class="box"><%= @total_month_sum %> 件のお知らせがあります</span></font></p>
+      <% else %>
+        <p>【所属長承認申請のお知らせ</p>
+      <% end %>
     </div>
     <div>
       <% if @change_sum > 0 %>

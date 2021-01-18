@@ -133,7 +133,6 @@ class AttendancesController < ApplicationController
   end #def end
   
   def update_total_month
-  
     @user = User.find(params[:id])
     @attendance = Attendance.find_by(worked_on: params[:user][:worked_on])
    if params[:user][:total_month_superior].blank?
@@ -150,18 +149,29 @@ class AttendancesController < ApplicationController
   def approval_month
      @user = User.find(params[:user_id])
      @approval_requesters = Attendance.where(total_month_superior: @user.name, total_month_status: "申請中").order(:user_id).group_by(&:user_id)
-     
   end
   
   
   def update_approval_month
     @user = User.find(params[:user_id])
-    ActiveRecord::Base.transaction do 
+    ActiveRecord::Base.transaction do
       approval_params.each do |id, item|
-        attendance = Attendance.find(id)
-        attendance.update_attributes!(item)
-      end
-    end    
+        if item[:total_month_checker] == "0"
+          flash[:danger] = "チェックを記入して下さい"
+        end
+        if  item[:total_month_checker] == "1"
+            attendance = Attendance.find(id)
+            attendance.update_attributes!(item)
+        end
+      end   
+     redirect_to user_url(@user)
+     @approval_sum2 = Attendance.where(total_month_status: "承認").count
+     @unapproval_sum2 = Attendance.where(total_month_status: "否認").count
+     @no_reply2 = Attendance.where(total_month_status: "なし").count
+     flash[:success] = "なし#{@no_reply2}件、承認#{@approval_sum2}件、否認#{@unapproval_sum2}件"
+  end
+  rescue ActiveRecord::RecordInvalid # トランザクションによるエラーの分岐です。
+  flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
   end  
   
   def log_page
@@ -205,7 +215,7 @@ class AttendancesController < ApplicationController
        params.require(:user).permit(:worked_on, :total_month_superior, :total_month_status)
     end  
     def approval_params
-      params.require(:user).permit(attendances: [:worked_on, :total_month_superior, :total_month_status, :total_month_checker])[:attendances]
+      params.require(:user).permit(attendances: [:total_month_status, :total_month_checker])[:attendances]
     end
    
     def log_params
