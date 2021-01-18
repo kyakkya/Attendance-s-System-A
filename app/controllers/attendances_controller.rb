@@ -156,20 +156,20 @@ class AttendancesController < ApplicationController
     @user = User.find(params[:user_id])
     ActiveRecord::Base.transaction do
       approval_params.each do |id, item|
-        if item[:total_month_checker] == "0"
+        if item[:total_month_checker] == "1"
+           attendance = Attendance.find(id)
+           attendance.update_attributes!(item)
+           @approval_sum2 = Attendance.where(total_month_status: "承認").count
+           @unapproval_sum2 = Attendance.where(total_month_status: "否認").count
+           @no_reply2 = Attendance.where(total_month_status: "なし").count
+           flash[:success] = "なし#{@no_reply2}件、承認#{@approval_sum2}件、否認#{@unapproval_sum2}件"
+        else
           flash[:danger] = "チェックを記入して下さい"
         end
-        if  item[:total_month_checker] == "1"
-            attendance = Attendance.find(id)
-            attendance.update_attributes!(item)
-        end
-      end   
+      end
+    end   
      redirect_to user_url(@user)
-     @approval_sum2 = Attendance.where(total_month_status: "承認").count
-     @unapproval_sum2 = Attendance.where(total_month_status: "否認").count
-     @no_reply2 = Attendance.where(total_month_status: "なし").count
-     flash[:success] = "なし#{@no_reply2}件、承認#{@approval_sum2}件、否認#{@unapproval_sum2}件"
-  end
+    
   rescue ActiveRecord::RecordInvalid # トランザクションによるエラーの分岐です。
   flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
   end  
