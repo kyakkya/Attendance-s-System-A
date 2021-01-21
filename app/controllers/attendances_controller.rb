@@ -40,8 +40,13 @@ class AttendancesController < ApplicationController
            flash[:danger] = "変更時間がないので無効です"
            redirect_to attendances_edit_one_month_user_url(date: params[:date]) and return
           else
-           attendance = Attendance.find_by(month_check_superior: @superior)  
-           attendance.update_attributes!(item)
+           if item[:note].blank?
+              flash[:danger] = "備考欄を記入して下さい。" 
+              redirect_to attendances_edit_one_month_user_url(date: params[:date]) and return
+           else
+             attendance = Attendance.find_by(month_check_superior: @superior)  
+             attendance.update_attributes!(item)
+           end   
           end
         end
       end #each do  
