@@ -35,28 +35,22 @@ class AttendancesController < ApplicationController
     
     ActiveRecord::Base.transaction do # トランザクションを開始します。
       attendances_params.each do |id, item|
-        if item[:started_at].present? && item[:finished_at].blank?
-          flash[:danger] = "変更時間がないので無効です"  
-          redirect_to user_url(date: params[:date])
-        end  
-        if item[:started_at].present? && item[:finished_at].present?  
-          if item[:note].blank? 
-             flash[:danger] = "備考欄を記入して下さい。" 
-          else   
-            attendance = Attendance.find(id)
-            tem[:month_status] = "申請中"
-            attendance.update_attributes!(item)
-            #day.started_at = day.restated_at if day.restated_at.peesent?
-            #day.finished_at = day.refinished_at if day.refinished_at.present?
-          end  
+        if  item[:month_check_superior].present?
+          if item[:restated_at].present? && item[:refinished_at].blank?
+           flash[:danger] = "変更時間がないので無効です"
+           redirect_to attendances_edit_one_month_user_url(date: params[:date]) and return
+          else
+           attendance = Attendance.find_by(month_check_superior: @superior)  
+           attendance.update_attributes!(item)
+          end
         end
       end #each do  
     end #Active record  
-    flash[:success] = "1ヶ月分の勤怠変更を申請しました。"
-    redirect_to user_url(date: params[:date])
+  flash[:success] = "1ヶ月分の勤怠変更を申請しました。"
+  redirect_to user_url(date: params[:date])
   rescue ActiveRecord::RecordInvalid # トランザクションによるエラーの分岐です。
     flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
-    redirect_to attendances_edit_one_month_user_url(date: params[:date])and return
+    redirect_to attendances_edit_one_month_user_url(date: params[:date]) and return
   end
  
  #1か月分の申請モーダル 
