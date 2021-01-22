@@ -35,17 +35,23 @@ class AttendancesController < ApplicationController
     
     ActiveRecord::Base.transaction do # トランザクションを開始します。
       attendances_params.each do |id, item|
-        if  item[:month_check_superior].present?
+        if item[:month_check_superior].present?
           if item[:restated_at].present? && item[:refinished_at].blank?
-           flash[:danger] = "変更時間がないので無効です"
+           flash[:danger] = "退社時間がないので無効です"
            redirect_to attendances_edit_one_month_user_url(date: params[:date]) and return
           else
            if item[:note].blank?
               flash[:danger] = "備考欄を記入して下さい。" 
               redirect_to attendances_edit_one_month_user_url(date: params[:date]) and return
            else
-             attendance = Attendance.find_by(month_check_superior: @superior)  
-             attendance.update_attributes!(item)
+             if item[:change_next_day] == "1"
+               refinished_at = refinished_at.hour + 24
+               attendance = Attendance.find(id)  
+               attendance.update_attributes!(item)
+             else
+               attendance = Attendance.find(id)  
+               attendance.update_attributes!(item)
+             end   
            end   
           end
         end
@@ -58,7 +64,7 @@ class AttendancesController < ApplicationController
     redirect_to attendances_edit_one_month_user_url(date: params[:date]) and return
   end
  
- #1か月分の申請モーダル 
+ #1か月分の変更申請モーダル 
   def month_request
     @user = User.find(params[:user_id])
     @month_requesters = Attendance.where(month_check_superior: @user.name, month_status: "申請中").order(:user_id).group_by(&:user_id)
@@ -129,6 +135,10 @@ class AttendancesController < ApplicationController
         if item[:superior_checker] == "1"
           attendance = Attendance.find(id)
           attendance.update_attributes!(item)
+           @info_sum = Attendance.where(status: "承認").count
+           @unapproval_info_sum = Attendance.where(status: "否認").count
+           @no_reply_info = Attendance.where(status: "なし").count
+           flash[:success] = "なし#{@no_reply_info}件、承認#{@info_sum}件、否認#{@unapproval_info_sum}件"
         end #if end 
       end #each end 
       redirect_to user_url(@user)
@@ -202,7 +212,7 @@ class AttendancesController < ApplicationController
   private
     # 1ヶ月分の勤怠情報を扱います。
     def attendances_params
-      params.require(:user).permit(attendances: [:started_at, :finished_at, :restated_at, :refinished_at, :note, :month_check_superior, :month_status])[:attendances]
+      params.require(:user).permit(attendances: [:change_next_day, :restated_at, :refinished_at, :note, :month_check_superior, :month_status])[:attendances]
     end
     #overtime(残業申請の内容)の更新カラム
     def overtime_params

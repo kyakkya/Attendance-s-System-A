@@ -137,7 +137,10 @@
         <td><%= format_hour(day.overtime) if day.overtime.present? %></td>
         <td><%= format_min(day.overtime) if day.overtime.present? %></td>
         <td><%= format_overtime(day.overtime, @user.designated_work_end_time, day.next_day) if day.overtime.present? %></td>
-        <td><%= day.task_menu %></td>
+        <td>
+          <%= day.task_menu %><br>
+          <%= day.note if day.note.present? %>
+         </td>  
         <td><% if day.status == "申請中" %>
         　     <div><%= day.superior %>に残業申請中</div> 
             <% elsif day.status ==  "承認" %> 
