@@ -193,19 +193,11 @@ class AttendancesController < ApplicationController
   def log_page
    @user = User.find(params[:user_id])
    @attendance = Attendance.find(params[:user_id])
-    #@overtime_days = Attendance.where(status: "承認")
+   #@requesters = Attendance.where(month_statu: "承認").order(:user_id)
+    
   end  
   
-  def update_log_page
-    @user = User.find(params[:user_id])
-    ActiveRecord::Base.transaction do 
-      log_params.each do |id, item|
-         attendance = Attendance.find(id)
-         attendance.update_attributes!(item)
-      end #each end 
-      redirect_to user_url(@user)
-    end #Acctive do end 
-  end  
+ 
       
  
   
@@ -230,7 +222,7 @@ class AttendancesController < ApplicationController
     def total_month_params #1ヶ月分の勤怠申請を扱います
        params.require(:user).permit(:worked_on, :total_month_superior, :total_month_status)
     end  
-    def approval_params
+    def approval_params 
       params.require(:user).permit(attendances: [:total_month_status, :total_month_checker])[:attendances]
     end
    
