@@ -44,14 +44,9 @@ class AttendancesController < ApplicationController
               flash[:danger] = "備考欄を記入して下さい。" 
               redirect_to attendances_edit_one_month_user_url(date: params[:date]) and return
            else
-             if item[:change_next_day] == "1"
-               refinished_at = refinished_at.hour + 24
                attendance = Attendance.find(id)  
                attendance.update_attributes!(item)
-             else
-               attendance = Attendance.find(id)  
-               attendance.update_attributes!(item)
-             end   
+             
            end   
           end
         end
@@ -72,29 +67,31 @@ class AttendancesController < ApplicationController
   
   #1か月分の勤怠変更モーダルupdate
   def update_month_request
+  
     @user = User.find(params[:user_id])
     @month_requesters = Attendance.where(month_check_superior: @user.name, month_status: "申請中").order(:user_id).group_by(&:user_id)
     ActiveRecord::Base.transaction do 
       month_request_params.each do |id, item|
-        if item[:month_checker] == "1" && item[:note].present?
-          attendance = Attendance.find(id)
-          attendance.update_attributes!(item)
+        if  item[:month_checker] == "1" 
+            attendance = Attendance.find(id)
+            attendance.update_attributes!(item)
+            @approval_sum =  Attendance.where(month_status: "承認").count
+            @unapproval_sum =  Attendance.where(month_status: "否認").count
+            @no_reply =  Attendance.where(month_status: "なし").count
+            flash[:success] = "なし#{@no_reply}件、承認#{@approval_sum}件、否認#{@unapproval_sum}件"
+        else  
+           flash[:danger] = "チェックを記入して下さい。更新をキャンセルしました。"
         end
-        @approval_sum =  Attendance.where(month_status: "承認").count
-        @unapproval_sum =  Attendance.where(month_status: "否認").count
-        @no_reply =  Attendance.where(month_status: "なし").count
-        flash[:success] = "なし#{@no_reply}件、承認#{@approval_sum}件、否認#{@unapproval_sum}件"
       end
-     
       redirect_to user_url(@user)
     end
       
   rescue ActiveRecord::RecordInvalid # トランザクションによるエラーの分岐です。
-    flash[:danger] = "備考欄記入、またはチェックを記入して下さい。更新をキャンセルしました。"
+    flash[:danger] = "変更更新をキャンセルしました。"
     redirect_to user_url(@user)
   end
   
-  def overtime_request
+  def overtime_request #残業申請
     @user = User.find(params[:user_id])
     @attendance = Attendance.find(params[:id])
     @superiors =  User.where(superior: true).where.not(id: @user.id)
@@ -102,7 +99,7 @@ class AttendancesController < ApplicationController
 
   
 
-  def update_overtime
+  def update_overtime#残業申請アップデート
     @user = User.find(params[:user_id])
     @attendance = Attendance.find(params[:id])
     
@@ -191,9 +188,10 @@ class AttendancesController < ApplicationController
   end  
   
   def log_page
+
    @user = User.find(params[:user_id])
    @attendance = Attendance.find(params[:user_id])
-   #@requesters = Attendance.where(month_statu: "承認").order(:user_id)
+   @approvaled = Attendance.where(month_status: "承認")
     
   end  
   

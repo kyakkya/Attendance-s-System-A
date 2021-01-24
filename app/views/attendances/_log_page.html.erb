@@ -10,8 +10,9 @@
     
     <div class="modal-body">
     <%= form_with(model: @user, url:'#', local: true) do |f| %>
+      
         <h1 class="modal-title">【勤怠ログ】</h1> 
-       <table  border=2 width=100%, class="table table-bordered table-condensed user-table">
+        <table  border=2 width=100%, class="table table-bordered table-condensed user-table">
           <thead>
             <tr>
               <td width="120">リセット</td>
@@ -22,7 +23,7 @@
             </tr>
              <tr>
               <td width="120">月</td>
-              <td width="120"><%= f.select :month, 1..12, include_blank: true %></td>
+              <td width="120"><%= f.select :month, 1..12, default: Date.today %></td>
             </tr>
             <tr> 
                <th>日付</th>
@@ -35,22 +36,24 @@
              </tr>
           </thead>
           
-        
-          <tbody>
-              <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-          </tbody>
-         
+            
+            
+               <tbody>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+              </tbody>
+             
+          
         </table>
-     
-      <% end %>
+      
+   <% end %>
     </div>  
   </div>
 </div>

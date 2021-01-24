@@ -21,6 +21,13 @@ module AttendancesHelper
     format("%02d", ((time.min) / 15) * 15)
   end
   
+  def re_working_times(restat, refinish, change_next)
+    if change_next == "1"
+       format("%.2f", (refinish.hour - restat.hour) + (((((refinish.min - restat.min) /15) *15 )/ 60.0)) + 24)
+    else
+       format("%.2f", ((refinish.hour - restat.hour) + ((((((refinish.min - restat.min) /15) *15 )/ 60.0)))))
+    end
+  end
  
-    
-end
+end    
+

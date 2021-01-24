@@ -17,7 +17,7 @@ class Attendance < ApplicationRecord
   
   def started_at_than_finished_at_fast_if_invalid
     if started_at.present? && finished_at.present?
-      errors.add(:started_at, "より早い退勤時間は無効です") if restated_at > refinished_at
+      errors.add(:started_at, "より早い退勤時間は無効です") if restated_at > refinished_at && change_next_day == "0"
     end
   end
   

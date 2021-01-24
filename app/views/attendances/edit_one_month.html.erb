@@ -40,7 +40,7 @@
           <td><%= f.check_box :change_next_day, class: "form-control" %></td>
           <td>
             <% if day.restated_at.present? && day.refinished_at.present? %>
-              <%= working_times(day.restated_at, day.refinished_at) %>
+              <%= re_working_times(day.restated_at, day.refinished_at, day.change_next_day) %>
             <% end %>
           </td>
           <td><%= attendance.text_field :note, class: "form-control" %></td>
