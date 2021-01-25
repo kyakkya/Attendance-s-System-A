@@ -38,7 +38,7 @@
     <div>
       <% if @change_sum > 0 %>
         <p><font color="red">
-         <%= link_to "【勤怠申請変更のお知らせ", month_request_user_attendances_path(@user), remote: true, style: "color:red;" %>
+         <%= link_to "【勤怠申請変更のお知らせ】", month_request_user_attendances_path(@user), remote: true, style: "color:red;" %>
         <span class="box"><%=  @change_sum %> 件のお知らせがあります</span></font></p>
       <% else %>
         <p>【勤怠申請変更のお知らせ】</p>
@@ -168,7 +168,7 @@
           <td colspan="5"></td>
           <td>
             <div>所属長承認 未</div>
-            <div><%= f.collection_select :total_month_superior, @superiors, :name, :name, :include_blank => true, class:  "form-onntrol input-lg" %></div>
+            <div><%= f.collection_select :total_month_superior, @total_superiors, :name, :name, :include_blank => true, class:  "form-onntrol input-lg" %></div>
             <%= f.submit "申請",  class: "btn btn-primary btn-block" %>
           </td>
     　　　</tr>

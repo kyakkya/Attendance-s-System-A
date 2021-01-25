@@ -62,6 +62,7 @@ class AttendancesController < ApplicationController
  #1か月分の変更申請モーダル 
   def month_request
     @user = User.find(params[:user_id])
+    @month_check_superiors =  User.where(superior: true).where.not(id: @user.id)
     @month_requesters = Attendance.where(month_check_superior: @user.name, month_status: "申請中").order(:user_id).group_by(&:user_id)
   end  
   
@@ -69,7 +70,7 @@ class AttendancesController < ApplicationController
   def update_month_request
   
     @user = User.find(params[:user_id])
-    @month_requesters = Attendance.where(month_check_superior: @user.name, month_status: "申請中").order(:user_id).group_by(&:user_id)
+    #@month_requesters = Attendance.where(month_check_superior: @user.name, month_status: "申請中").order(:user_id).group_by(&:user_id)
     ActiveRecord::Base.transaction do 
       month_request_params.each do |id, item|
         if  item[:month_checker] == "1" 
@@ -148,11 +149,12 @@ class AttendancesController < ApplicationController
   def update_total_month
     @user = User.find(params[:id])
     @attendance = Attendance.find_by(worked_on: params[:user][:worked_on])
+    @month_superiors =  User.where(superior: true).where.not(id: @user.id)
    if params[:user][:total_month_superior].blank?
       flash[:danger]= "所属長を選択してください。"
    else    
     params[:user][:total_month_status] = "申請中"
-    @attendance.update_attributes(total_month_params)
+    @attendance.update_attributes!(total_month_params)
     flash[:success] = "#{@user.name}の1か月分の申請をしました。"
    end 
     redirect_to user_url(@user)
@@ -161,6 +163,7 @@ class AttendancesController < ApplicationController
  
   def approval_month
      @user = User.find(params[:user_id])
+     @total_superiors =  User.where(superior: true).where.not(id: @user.id)
      @approval_requesters = Attendance.where(total_month_superior: @user.name, total_month_status: "申請中").order(:user_id).group_by(&:user_id)
   end
   
