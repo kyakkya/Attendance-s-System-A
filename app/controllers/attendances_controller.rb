@@ -27,7 +27,7 @@ class AttendancesController < ApplicationController
   end
 
   def edit_one_month
-    @month_check_superiors =  User.where(superior: true).where.not(id: @user.id)
+    @change_superiors =  User.where(superior: true).where.not(id: @user.id)
   end
 
  
@@ -44,9 +44,9 @@ class AttendancesController < ApplicationController
               flash[:danger] = "備考欄を記入して下さい。" 
               redirect_to attendances_edit_one_month_user_url(date: params[:date]) and return
            else
-               attendance = Attendance.find(id)  
+               attendance = Attendance.find(id) 
+               item[:month_status] = "申請中"
                attendance.update_attributes!(item)
-             
            end   
           end
         end
