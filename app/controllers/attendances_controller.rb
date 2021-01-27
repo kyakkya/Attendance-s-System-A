@@ -148,15 +148,13 @@ class AttendancesController < ApplicationController
   
   def update_total_month
     @user = User.find(params[:id])
-    @attendance = Attendance.find_by(worked_on: params[:user][:worked_on])
-    @month_superiors =  User.where(superior: true).where.not(id: @user.id)
-   if params[:user][:total_month_superior].blank?
+    @attendance = @user.attendances.find_by(worked_on: params[:user][:worked_on])
+    if params[:user][:total_month_superior].blank?
       flash[:danger]= "所属長を選択してください。"
-   else    
-    params[:user][:total_month_status] = "申請中"
-    @attendance.update_attributes!(total_month_params)
-    flash[:success] = "#{@user.name}の1か月分の申請をしました。"
-   end 
+    else    
+      @attendance.update_attributes!(total_month_params)
+      flash[:success] = "#{@user.name}の1か月分の申請をしました。"
+    end 
     redirect_to user_url(@user)
   end     
  

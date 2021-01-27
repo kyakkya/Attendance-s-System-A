@@ -155,25 +155,27 @@
       
      <% end %>
     </tbody>
-    
-    <%= form_with(model: @user, url: attendances_update_total_month_user_path(@user), local: true, method: :patch) do |f| %> 
-      <%= f.hidden_field :total_month_status, :value => "申請中" %>     
-      <%= f.hidden_field :worked_on, :value => @last_day %>                                  
-      <tfoot> 
-         <tr>
-          <td colspan="2"></td>
-          <td colspan="6"></td>
-          <td></td>
-          <td><%= format("%.2f", @total_working_times.to_f) %></td>
-          <td colspan="5"></td>
-          <td>
+      
+                                   
+    <tfoot> 
+       <tr>
+        <td colspan="2"></td>
+        <td colspan="6"></td>
+        <td></td>
+        <td><%= format("%.2f", @total_working_times.to_f) %></td>
+        <td colspan="5"></td>
+        <td>
+          <%= form_with(model: @user, url: attendances_update_total_month_user_path(@user), local: true, method: :patch) do |f| %> 
+            <%= f.hidden_field :total_month_status, :value => "申請中" %>     
+            <%= f.hidden_field :worked_on, :value => @last_day %>  
             <div>所属長承認 未</div>
             <div><%= f.collection_select :total_month_superior, @total_superiors, :name, :name, :include_blank => true, class:  "form-onntrol input-lg" %></div>
             <%= f.submit "申請",  class: "btn btn-primary btn-block" %>
-          </td>
-    　　　</tr>
-      </tfoot> 
-    <% end %> 
+         <% end %>    
+        </td>
+  　　　</tr>
+    </tfoot> 
+    
   </table>
  
 </div>
