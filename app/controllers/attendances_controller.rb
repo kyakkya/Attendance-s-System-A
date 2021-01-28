@@ -192,7 +192,7 @@ class AttendancesController < ApplicationController
 
    @user = User.find(params[:user_id])
    @attendance = Attendance.find(params[:user_id])
-   @approvaled = Attendance.where(month_status: "承認")
+   @approvaled =  @user.attendances.where(month_status: "承認")
     
   end  
   

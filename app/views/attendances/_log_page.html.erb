@@ -38,17 +38,20 @@
           
             
             
-               <tbody>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-              </tbody>
+          <tbody>
+            <% if %>  
+            <% @approvaled.each do |day| %>
+             <tr>
+               <td><%= l(day.worked_on) %></td>
+               <td></td>
+               <td></td>
+               <td></td>
+               <td></td>
+               <td></td>
+               <td></td>
+             </tr>
+           <% end %>  
+          </tbody>
              
           
         </table>
