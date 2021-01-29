@@ -68,14 +68,15 @@ class AttendancesController < ApplicationController
   
   #1か月分の勤怠変更モーダルupdate
   def update_month_request
-  
     @user = User.find(params[:user_id])
-    #@month_requesters = Attendance.where(month_check_superior: @user.name, month_status: "申請中").order(:user_id).group_by(&:user_id)
     ActiveRecord::Base.transaction do 
       month_request_params.each do |id, item|
         if  item[:month_checker] == "1" 
             attendance = Attendance.find(id)
             attendance.update_attributes!(item)
+            if item[:month_status] == "承認"
+               item[:month_update] = Date.today
+            end  
             @approval_sum =  Attendance.where(month_status: "承認").count
             @unapproval_sum =  Attendance.where(month_status: "否認").count
             @no_reply =  Attendance.where(month_status: "なし").count
@@ -215,7 +216,7 @@ class AttendancesController < ApplicationController
     end
     
     def month_request_params #1ヶ月分の勤怠変更を扱います。
-      params.require(:user).permit(attendances: [:started_at, :finished_at, :note, :month_status, :month_check_superior, :month_checker, :restated_at, :refinished_at])[:attendances]
+      params.require(:user).permit(attendances: [:started_at, :finished_at, :note, :month_status, :month_check_superior, :month_checker, :restated_at, :refinished_at, :month_update])[:attendances]
     end
     
     def total_month_params #1ヶ月分の勤怠申請を扱います

@@ -9,7 +9,7 @@
     </div>
     
     <div class="modal-body">
-    <%= form_with(model: @user, url:'#', local: true) do |f| %>
+      <%= form_with(model: @user, url:'#', local: true) do |f| %>
       
         <h1 class="modal-title">【勤怠ログ】</h1> 
         <table  border=2 width=100%, class="table table-bordered table-condensed user-table">
@@ -20,6 +20,7 @@
             <tr>
               <td width="80">年</td>
               <td width="120"><%= f.select :year, -5.years.from_now.year.. 5.years.from_now.year, default: Date.today %></td>
+              
             </tr>
              <tr>
               <td width="120">月</td>
@@ -36,27 +37,22 @@
              </tr>
           </thead>
           
-            
-            
           <tbody>
-            <% if %>  
             <% @approvaled.each do |day| %>
-             <tr>
-               <td><%= l(day.worked_on) %></td>
-               <td></td>
-               <td></td>
-               <td></td>
-               <td></td>
-               <td></td>
-               <td></td>
+              <tr>
+               <td><%= day.worked_on %></td>
+               <td><%= l(day.started_at, format: :convinient_time)if day.started_at.present? %></td>
+               <td><%= l(day.finished_at, format: :convinient_time) if day.finished_at.present? %></td>
+               <td><%= l(day.restated_at, format: :convinient_time)if day.restated_at.present? %></td>
+               <td><%= l(day.refinished_at, format: :convinient_time) if day.refinished_at.present? %><</td>
+               <td><%= day.month_check_superior %></td>
+               <td><%= day.month_update %></td>
              </tr>
            <% end %>  
           </tbody>
-             
-          
         </table>
       
-   <% end %>
+      <% end %>
     </div>  
   </div>
 </div>
