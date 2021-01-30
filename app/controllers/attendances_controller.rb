@@ -61,13 +61,16 @@ class AttendancesController < ApplicationController
  
  #1か月分の変更申請モーダル 
   def month_request
+    
     @user = User.find(params[:user_id])
     @month_check_superiors =  User.where(superior: true).where.not(id: @user.id)
+    #@attendance = Attendance.find(params[:id])
     @month_requesters = Attendance.where(month_check_superior: @user.name, month_status: "申請中").order(:user_id).group_by(&:user_id)
   end  
   
   #1か月分の勤怠変更モーダルupdate
   def update_month_request
+    
     @user = User.find(params[:user_id])
     ActiveRecord::Base.transaction do 
       month_request_params.each do |id, item|
@@ -190,7 +193,7 @@ class AttendancesController < ApplicationController
   end  
   
   def log_page
-
+    
    @user = User.find(params[:user_id])
    @attendance = Attendance.find(params[:user_id])
    @approvaled =  @user.attendances.where(month_status: "承認")
@@ -216,7 +219,7 @@ class AttendancesController < ApplicationController
     end
     
     def month_request_params #1ヶ月分の勤怠変更を扱います。
-      params.require(:user).permit(attendances: [:started_at, :finished_at, :note, :month_status, :month_check_superior, :month_checker, :restated_at, :refinished_at, :month_update])[:attendances]
+      params.require(:user).permit(attendances: [:note, :month_status, :month_check_superior, :month_checker, :restated_at, :refinished_at, :month_update])[:attendances]
     end
     
     def total_month_params #1ヶ月分の勤怠申請を扱います
@@ -227,7 +230,7 @@ class AttendancesController < ApplicationController
     end
    
     def log_params
-      params.require(:user).permit(attendances: [:started_at, :finished_at, :note, :month_status, :month_check_superior, :month_checker, :restated_at, :refinished_at])[:attendances]
+      params.require(:user).permit(attendances: [:started_at, :finished_at, :note, :month_status, :month_check_superior, :month_checker, :restated_at, :refinished_at, :month_update])[:attendances]
 
     end
 end

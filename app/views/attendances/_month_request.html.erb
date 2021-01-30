@@ -1,4 +1,4 @@
-<% provide(:class_text, 'month_request') %>
+<% provide(:class_text, 'month-request') %>
 <% provide(:button_text, '1か月の変更申請') %>
 
 <div class="modal-dialog modal-lg modal-dialog-center">
@@ -10,7 +10,7 @@
     </div>  
     <div class="modal-body">
       <%= form_with(model: @user, url: update_month_request_user_attendances_path(@user), local: true, method: :patch) do |f| %> 
-        <% @month_requesters.each do |user_id, attendances| %>
+        <%  @month_requesters.each do |user_id, attendances | %>
           <h1 class="modal-title">【<%= "#{User.find(user_id).name}" %>から勤怠変更申請】</h1>
             <table border=2 width=100%, class="table table-bordered table-condensed user-table">
               <thead>
@@ -29,8 +29,7 @@
               　   <th>退勤</th>
               　   <th>出社</th>
               　   <th>退勤</th> 
-              　 
-                </tr>
+              　</tr>
               </thead>
               <% attendances.each do |day| %>
                 <%= f.fields_for "attendances[]", day do |at| %>
@@ -59,9 +58,9 @@
                   </tbody>
                 <% end %>
               <% end %>
-            </table>
+           </table>
         <% end %>
-        <%= f.submit "変更を送信する", class: "btn btn-primary btn-lg btn-block" %>
+      　<%= f.submit "変更を送信する", class: "btn btn-primary btn-lg btn-block" %>
       <% end %> 
     </div>
   </div> 
