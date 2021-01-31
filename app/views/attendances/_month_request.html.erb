@@ -10,7 +10,7 @@
     </div>  
     <div class="modal-body">
       <%= form_with(model: @user, url: update_month_request_user_attendances_path(@user), local: true, method: :patch) do |f| %> 
-        <%  @month_requesters.each do |user_id, attendances | %>
+        <% @month_requesters.each do |user_id, attendances| %>
           <h1 class="modal-title">【<%= "#{User.find(user_id).name}" %>から勤怠変更申請】</h1>
             <table border=2 width=100%, class="table table-bordered table-condensed user-table">
               <thead>

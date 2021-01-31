@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 20210129122150) do
     t.string "superior"
     t.string "status"
     t.boolean "superior_checker"
-    t.time "restated_at"
+    t.time "restarted_at"
     t.time "refinished_at"
     t.string "month_status"
     t.string "month_nextday"
@@ -50,7 +50,7 @@ ActiveRecord::Schema.define(version: 20210129122150) do
     t.string "password_digest"
     t.string "remember_digest"
     t.boolean "admin", default: false
-    t.datetime "basic_work_time", default: "2020-12-08 23:00:00"
+    t.datetime "basic_work_time", default: "2021-01-30 23:00:00"
     t.boolean "superior", default: false
     t.string "affiliation"
     t.string "uid"
