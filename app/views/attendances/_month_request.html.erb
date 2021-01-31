@@ -48,7 +48,7 @@
                       <td class="<%= css_class %>"><%= %w{日 月 火 水 木 金 土}[day.worked_on.wday] %></td>
                       <td><%= l(day.started_at, format: :convinient_time ) if day.started_at.present? %></td>
                       <td><%= l(day.finished_at, format: :time) if day.finished_at.present? %></td>  
-                      <td><%= l(day.restated_at, format: :convinient_time) %> </td>
+                      <td><%= l(day.restarted_at, format: :convinient_time) %> </td>
                       <td><%= l(day.refinished_at, format: :convinient_time) %></td>
                       <td><%= at.text_field :note, class: "form-control" %></td>
                       <td><%= at.select :month_status, ['', 'なし', '申請', '承認', '否認'], class: "form-control" %></td>

@@ -43,7 +43,7 @@
                <td><%= day.worked_on %></td>
                <td><%= l(day.started_at, format: :convinient_time)if day.started_at.present? %></td>
                <td><%= l(day.finished_at, format: :convinient_time) if day.finished_at.present? %></td>
-               <td><%= l(day.restated_at, format: :convinient_time)if day.restated_at.present? %></td>
+               <td><%= l(day.restarted_at, format: :convinient_time)if day.restarted_at.present? %></td>
                <td><%= l(day.refinished_at, format: :convinient_time) if day.refinished_at.present? %><</td>
                <td><%= day.month_check_superior %></td>
                <td><%= day.month_update %></td>

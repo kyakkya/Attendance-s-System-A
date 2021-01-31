@@ -8,8 +8,8 @@ class Attendance < ApplicationRecord
   validate :finished_at_is_invalid_without_a_started_at
   validate :started_at_than_finished_at_fast_if_invalid
  
-  validate :refinished_at_is_invalid_without_a_restated_at
-  validate :restated_at_than_refinished_at_fast_if_invalid
+  validate :refinished_at_is_invalid_without_a_restarted_at
+  validate :restarted_at_than_refinished_at_fast_if_invalid
   
   def finished_at_is_invalid_without_a_started_at
     errors.add(:started_at, "が必要です") if started_at.blank? && finished_at.present?
@@ -21,14 +21,14 @@ class Attendance < ApplicationRecord
     end
   end
   
-  def refinished_at_is_invalid_without_a_restated_at
-    errors.add(:restated_at, "が必要です") if restated_at.blank? && refinished_at.present?
+  def refinished_at_is_invalid_without_a_restarted_at
+    errors.add(:restarted_at, "が必要です") if restarted_at.blank? && refinished_at.present?
   end
  
  
-  def restated_at_than_refinished_at_fast_if_invalid
-    if restated_at.present? && refinished_at.present?
-      errors.add(:restated_at, "より早い退勤時間は無効です") if restated_at > refinished_at && change_next_day == "0"
+  def restarted_at_than_refinished_at_fast_if_invalid
+    if restarted_at.present? && refinished_at.present?
+      errors.add(:restarted_at, "より早い退勤時間は無効です") if restarted_at > refinished_at && change_next_day == "0"
     end
   end 
 

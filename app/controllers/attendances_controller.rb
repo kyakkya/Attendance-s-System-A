@@ -36,7 +36,7 @@ class AttendancesController < ApplicationController
     ActiveRecord::Base.transaction do # トランザクションを開始します。
       attendances_params.each do |id, item|
         if item[:month_check_superior].present?
-          if item[:restated_at].present? && item[:refinished_at].blank?
+          if item[:restarted_at].present? && item[:refinished_at].blank?
            flash[:danger] = "退社時間がないので無効です"
            redirect_to attendances_edit_one_month_user_url(date: params[:date]) and return
           else
@@ -207,7 +207,7 @@ class AttendancesController < ApplicationController
   private
     # 1ヶ月分の勤怠情報を扱います。
     def attendances_params
-      params.require(:user).permit(attendances: [:change_next_day, :restated_at, :refinished_at, :note, :month_check_superior, :month_status])[:attendances]
+      params.require(:user).permit(attendances: [:change_next_day, :restarted_at, :refinished_at, :note, :month_check_superior, :month_status])[:attendances]
     end
     #overtime(残業申請の内容)の更新カラム
     def overtime_params
@@ -219,7 +219,7 @@ class AttendancesController < ApplicationController
     end
     
     def month_request_params #1ヶ月分の勤怠変更を扱います。
-      params.require(:user).permit(attendances: [:note, :month_status, :month_check_superior, :month_checker, :restated_at, :refinished_at, :month_update])[:attendances]
+      params.require(:user).permit(attendances: [:note, :month_status, :month_check_superior, :month_checker, :restarted_at, :refinished_at, :month_update])[:attendances]
     end
     
     def total_month_params #1ヶ月分の勤怠申請を扱います
@@ -230,7 +230,7 @@ class AttendancesController < ApplicationController
     end
    
     def log_params
-      params.require(:user).permit(attendances: [:started_at, :finished_at, :note, :month_status, :month_check_superior, :month_checker, :restated_at, :refinished_at, :month_update])[:attendances]
+      params.require(:user).permit(attendances: [:started_at, :finished_at, :note, :month_status, :month_check_superior, :month_checker, :restarted_at, :refinished_at, :month_update])[:attendances]
 
     end
 end
