@@ -64,7 +64,6 @@ class AttendancesController < ApplicationController
     
     @user = User.find(params[:user_id])
     @month_check_superiors =  User.where(superior: true).where.not(id: @user.id)
-    #@attendance = Attendance.find(params[:id])
     @month_requesters = Attendance.where(month_check_superior: @user.name, month_status: "申請中").order(:user_id).group_by(&:user_id)
   end  
   
@@ -75,11 +74,11 @@ class AttendancesController < ApplicationController
     ActiveRecord::Base.transaction do 
       month_request_params.each do |id, item|
         if  item[:month_checker] == "1" 
+           if item[:month_status] == "承認"
+              item[:month_update] = Date.today
+           end  
             attendance = Attendance.find(id)
             attendance.update_attributes!(item)
-            if item[:month_status] == "承認"
-               item[:month_update] = Date.today
-            end  
             @approval_sum =  Attendance.where(month_status: "承認").count
             @unapproval_sum =  Attendance.where(month_status: "否認").count
             @no_reply =  Attendance.where(month_status: "なし").count
@@ -197,7 +196,6 @@ class AttendancesController < ApplicationController
    @user = User.find(params[:user_id])
    @attendance = Attendance.find(params[:user_id])
    @approvaled =  @user.attendances.where(month_status: "承認")
-    
   end  
   
  
@@ -230,7 +228,7 @@ class AttendancesController < ApplicationController
     end
    
     def log_params
-      params.require(:user).permit(attendances: [:started_at, :finished_at, :note, :month_status, :month_check_superior, :month_checker, :restarted_at, :refinished_at, :month_update])[:attendances]
+      params.require(:user).permit(attendances: [:started_at, :finished_at, :note, :month_status, :month_check_superior, :month_checker, :restarted_at, :refinished_at, :month_update, :log_year, :log_month])[:attendances]
 
     end
 end

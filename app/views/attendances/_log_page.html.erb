@@ -9,22 +9,23 @@
     </div>
     
     <div class="modal-body">
-      <%= form_with(model: @user, url:'#', local: true) do |f| %>
+     
       
         <h1 class="modal-title">【勤怠ログ】</h1> 
         <table  border=2 width=100%, class="table table-bordered table-condensed user-table">
           <thead>
+            <%= form_with(model: @user, url:'#', local: true) do |f| %>
             <tr>
-              <td width="120">リセット</td>
+              <td width="120"><%= f.submit "リセット",  class: "btn btn-default btn-block"%></td>
             </tr>
             <tr>
               <td width="80">年</td>
-              <td width="120"><%= f.select :year, -5.years.from_now.year.. 5.years.from_now.year, default: Date.today %></td>
+              <td width="120"><%= f.select :log_year, -5.years.from_now.year.. 5.years.from_now.year, default: Date.today %></td>
               
             </tr>
              <tr>
               <td width="120">月</td>
-              <td width="120"><%= f.select :month, 1..12, default: Date.today %></td>
+              <td width="120"><%= f.select :log_month, 1..12, default: Date.today %></td>
             </tr>
             <tr> 
                <th>日付</th>
@@ -38,6 +39,7 @@
           </thead>
           
           <tbody>
+           <!--< % if @attendance.log_year == @approvaled.worked_on.year %>-->
             <% @approvaled.each do |day| %>
               <tr>
                <td><%= day.worked_on %></td>
@@ -48,7 +50,8 @@
                <td><%= day.month_check_superior %></td>
                <td><%= day.month_update %></td>
              </tr>
-           <% end %>  
+           <% end %> 
+          <!--< % end %>-->
           </tbody>
         </table>
       <% end %>
