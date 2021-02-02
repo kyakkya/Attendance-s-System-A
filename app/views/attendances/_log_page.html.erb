@@ -9,52 +9,52 @@
     </div>
     
     <div class="modal-body">
-     
-      
-        <h1 class="modal-title">【勤怠ログ】</h1> 
-        <table  border=2 width=100%, class="table table-bordered table-condensed user-table">
-          <thead>
-            <%= form_with(model: @user, url:'#', local: true) do |f| %>
-            <tr>
-              <td width="120"><%= f.submit "リセット",  class: "btn btn-default btn-block"%></td>
-            </tr>
-            <tr>
-              <td width="80">年</td>
-              <td width="120"><%= f.select :log_year, -5.years.from_now.year.. 5.years.from_now.year, default: Date.today %></td>
-              
-            </tr>
-             <tr>
-              <td width="120">月</td>
-              <td width="120"><%= f.select :log_month, 1..12, default: Date.today %></td>
-            </tr>
-            <tr> 
-               <th>日付</th>
-               <th>変更前出社時間</th>
-               <th>変更前退社時間</th>
-               <th>変更後出社時間</th>
-               <th>変更後退社時間</th>
-               <th>指示者</th>
-               <th>承認日</th>
-             </tr>
-          </thead>
-          
-          <tbody>
-           <!--< % if @attendance.log_year == @approvaled.worked_on.year %>-->
-            <% @approvaled.each do |day| %>
-              <tr>
-               <td><%= day.worked_on %></td>
-               <td><%= l(day.started_at, format: :convinient_time)if day.started_at.present? %></td>
-               <td><%= l(day.finished_at, format: :convinient_time) if day.finished_at.present? %></td>
-               <td><%= l(day.restarted_at, format: :convinient_time)if day.restarted_at.present? %></td>
-               <td><%= l(day.refinished_at, format: :convinient_time) if day.refinished_at.present? %><</td>
-               <td><%= day.month_check_superior %></td>
-               <td><%= day.month_update %></td>
-             </tr>
-           <% end %> 
-          <!--< % end %>-->
-          </tbody>
-        </table>
+      <h1 class="modal-title">【勤怠ログ】</h1>
+      <%= form_with(model: @user, url: log_page_user_attendances_path(@user), remote: true, method: :get) do |f| %>
+        <table border=2 width=30%, class="table table-bordered table-condensed user-table">
+          <tr>
+            <td width="10%"><%= f.submit "リセット",  class: "btn btn-default btn-block"%></td>
+          </tr>
+          <tr>
+            <td width="10%">年</td>
+            <td width="50%"><%= f.select :year, -5.years.from_now.year.. 5.years.from_now.year, default: Date.today %></td>
+          </tr>
+          <tr>
+            <td width="10%">月</td>
+            <td width="60"><%= f.select :month, 1..12, default: Date.today %></td>
+          </tr>
+        </table>    
       <% end %>
+      <table border=2 width=100%, class="table table-bordered table-condensed user-table">
+        <thead>
+          <tr> 
+             <th>日付</th>
+             <th>変更前出社時間</th>
+             <th>変更前退社時間</th>
+             <th>変更後出社時間</th>
+             <th>変更後退社時間</th>
+             <th>指示者</th>
+             <th>承認日</th>
+           </tr>
+        </thead>
+        
+        <tbody>
+         <!--< % if @attendance.log_year == @approvaled.worked_on.year %>-->
+          <% @approvaled.each do |day| %>
+            <tr>
+             <td><%= day.worked_on %></td>
+             <td><%= l(day.started_at, format: :convinient_time)if day.started_at.present? %></td>
+             <td><%= l(day.finished_at, format: :convinient_time) if day.finished_at.present? %></td>
+             <td><%= l(day.restarted_at, format: :convinient_time)if day.restarted_at.present? %></td>
+             <td><%= l(day.refinished_at, format: :convinient_time) if day.refinished_at.present? %><</td>
+             <td><%= day.month_check_superior %></td>
+             <td><%= day.month_update %></td>
+           </tr>
+         <% end %> 
+        <!--< % end %>-->
+        </tbody>
+      </table>
+     
     </div>  
   </div>
 </div>

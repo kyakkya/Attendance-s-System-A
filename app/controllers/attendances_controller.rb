@@ -192,10 +192,14 @@ class AttendancesController < ApplicationController
   end  
   
   def log_page
-    
+   
    @user = User.find(params[:user_id])
    @attendance = Attendance.find(params[:user_id])
    @approvaled =  @user.attendances.where(month_status: "承認")
+   params[:user]["year"] 
+     
+   #@month = params[:user][:month]
+  
   end  
   
  
