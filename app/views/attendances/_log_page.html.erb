@@ -41,6 +41,7 @@
         <tbody>
          <!--< % if @attendance.log_year == @approvaled.worked_on.year %>-->
           <% @approvaled.each do |day| %>
+           <!--<< if day.worked_on.year.to_i == @log_year && day.worked_on.month.to_i == @log_month %>-->
             <tr>
              <td><%= day.worked_on %></td>
              <td><%= l(day.started_at, format: :convinient_time)if day.started_at.present? %></td>
@@ -49,9 +50,10 @@
              <td><%= l(day.refinished_at, format: :convinient_time) if day.refinished_at.present? %><</td>
              <td><%= day.month_check_superior %></td>
              <td><%= day.month_update %></td>
-           </tr>
-         <% end %> 
-        <!--< % end %>-->
+            </tr>
+           <!--<
+           % end %> -->
+         <% end %>
         </tbody>
       </table>
      

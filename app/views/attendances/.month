@@ -1,0 +1,98 @@
+<% provide(:title, @user.name) %>
+<div class="col-md-2">
+  <%= link_to "戻る",:back, class: "btn btn-block btn-default" %>
+</div>
+<h1>勤怠ログ</h1>
+
+<%= form_tag(attendances_edit_log_user_path, method: :get) do %>
+  <div class="col-md-2 search-group">
+    <%= date_select :search, 'worked_on', {start_year: @start_year, end_year: @end_year, discard_day: true, prompt: {year: "年", month: "月"}}, class: "form-control"  %>
+  </div>
+  <div>
+    <%= submit_tag "　検索　", worked_on: :nil, class: "btn btn-primary search-btn" %>
+  </div>
+<% end %>
+
+<div>
+  <table class="table table-condensed table-bordered table-hover">
+    <thead>
+      <tr>
+        <th class="center">日付</th>
+        <th class="center">変更前出社時間</th>
+        <th class="center">変更前退社時間</th>
+        <th class="center">変更後出社時間</th>
+        <th class="center">変更後退社時間</th>
+        <th class="center">承認者</th>
+        <th class="center">承認日</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @logs.each do |day| %>
+        <% unless params[:search].blank? %> <!-- 検索した年月の1ヶ
+      <% if day.worked_on.year.to_i == @search_year.to_i && day.worked_on.month.to_i == @search_month.to_i  %>
+            <tr>
+              <td class="center">
+                <%= day.worked_on.strftime("%Y年%m月%d日") %>
+                <% if day.worked_on.wday == 0 %>
+                  <font color="#ff000">
+                <% elsif day.worked_on.wday == 6 %>
+                  <font color="#0033cc">
+                <% end %>
+                (<%= $days_of_the_week[day.worked_on.wday] %>)
+                </td>
+              <td class="center"><%= day.change_before_started_at.try(:floor_to, 15.minutes).try(:strftime, "%H:%M") %></td>
+              <td class="center"><%= day.change_before_finished_at.try(:floor_to, 15.minutes).try(:strftime, "%H:%M") %></td>
+              <td class="center"><%= day.changed_started_at.try(:floor_to, 15.minutes).try(:strftime, "%H:%M") %></td>
+              <td class="center"><%= day.changed_finished_at.try(:floor_to, 15.minutes).try(:strftime, "%H:%M") %></td>
+              <td class="center"><%= day.change_superior_name %></td>
+              <td class="center">
+                <%= day.approval_date.try(:strftime, "%Y年%m月%d日") %>
+                <% if day.approval_date.present? %>
+                <% if day.approval_date.wday == 0 %>
+                  <font color="#ff000">
+                <% elsif day.approval_date.wday == 6 %>
+                  <font color="#0033cc">
+                <% end %>
+                (<%= $days_of_the_week[day.approval_date.wday] %>)
+                <% end %>
+              </td>
+            </tr>
+          <!--< end >-->
+          <% end %>
+        <% else %> <!-- 検索フォームが空の場合、userのshow.htmlの月のログを表示する -->
+          <tr>
+            <td class="center">
+              <%= day.worked_on.strftime("%Y年%m月%d日") %>
+              <% if day.worked_on.wday == 0 %>
+                <font color="#ff000">
+              <% elsif day.worked_on.wday == 6 %>
+                <font color="#0033cc">
+              <% end %>
+             (<%= $days_of_the_week[day.worked_on.wday] %>)
+            </td>
+            <td class="center"><%= day.change_before_started_at.try(:floor_to, 15.minutes).try(:strftime, "%H:%M") %></td>
+            <td class="center"><%= day.change_before_finished_at.try(:floor_to, 15.minutes).try(:strftime, "%H:%M") %></td>
+            <td class="center"><%= day.changed_started_at.try(:floor_to, 15.minutes).try(:strftime, "%H:%M") %></td>
+            <td class="center"><%= day.changed_finished_at.try(:floor_to, 15.minutes).try(:strftime, "%H:%M") %></td>
+            <td class="center"><%= day.change_superior_name %></td>
+            <td class="center">
+              <%= day.approval_date.try(:strftime, "%Y年%m月%d日") %>
+              <% if day.approval_date.present? %>
+              <% if day.approval_date.wday == 0 %>
+                <font color="#ff000">
+              <% elsif day.approval_date.wday == 6 %>
+                <font color="#0033cc">
+              <% end %>
+             (<%= $days_of_the_week[day.approval_date.wday] %>)
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+             
+ 
+              
