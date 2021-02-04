@@ -192,20 +192,10 @@ class AttendancesController < ApplicationController
   end  
   
   def log_page
-   debugger
    @user = User.find(params[:user_id])
-   @approvaled =  @user.attendances.where(month_status: "承認") 
-   #if params[:user][:year].!present?
-       # @log_year = year.now
-  @log_year = params[:user][:year].to_i
-  # e#nd   
-   #if  params[:user][:year].!present?   
-      # @log_month = month.now
-   #else   
-    # @log_month = params[:user][:monthr].to_i
-  # end    
-  
-
+   @log_year = params[:user][:year]
+   @log_month = params[:user][:monthr]
+   @approvaled =  @user.attendances.where(month_status: "承認")  
   end  
   
  

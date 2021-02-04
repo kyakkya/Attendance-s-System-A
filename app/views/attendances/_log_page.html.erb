@@ -39,20 +39,23 @@
         </thead>
         
         <tbody>
-         <!--< % if @attendance.log_year == @approvaled.worked_on.year %>-->
+        
           <% @approvaled.each do |day| %>
-           <!--<< if day.worked_on.year.to_i == @log_year && day.worked_on.month.to_i == @log_month %>-->
-            <tr>
-             <td><%= day.worked_on %></td>
-             <td><%= l(day.started_at, format: :convinient_time)if day.started_at.present? %></td>
-             <td><%= l(day.finished_at, format: :convinient_time) if day.finished_at.present? %></td>
-             <td><%= l(day.restarted_at, format: :convinient_time)if day.restarted_at.present? %></td>
-             <td><%= l(day.refinished_at, format: :convinient_time) if day.refinished_at.present? %><</td>
-             <td><%= day.month_check_superior %></td>
-             <td><%= day.month_update %></td>
-            </tr>
-           <!--<
-           % end %> -->
+            <% unless params[:user][:year].blank? %>
+              <%if  day.worked_on.year.to_i == @log_year.to_i && day.worked_on.month.to_i == @log_month.to_i  %>
+                <tr>
+                 <td><%= day.worked_on %></td>
+                 <td><%= l(day.started_at, format: :convinient_time)if day.started_at.present? %></td>
+                 <td><%= l(day.finished_at, format: :convinient_time) if day.finished_at.present? %></td>
+                 <td><%= l(day.restarted_at, format: :convinient_time)if day.restarted_at.present? %></td>
+                 <td><%= l(day.refinished_at, format: :convinient_time) if day.refinished_at.present? %><</td>
+                 <td><%= day.month_check_superior %></td>
+                 <td><%= day.month_update %></td>
+                </tr>
+              <% end %>
+           <% else %><!-- 空の場合、今月を表示する -->
+             @log_year = Date.year.today  
+            <% end %>  
          <% end %>
         </tbody>
       </table>
