@@ -192,10 +192,24 @@ class AttendancesController < ApplicationController
   end  
   
   def log_page
-   @user = User.find(params[:user_id])
-   @log_year = params[:user][:year]
-   @log_month = params[:user][:monthr]
-   @approvaled =  @user.attendances.where(month_status: "承認")  
+    @first_day = Date.parse("#{params[:year]}/#{params[:month]}/1")
+    @last_day = @first_day.end_of_month
+    @attendances_approved = @user.attendances.where(worked_on: @first_day..@last_day).where('(edit_day_request_status = ?) OR (over_request_status = ?)',
+                                                                                            '承認', '承認').order(:worked_on)
+
+     @user = User.find(params[:user_id]) 
+     @approvaled =  @user.attendances.where(month_status: "承認") 
+     if params[:user][:year].blank? || params[:user][:month].blank?
+       @log_year = Date.today.year
+       @log_month = Date.today.month
+       
+     else   
+       
+       @log_year = params[:user][:year]
+       @log_month = params[:user][:mnth]
+         #@log_month = params[:user][:month]
+     end 
+   
   end  
   
  
