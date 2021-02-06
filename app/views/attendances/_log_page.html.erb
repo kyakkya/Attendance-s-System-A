@@ -10,18 +10,18 @@
     
     <div class="modal-body">
       <h1 class="modal-title">【勤怠ログ】</h1>
-      <%= form_with(model: @user, url: log_page_user_attendances_path(@user), remote: true, method: :get) do |f| %>
+      <%= form_with(url: log_page_user_attendances_path(@user), remote: true, method: :get) do |f| %>
         <table border=2 width=30%, class="table table-bordered table-condensed user-table">
           <tr>
             <td width="10%"><%= f.submit "リセット",  class: "btn btn-default btn-block"%></td>
           </tr>
           <tr>
-            <td width="10%">年</td>
-            <td width="50%"><%= f.select :year, -5.years.from_now.year.. 5.years.from_now.year, default: Date.today %></td>
-          </tr>
+            <td width="10%">年</td>　
+            <td width="50%"><%= f.select :year, (Date.today.year-5)..(Date.today.year+5), :selected => Time.current.year %></td>
+          </tr>　　　　　　　　　　　　　　　　　 
           <tr>
             <td width="10%">月</td>
-            <td width="60"><%= f.select :month, 1..12, default: Date.today %></td>
+            <td width="60"><%= f.select :month, 1..12, :selected => Date.today.month %></td>
           </tr>
         </table>    
       <% end %>
@@ -41,7 +41,7 @@
         <tbody>
         
           <% @approvaled.each do |day| %>
-            <!--< % if day.worked_on.year.to_i == @log_year.to_i && day.worked_on.month.to_i == @log_month..to_i %>-->
+           <% if (day.worked_on.year.to_i == @log_year.to_i) && (day.worked_on.month.to_i == @log_month..to_i) %>
               <tr>
                <td><%= day.worked_on %></td>
                <td><%= l(day.started_at, format: :convinient_time)if day.started_at.present? %></td>
@@ -51,13 +51,7 @@
                <td><%= day.month_check_superior %></td>
                <td><%= day.month_update %></td>
               </tr>
-              <!--< % end %>-->
-           <!--< % else %><!-- 空の場合、今月を表示する -->-->
-             <!--@log_year = Date.year.today  -->
-               <!--<tr> -->
-                <!--<td>< %= @log_year %></td>-->
-               <!--</tr>  -->
-           <!--< % end %> -->
+            <% end %>
          <% end %>
         </tbody>
       </table>
