@@ -56,7 +56,7 @@
   <% end %>
 <div class="btn-users-show">
   <%= link_to "勤怠を編集", attendances_edit_one_month_user_path(date: @first_day), class: "btn btn-primary" %>
-  <%= link_to "CSV出力",'#', class: "btn btn-primary" %><br>
+  <%= link_to "CSV出力", csv_output_users_path(@user), class: "btn btn-primary" %><br>
   <%= link_to "勤怠修正ログ（承認済）", log_page_user_attendances_path(@user), remote: true, class: "btn btn-primary" %>
 </div>
 

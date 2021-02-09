@@ -16,6 +16,11 @@ class UsersController < ApplicationController
     redirect_to users_url
   end
   
+  def csv_output
+    @user_info = User.all
+    send_data render_to_string, filename: "勤怠一覧表 (1).csv", type: :csv
+  end  
+  
   def show
     @worked_sum = @attendances.where.not(started_at: nil).count
     @request_sum = Attendance.where(superior: @user.name).where(status: "申請中").count

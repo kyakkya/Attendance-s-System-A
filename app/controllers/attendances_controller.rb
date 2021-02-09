@@ -199,7 +199,6 @@ class AttendancesController < ApplicationController
         params[:month] = Date.today.month
         @log_year = params[:year]
         @log_month = params[:month]
-       # flash[:danger] == "年、月とも選択してください"  
      elsif (params[:year].present?) && (params[:month].present?)
         @log_year = params[:year]
         @log_month = params[:month]
