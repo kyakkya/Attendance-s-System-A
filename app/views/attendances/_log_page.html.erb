@@ -40,7 +40,7 @@
         
         <tbody>
           <% @approvaled.each do |day| %>
-            <!--< % if day.worked_on.year.to_i == @log_year.to_i && day.worked_on.month.to_i == @log_month.to_i %>-->
+           <% if day.worked_on.year.to_i == @log_year.to_i && day.worked_on.month.to_i == @log_month.to_i %>
              <tr>
                <td><%= day.worked_on %></td>
                <td><%= l(day.started_at, format: :convinient_time)if day.started_at.present? %></td>
@@ -50,7 +50,7 @@
                <td><%= day.month_check_superior %></td>
                <td><%= day.month_update %></td>
               </tr>
-            <!--< % end %>-->
+           <% end %>
           <% end %>
         </tbody>
       </table>

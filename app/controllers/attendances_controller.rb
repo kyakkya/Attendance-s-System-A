@@ -199,17 +199,12 @@ class AttendancesController < ApplicationController
         params[:month] = Date.today.month
         @log_year = params[:year]
         @log_month = params[:month]
-        flash[:danger] == "年、月とも選択してください"  
+       # flash[:danger] == "年、月とも選択してください"  
      elsif (params[:year].present?) && (params[:month].present?)
-              @log_year = params[:year]
-              @log_month = params[:month]
-     end         
-    # @approvaled = @user.attendances.where("(month_status = ?) OR (status = ?)", "承認", "承認").order(:worked_on)
-    @first_day = Date.parse("#{params[:year]}/#{params[:month]}/1")
-    @last_day = @first_day.end_of_month
-    @approvaled = @user.attendances.where(worked_on: @first_day..@last_day).where('(month_status = ?) OR (status = ?)','承認', '承認').order(:worked_on)
-       #end  
-    
+        @log_year = params[:year]
+        @log_month = params[:month]
+     end   
+     @approvaled = @user.attendances.where(month_status: "承認").order(:worked_on)
   end  
 
   
