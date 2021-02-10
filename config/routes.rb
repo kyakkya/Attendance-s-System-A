@@ -25,7 +25,7 @@ Rails.application.routes.draw do
     collection { post :import } 
     collection do
       get 'employees_on_duty'
-      get 'csv_output'
+      
     end
     
    

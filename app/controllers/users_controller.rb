@@ -27,6 +27,15 @@ class UsersController < ApplicationController
     @change_sum =  Attendance.where(month_check_superior: @user.name).where(month_status: "申請中").count
     @total_superiors =  User.where(superior: true).where.not(id: @user.id)
     @total_month_sum =  Attendance.where(total_month_superior: @user.name).where(total_month_status: "申請中").count
+    
+    respond_to do |format|
+      format.html do
+          #html用の処理を書く
+      end 
+      format.csv do
+        send_data render_to_string, filename: "(ファイル名).csv", type: :csv    #csv用の処理を書く
+      endw
+    end
   end
   
   def comfirmation
