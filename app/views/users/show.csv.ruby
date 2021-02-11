@@ -1,15 +1,15 @@
 require 'csv'
 
-@attendances = @user.attendances.find_by(worked_on: @first_day)
-CSV.generate do |csv|
-  column_names = %w(worked_on started_at finished_at )
+
+CSV.generate(encoding: Encoding::SJIS, row_sep: "\r\n", force_quotes: true) do |csv|
+  column_names = %w("日付"  "出社時間"  "退勤時間")
   csv << column_names
-  @attendances.each do |day|
+  @products.each do |day|
     
     column_values = [
-      day.worked_on,
-      day.started_at,
-      day.finished_at
+      l(day.worked_on, format: :short),
+      day&.started_at&.strftime('%H:%M'),
+      day&.finished_at&.strftime('%H:%M')
     ]
     
     csv << column_values

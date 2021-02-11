@@ -24,7 +24,8 @@ class UsersController < ApplicationController
     @total_month_sum =  Attendance.where(total_month_superior: @user.name).where(total_month_status: "申請中").count
     
     # csv出力
-    @attendances = @user.attendances.find_by(worked_on: @first_day)
+  
+    @products = @user.attendances.where(worked_on: Date.month)
       respond_to do |format|
       format.html 
       format.csv do
