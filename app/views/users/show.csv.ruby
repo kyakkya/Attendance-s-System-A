@@ -1,14 +1,18 @@
 require 'csv'
 
-CSV.attendance do |csv|
-  column_names = %w(worked_on started_at finished_at)
+@attendances = @user.attendances.find_by(worked_on: @first_day)
+CSV.generate do |csv|
+  column_names = %w(worked_on started_at finished_at )
   csv << column_names
-  @attendances.each do |attendance|
+  @attendances.each do |day|
+    
     column_values = [
-      attendance.worked_on,
-      attendance.started_at,
-      attendance.finished_at
+      day.worked_on,
+      day.started_at,
+      day.finished_at
     ]
+    
     csv << column_values
-  end
+ 
+ end
 end

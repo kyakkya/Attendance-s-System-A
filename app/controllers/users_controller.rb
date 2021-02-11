@@ -16,11 +16,6 @@ class UsersController < ApplicationController
     redirect_to users_url
   end
   
-  def csv_output
-    @user_info = User.all
-    send_data render_to_string, filename: "勤怠一覧表 (1).csv", type: :csv
-  end  
-  
   def show
     @worked_sum = @attendances.where.not(started_at: nil).count
     @request_sum = Attendance.where(superior: @user.name).where(status: "申請中").count
@@ -28,13 +23,13 @@ class UsersController < ApplicationController
     @total_superiors =  User.where(superior: true).where.not(id: @user.id)
     @total_month_sum =  Attendance.where(total_month_superior: @user.name).where(total_month_status: "申請中").count
     
-    respond_to do |format|
-      format.html do
-          #html用の処理を書く
-      end 
+    # csv出力
+    @attendances = @user.attendances.find_by(worked_on: @first_day)
+      respond_to do |format|
+      format.html 
       format.csv do
-        send_data render_to_string, filename: "(ファイル名).csv", type: :csv    #csv用の処理を書く
-      endw
+        send_data render_to_string, filename: "勤怠一覧表.csv", type: :csv    #csv用の処理を書く
+      end
     end
   end
   
