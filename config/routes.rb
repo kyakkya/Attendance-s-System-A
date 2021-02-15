@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   resources :positions
   root 'static_pages#top'
   get '/signup', to: 'users#new'
-
+  
   # ログイン機能
   get    '/login', to: 'sessions#new'
   post   '/login', to: 'sessions#create'
@@ -16,7 +16,7 @@ Rails.application.routes.draw do
       get 'attendances/edit_one_month'
       patch 'attendances/update_one_month'
       get   'fix_basic_info'
-      get   'position' 
+      
       get  'attendances/month_checker'
       get  'comfirmation'
       patch 'attendances/update_total_month'
