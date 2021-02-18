@@ -25,17 +25,12 @@ class PositionsController < ApplicationController
   # POST /positions.json
   def create
     @position = Position.new(position_params)
-
-    respond_to do |format|
-      if @position.save
-        format.html { redirect_to @position, notice: 'Position was successfully created.' }
-        format.json { render :show, status: :created, location: @position }
-      else
-        format.html { render :new }
-        format.json { render json: @position.errors, status: :unprocessable_entity }
-      end
-    end
+  　 if @positionr.save
+       flash[:success] = '編集・作成に成功しました。'
+       redirect_to @position
   end
+end
+   
 
   # PATCH/PUT /positions/1
   # PATCH/PUT /positions/1.json
@@ -55,10 +50,7 @@ class PositionsController < ApplicationController
   # DELETE /positions/1.json
   def destroy
     @position.destroy
-    respond_to do |format|
-      format.html { redirect_to positions_url, notice: 'Position was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    flash[:success] = "データを削除しました。"
   end
 
   private
@@ -69,6 +61,6 @@ class PositionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def position_params
-      params.fetch(:position, {})
+      params.fetch(:place_num, :place_name)
     end
-end
+ 
