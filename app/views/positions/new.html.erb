@@ -8,7 +8,10 @@
 
       <%= f.label :"拠点地",class: "label-signup" %>
       <%= f.text_field :place_name,  class: "form-control" %>
-
+      
+      <%= f.label :"拠点種類",class: "label-signup" %>
+      <%= f.select :place_status, ['出勤','退勤'], class: "form-control" %>
+      
       <%= f.submit "新規作成", class: "btn btn-primary btn-block btn-signup" %>
     <% end %>
   </div>
