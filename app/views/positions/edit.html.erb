@@ -1,6 +1,16 @@
-<h1>Editing Position</h1>
+ <h1>拠点地編集</h1>
 
-<%= render 'form', position: @position %>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= form_with(model: @position, url: edit_position_path(@position, params[:id]), local: true, method: :get) do |f| %>
+      <%= render 'shared/error_messages' %>
+      <%= f.label :"拠点番号", class: "label-signup"%>
+      <%= f.number_field :place_num,  class: "form-control" %>
 
-<%= link_to 'Show', @position %> |
-<%= link_to 'Back', positions_path %>
+      <%= f.label :"拠点地",class: "label-signup" %>
+      <%= f.text_field :place_name,  class: "form-control" %>
+
+      <%= f.submit "更新", class: "btn btn-primary btn-block btn-user--edit" %>
+    <% end %>
+  </div>
+</div>

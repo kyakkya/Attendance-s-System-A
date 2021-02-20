@@ -19,17 +19,18 @@ class PositionsController < ApplicationController
 
   # GET /positions/1/edit
   def edit
+     @position = Position.find(params[:id])
   end
 
   # POST /positions
   # POST /positions.json
   def create
     @position = Position.new(position_params)
-  　 if @positionr.save
+     if @position.save
        flash[:success] = '編集・作成に成功しました。'
        redirect_to @position
+     end
   end
-end
    
 
   # PATCH/PUT /positions/1
@@ -61,6 +62,6 @@ end
 
     # Only allow a list of trusted parameters through.
     def position_params
-      params.fetch(:place_num, :place_name)
+      params.require(:position).permit( :place_num, :place_name )
     end
- 
+end 
