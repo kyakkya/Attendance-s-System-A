@@ -32,19 +32,19 @@
           <td><%= $days_of_the_week[day.worked_on.wday] %></td>
           <% if !current_user.admin? && (Date.current < day.worked_on) %>
             <td><%= attendance.time_field :restarted_at,  readonly: true, class: "form-control" %></td>
-            <td><%= attendance.time_field :refinished_at, readonfly: true, class: "form-control" %></td>
+            <td><%= attendance.time_field :refinished_at, readonly: true, class: "form-control" %></td>
           <% else %> 
             <td><%= attendance.time_field :restarted_at, class: "form-control" %></td>
             <td><%= attendance.time_field :refinished_at, class: "form-control" %></td>
           <% end %>    
-          <td><%= f.check_box :change_next_day, class: "form-control" %></td>
+          <td><%= f.check_box :change_next_day %></td>
           <td>
             <% if day.restarted_at.present? && day.refinished_at.present? %>
               <%= re_working_times(day.restarted_at, day.refinished_at, day.change_next_day) %>
             <% end %>
           </td>
           <td><%= attendance.text_field :note, class: "form-control" %></td>
-          <td><%= attendance.collection_select :month_check_superior,  @change_superiors, :name, :name, :include_blank => true %>></td>
+          <td><%= attendance.collection_select :month_check_superior,  @change_superiors, :name, :name, :include_blank => true %></td>
          </tr>
       <% end %>
     <% end %>  

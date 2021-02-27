@@ -32,36 +32,45 @@ class AttendancesController < ApplicationController
 
  
   def update_one_month
-    
     ActiveRecord::Base.transaction do # トランザクションを開始します。
       attendances_params.each do |id, item|
-        if item[:month_check_superior].present?
-          if item[:restarted_at].present? && item[:refinished_at].blank?
-           flash[:danger] = "退社時間がないので無効です"
-           redirect_to attendances_edit_one_month_user_url(date: params[:date]) and return
-          else
-           if item[:note].blank?
-              flash[:danger] = "備考欄を記入して下さい。" 
-              redirect_to attendances_edit_one_month_user_url(date: params[:date]) and return
-           else
-               attendance = Attendance.find(id) 
-               item[:month_status] = "申請中"
-               attendance.update_attributes!(item)
-           end   
-          end
-        end
-      end #each do  
-    end #Active record  
-  flash[:success] = "1ヶ月分の勤怠変更を申請しました。"
-  redirect_to user_url(date: params[:date])
+       #@attendance = Attendance.find(id)
+        if item[:month_check_superior].blank? #指示者が未選択
+          flash[:danger] = "指示者を選択して下さい"
+          redirect_to attendances_edit_one_month_user_url(date: params[:date]) and return
+        else  
+          #指示者を選択している場合
+          if item[:restarted_at].blank? && item[:refinished_at].present?
+            flash[:danger] = "出社時間がないので無効です"
+            redirect_to attendances_edit_one_month_user_url(date: params[:date]) and return
+          elsif item[:restarted_at].present? && item[:refinished_at].blank?
+            flash[:danger] = "退社時間がないので無効です"
+            redirect_to attendances_edit_one_month_user_url(date: params[:date]) and return
+          elsif item[:restarted_at].blank? && item[:refinished_at].blank?  
+            flash[:danger] = "時間を入力してください"
+            redirect_to attendances_edit_one_month_user_url(date: params[:date]) and return
+          elsif item[:restarted_at].present? && item[:refinished_at].present? && item[:next_day] == "0" && item[:restarted_at].to_s > item[:refinished_at].to_s
+            flash[:danger] = "入力時間に誤りがあります"
+            redirect_to attendances_edit_one_month_user_url(date: params[:date]) and return
+          elsif item[:note].blank?
+            flash[:danger] = "備考欄を記入して下さい。" 
+            redirect_to attendances_edit_one_month_user_url(date: params[:date]) and return
+          end #if end 指示者が選択された場合で、時間が記入されていて成功   
+          @attendance = Attendance.find(id) 
+          item[:month_status] = "申請中"
+          @attendance.update_attributes!(item)
+        end #if end
+      end #each do end
+      flash[:success] = "1ヶ月分の勤怠変更を申請しました。"
+      redirect_to attendances_edit_one_month_user_url(date: params[:date]) and return
+    end #Active record トランザクション終了
   rescue ActiveRecord::RecordInvalid # トランザクションによるエラーの分岐です。
     flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
     redirect_to attendances_edit_one_month_user_url(date: params[:date]) and return
-  end
+  end #ef end 
  
  #1か月分の変更申請モーダル 
   def month_request
-    
     @user = User.find(params[:user_id])
     @month_check_superiors =  User.where(superior: true).where.not(id: @user.id)
     @month_requesters = Attendance.where(month_check_superior: @user.name, month_status: "申請中").order(:user_id).group_by(&:user_id)
@@ -227,7 +236,7 @@ class AttendancesController < ApplicationController
     end
     
     def month_request_params #1ヶ月分の勤怠変更を扱います。
-      params.require(:user).permit(attendances: [:note, :month_status, :month_check_superior, :month_checker, :restarted_at, :refinished_at, :month_update])[:attendances]
+      params.require(:user).permit(attendances: [:note, :month_status, :month_check_superior, :month_checker, :restarted_at, :refinished_at, :month_update, :next_day])[:attendances]
     end
     
     def total_month_params #1ヶ月分の勤怠申請を扱います
