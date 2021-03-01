@@ -37,10 +37,14 @@
             <td><%= attendance.time_field :restarted_at, class: "form-control" %></td>
             <td><%= attendance.time_field :refinished_at, class: "form-control" %></td>
           <% end %>    
-          <td><%= f.check_box :change_next_day %></td>
+          <td><%= attendance.check_box :change_next_day %></td>
           <td>
             <% if day.restarted_at.present? && day.refinished_at.present? %>
-              <%= re_working_times(day.restarted_at, day.refinished_at, day.change_next_day) %>
+              <% if day.change_next_day == "1" %>
+                <%= re_working_times(day.restarted_at, day.refinished_at, day.change_next_day) %>
+              <% else %>
+                <%= re_working_times(day.restarted_at, day.refinished_at, day.change_next_day) %>
+              <% end %>  
             <% end %>
           </td>
           <td><%= attendance.text_field :note, class: "form-control" %></td>

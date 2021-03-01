@@ -32,9 +32,10 @@ class AttendancesController < ApplicationController
 
  
   def update_one_month
+    
     ActiveRecord::Base.transaction do # トランザクションを開始します。
       attendances_params.each do |id, item|
-      @attendance = Attendance.find(id)
+      @attendances = Attendance.find(id)
         if item[:month_check_superior].present? #指示者が選択
            #指示者を選択している場合
           if item[:restarted_at].blank? && item[:refinished_at].present?
@@ -55,7 +56,7 @@ class AttendancesController < ApplicationController
           end #if end 指示者が選択された場合で、時間が記入されていて成功   
          # @attendance = Attendance.find(id) 
           item[:month_status] = "申請中"
-          @attendance.update_attributes!(item)
+          @attendances.update_attributes!(item)
         elsif item[:month_check_superior].blank? && item[:restarted_at].present? && item[:refinished_at].present? && item[:note].present? 
           flash[:success] = "指示者を選択してください"
           redirect_to attendances_edit_one_month_user_url(date: params[:date]) and return
