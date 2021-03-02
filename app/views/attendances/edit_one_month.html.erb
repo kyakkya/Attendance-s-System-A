@@ -40,11 +40,8 @@
           <td><%= attendance.check_box :change_next_day %></td>
           <td>
             <% if day.restarted_at.present? && day.refinished_at.present? %>
-              <% if day.change_next_day == "1" %>
-                <%= re_working_times(day.restarted_at, day.refinished_at, day.change_next_day) %>
-              <% else %>
-                <%= re_working_times(day.restarted_at, day.refinished_at, day.change_next_day) %>
-              <% end %>  
+              <%= str_time = re_working_times(day.restarted_at, day.refinished_at, day.change_next_day) %>
+              <!--< % @total_working_times = @total_working_times.to_f + str_times.to_f %>-->
             <% end %>
           </td>
           <td><%= attendance.text_field :note, class: "form-control" %></td>
