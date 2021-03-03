@@ -8,7 +8,7 @@ module UsersHelper
     if next_day == true
         format("%.2f", (overtime.hour - end_time.hour) + (((((overtime.min - end_time.min) /15) *15 )/ 60.0)) + 24)
     else
-       format("%.2f", (overtime.hour - end_time.hour) + (((((overtime.min - end_time.min) /15) *15 )/ 60.0)))
+        format("%.2f", (overtime.hour - end_time.hour) + (((((overtime.min - end_time.min) /15) *15 )/ 60.0)))
     end
   end
 

@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 20210214141427) do
     t.string "total_month_status"
     t.boolean "total_month_checker"
     t.string "total_month"
-    t.boolean "change_next_day"
+    t.boolean "change_next_day", default: false
     t.date "month_update"
     t.date "log_year"
     t.date "log_month"
@@ -60,7 +60,7 @@ ActiveRecord::Schema.define(version: 20210214141427) do
     t.string "password_digest"
     t.string "remember_digest"
     t.boolean "admin", default: false
-    t.datetime "basic_work_time", default: "2021-01-30 23:00:00"
+    t.datetime "basic_work_time", default: "2021-03-02 23:00:00"
     t.boolean "superior", default: false
     t.string "affiliation"
     t.string "uid"

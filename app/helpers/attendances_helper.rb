@@ -21,11 +21,11 @@ module AttendancesHelper
     format("%02d", ((time.min) / 15) * 15)
   end
   
-  def re_working_times(restart, refinish, change_next_day)
-    if change_next_day == "1"
-       format("%.2f", (refinish.hour - restart.hour) + (((((refinish.min - restart.min)  / 15 )  * 15 ) / 60.0)) + 24)
+  def format_re_working_times(restart, refinish, change_next_day)
+    if change_next_day == true
+      format("%.2f",((refinish.hour - restart.hour) + ((((refinish.min - restart.min) /15) * 15) / 60.0)) + 24)
     else
-       format("%.2f", ((refinish.hour - restart.hour) + ((((((refinish.min - restart.min)  / 15 ) * 15  )/ 60.0)))))
+      format("%.2f", (refinish.hour - restart.hour) + ((((refinish.min - restart.min) / 15) * 15) / 60.0))
     end
   end
  
