@@ -118,16 +118,12 @@
         <td><%= l(day.worked_on, format: :short) %></td>
         <td class="<%= css_class %>"><%= %w{日 月 火 水 木 金 土}[day.worked_on.wday] %></td>
         <td>
-           <% if day. month_status == "承認" %> 
-           <% day.started_at = day.restarted_at %>
            <%= format_hour(day.started_at) if day.started_at.present? %>
-           <% end %>
+           <%= format_hour(day.restarted_at) if day. month_status == "承認" %>
         </td>
         <td>
-           <% if day. month_status == "承認" %>
-           <% day.started_at = day.restarted_at %>
-           <%= format_min(day.started_at) if day.started_at.present? %>
-           <% end %>
+           <%= format_hour(day.started_at) if day.started_at.present? %>
+           <%= format_hour(day.restarted_at) if day. month_status == "承認" %>
         </td> 
         <td>
           <% if btn_text = attendance_state(day) %>
@@ -144,8 +140,10 @@
         <td>
           <% if day.started_at.present? && day.finished_at.present? %>
             <%= str_times = working_times(day.started_at, day.finished_at) %>
-            <% @total_working_times = @total_working_times.to_f + str_times.to_f %>
+          <% elsif day.restarted_at.present? && day.refinished_at.present? %> 
+            <%= str_times = format_re_working_times(day.restarted_at, day.refinished_at, day.change_next_day) %>
           <% end %>
+          <% @total_working_times = @total_working_times.to_f + str_times.to_f %>
         </td>
         <td><%= day.note %></td>
         <td><%= format_hour(day.overtime) if day.overtime.present? %></td>
