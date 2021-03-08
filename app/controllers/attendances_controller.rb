@@ -214,6 +214,7 @@ class AttendancesController < ApplicationController
         @log_month = params[:month]
      end   
      @approvaled = @user.attendances.where(month_status: "承認").order(:worked_on)
+     
   end  
 
   
