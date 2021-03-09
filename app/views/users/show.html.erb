@@ -117,25 +117,15 @@
         </td> 
         <td><%= l(day.worked_on, format: :short) %></td>
         <td class="<%= css_class %>"><%= %w{日 月 火 水 木 金 土}[day.worked_on.wday] %></td>
-        <td>
-           <%= format_hour(day.started_at) if day.started_at.present? %>
-           <%= format_hour(day.restarted_at) if day. month_status == "承認" %>
-        </td>
-        <td>
-           <%= format_hour(day.started_at) if day.started_at.present? %>
-           <%= format_hour(day.restarted_at) if day. month_status == "承認" %>
-        </td> 
+        <td><%= format_hour(day.started_at) if day.started_at.present? %></td>
+        <td><%= format_min(day.started_at) if day.started_at.present? %></td>  
         <td>
           <% if btn_text = attendance_state(day) %>
             <%= link_to "#{btn_text}", user_attendance_path(@user, day), method: :patch, class: "btn btn-primary btn-attendance" %>
           <% end %>
         </td>
-        <td><%= format_hour(day.finished_at) if day.finished_at.present? %>
-            <%= format_hour(day.refinished_at) if day. month_status == "承認" %>
-        </td>
-        <td><%= format_min(day.finished_at) if day.finished_at.present? %>
-            <%= format_min(day.refinished_at) if day. month_status == "承認" %>
-        </td>
+        <td><%= format_hour(day.finished_at) if day.finished_at.present? %></td>
+        <td><%= format_min(day.finished_at) if day.finished_at.present? %></td>
         <td></td>
         <td>
           <% if day.started_at.present? && day.finished_at.present? %>

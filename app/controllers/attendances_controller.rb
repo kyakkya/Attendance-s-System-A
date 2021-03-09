@@ -83,18 +83,26 @@ class AttendancesController < ApplicationController
     @user = User.find(params[:user_id])
     ActiveRecord::Base.transaction do 
       month_request_params.each do |id, item|
-        if  item[:month_checker] == "1" 
-           if item[:month_status] == "承認"
-              item[:month_update] = Date.today
-           end  
-            attendance = Attendance.find(id)
-            attendance.update_attributes!(item)
-            @approval_sum =  Attendance.where(month_status: "承認").count
-            @unapproval_sum =  Attendance.where(month_status: "否認").count
-            @no_reply =  Attendance.where(month_status: "なし").count
-            flash[:success] = "なし#{@no_reply}件、承認#{@approval_sum}件、否認#{@unapproval_sum}件"
+        attendance = Attendance.find(id)
+        if item[:month_checker] == "1" 
+          if item[:month_status] == "承認"
+            if attendance.before_change_started == nil
+              attendance.before_change_started = attendance.started_at
+            end
+            if attendance.before_change_finished == nil
+              attendance.before_change_finished = attendance.finished_at
+            end
+            attendance.started_at = item[:restarted_at]
+            attendance.finished_at = item[:refinished_at]
+            item[:month_update] = Date.today
+          end  
+          attendance.update_attributes!(item)
+          @approval_sum =  Attendance.where(month_status: "承認").count
+          @unapproval_sum =  Attendance.where(month_status: "否認").count
+          @no_reply =  Attendance.where(month_status: "なし").count
+          flash[:success] = "なし#{@no_reply}件、承認#{@approval_sum}件、否認#{@unapproval_sum}件"
         else  
-           flash[:danger] = "チェックを記入して下さい。更新をキャンセルしました。"
+          flash[:danger] = "チェックを記入して下さい。更新をキャンセルしました。"
         end
       end
       redirect_to user_url(@user)
@@ -203,12 +211,9 @@ class AttendancesController < ApplicationController
   
   def log_page
      @user = User.find(params[:user_id])
-    
      if (params[:year] == nil) || (params[:month] == nil)
-        params[:year] = Date.today.year
-        params[:month] = Date.today.month
-        @log_year = params[:year]
-        @log_month = params[:month]
+        @log_year = Date.today.year
+        @log_month = Date.today.month
      elsif (params[:year].present?) && (params[:month].present?)
         @log_year = params[:year]
         @log_month = params[:month]
@@ -238,7 +243,7 @@ class AttendancesController < ApplicationController
     end
     
     def month_request_params #1ヶ月分の勤怠変更を扱います。
-      params.require(:user).permit(attendances: [:note, :month_status, :month_check_superior, :month_checker, :restarted_at, :refinished_at, :month_update, :next_day])[:attendances]
+      params.require(:user).permit(attendances: [:started_at, :finished_at, :note, :month_status, :month_check_superior, :month_checker, :restarted_at, :refinished_at, :month_update, :next_day])[:attendances]
     end
     
     def total_month_params #1ヶ月分の勤怠申請を扱います
