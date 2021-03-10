@@ -243,7 +243,7 @@ class AttendancesController < ApplicationController
     end
     
     def month_request_params #1ヶ月分の勤怠変更を扱います。
-      params.require(:user).permit(attendances: [:started_at, :finished_at, :note, :month_status, :month_check_superior, :month_checker, :restarted_at, :refinished_at, :month_update, :next_day])[:attendances]
+      params.require(:user).permit(attendances: [:started_at, :finished_at, :note, :month_status, :month_check_superior, :month_checker, :restarted_at, :refinished_at, :month_update, :before_change_started, :next_day, :before_change_finished])[:attendances]
     end
     
     def total_month_params #1ヶ月分の勤怠申請を扱います
