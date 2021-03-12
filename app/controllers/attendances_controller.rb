@@ -92,6 +92,7 @@ class AttendancesController < ApplicationController
             if attendance.before_change_finished == nil
               attendance.before_change_finished = attendance.finished_at
             end
+            
             attendance.started_at = item[:restarted_at]
             attendance.finished_at = item[:refinished_at]
             item[:month_update] = Date.today
@@ -254,7 +255,7 @@ class AttendancesController < ApplicationController
     end
    
     def log_params
-      params.require(:user).permit(attendances: [:started_at, :finished_at, :note, :month_status, :month_check_superior, :month_checker, :restarted_at, :refinished_at, :month_update, :log_year, :log_month])[:attendances]
+      params.require(:user).permit(attendances: [:started_at, :finished_at, :before_change_started, :before_change_finished, :note, :month_status, :month_check_superior, :month_checker, :restarted_at, :refinished_at, :month_update, :log_year, :log_month])[:attendances]
 
     end
 end
