@@ -21,6 +21,7 @@ class AttendancesController < ApplicationController
         flash[:info] = "お疲れ様でした。"
       else
         flash[:danger] = UPDATE_ERROR_MSG
+      
       end
     end
     redirect_to @user
@@ -77,7 +78,7 @@ class AttendancesController < ApplicationController
     @month_requesters = Attendance.where(month_check_superior: @user.name, month_status: "申請中").order(:user_id).group_by(&:user_id)
   end  
   
-  #1か月分の勤怠変更モーダルupdate
+  #1か月分の勤怠変更承認モーダルupdate
   def update_month_request
     
     @user = User.find(params[:user_id])
@@ -92,11 +93,10 @@ class AttendancesController < ApplicationController
             if attendance.before_change_finished == nil
               attendance.before_change_finished = attendance.finished_at
             end
-            
-            attendance.started_at = item[:restarted_at]
-            attendance.finished_at = item[:refinished_at]
+            attendance.started_at = attendance.restarted_at
+            attendance.finished_at = attendance.refinished_at
             item[:month_update] = Date.today
-          end  
+          end 
           attendance.update_attributes!(item)
           @approval_sum =  Attendance.where(month_status: "承認").count
           @unapproval_sum =  Attendance.where(month_status: "否認").count
@@ -244,7 +244,7 @@ class AttendancesController < ApplicationController
     end
     
     def month_request_params #1ヶ月分の勤怠変更を扱います。
-      params.require(:user).permit(attendances: [:started_at, :finished_at, :note, :month_status, :month_check_superior, :month_checker, :restarted_at, :refinished_at, :month_update, :before_change_started, :next_day, :before_change_finished])[:attendances]
+      params.require(:user).permit(attendances: [:note, :month_status, :month_check_superior, :month_checker, :month_update, :next_day])[:attendances]
     end
     
     def total_month_params #1ヶ月分の勤怠申請を扱います
